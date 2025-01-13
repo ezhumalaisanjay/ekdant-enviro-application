@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { MobileSidebar } from "./app-sidebar/AppSidebar";
 
 export default function Layout() {
-  const [width, setWidth] = useState(window.innerWidth);
+  const [width, setWidth] = useState(1200);
   useEffect(() => {
     const handleWidth = () => setWidth(window.innerWidth); 
     window.addEventListener("resize", handleWidth);
