@@ -9,6 +9,9 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import Image from "next/image";
+import logo from '@/imges/ekdant-logo.png';
+
 
 // Menu items.
 const items = [
@@ -43,6 +46,12 @@ export function AppSidebar() {
   return (
     <Sidebar>
       <SidebarContent>
+        {/* Logo Section */}
+        <div className="flex items-center justify-center p-4 border-b border-gray-300">
+          <Image src={logo} alt="Logo" width={200} height={150} />
+       
+        </div>
+
         <SidebarGroup>
           <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>
@@ -50,7 +59,7 @@ export function AppSidebar() {
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url}>
+                    <a href={item.url} className="flex items-center space-x-2">
                       <item.icon />
                       <span>{item.title}</span>
                     </a>
