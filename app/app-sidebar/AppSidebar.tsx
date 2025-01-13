@@ -1,4 +1,4 @@
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
+import { Calendar, Home, Inbox, Menu, Search, Settings } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -11,7 +11,9 @@ import {
 } from "@/components/ui/sidebar";
 import Image from "next/image";
 import logo from '@/imges/ekdant-logo.png';
-
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTrigger } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
+import { DialogTitle } from "@radix-ui/react-dialog";
 
 // Menu items.
 const items = [
@@ -45,11 +47,10 @@ const items = [
 export function AppSidebar() {
   return (
     <Sidebar>
-      <SidebarContent>
+      <SidebarContent className="bg-blue-400">
         {/* Logo Section */}
-        <div className="flex items-center justify-center p-4 border-b border-gray-300">
+        <div className="flex items-center justify-center p-4">
           <Image src={logo} alt="Logo" width={200} height={150} />
-       
         </div>
 
         <SidebarGroup>
@@ -59,7 +60,7 @@ export function AppSidebar() {
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url} className="flex items-center space-x-2">
+                    <a href={item.url} className="flex items-center font-semibold space-x-2">
                       <item.icon />
                       <span>{item.title}</span>
                     </a>
@@ -72,4 +73,39 @@ export function AppSidebar() {
       </SidebarContent>
     </Sidebar>
   );
+}
+
+export function MobileSidebar() {
+
+  return(
+    <>
+      <Sheet >
+        <SheetTrigger asChild>
+          <Button variant="ghost"> <Menu /> </Button>
+        </SheetTrigger>
+        <SheetContent side="left" className="bg-blue-400 w-52 p-0">
+          <DialogTitle className="p-3 m-3">
+            <Image src={logo} alt="Logo" width={200} height={150} />
+          </DialogTitle>
+          <SheetDescription className="ml-4">
+            Applications
+          </SheetDescription>
+          <div>
+            <ul className="m-2">
+              {items.map((item) => (
+                <li key={item.title}>
+                  <Button variant="ghost" asChild  className="flex w-full justify-start">
+                    <a href={item.url} className="flex items-center font-semibold space-x-2">
+                      <item.icon />
+                      <span>{item.title}</span>
+                    </a>
+                  </Button>
+                </li>
+                ))}
+            </ul>
+          </div>
+        </SheetContent>
+      </Sheet>
+    </>
+  )
 }

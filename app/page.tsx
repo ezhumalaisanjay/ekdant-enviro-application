@@ -1,36 +1,70 @@
+"use client"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "./app-sidebar/AppSidebar";
-
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
+import HeaderSection from "./Header/header"
+import { useEffect, useState } from "react";
+import { MobileSidebar } from "./app-sidebar/AppSidebar";
 
 export default function Layout() {
+  const [width, setWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    const handleWidth = () => setWidth(window.innerWidth); 
+    window.addEventListener("resize", handleWidth);
+    
+    return () => {
+      window.removeEventListener("resize", handleWidth);
+    }
+  }, [])
+
   return (
-    <div className="flex min-h-screen flex-col">
-      {/* Top Header */}
-      <header className="flex items-center justify-between bg-gray-800 text-white p-4 shadow-md">
-        <h1 className="text-xl font-bold">Dashboard</h1>
-        <div className="flex items-center space-x-4">
-          {/* Profile Section */}
-          <div className="flex items-center">
-           
-            <span className="ml-2 text-sm">John Doe</span>
+    <div className="flex flex-col">
+      {/* Top Header */
+      width < 768 ? 
+      <ResizablePanelGroup
+      direction="vertical"
+      className="min-h-[640px] rounded-lg border md:min-w-[450px]"
+    >
+        <ResizablePanel defaultSize={11} className="bg-blue-400">
+          <div className="flex h-full items-center justify-between">
+            <MobileSidebar />
+            <HeaderSection />
           </div>
-          <button className="bg-blue-600 hover:bg-blue-700 text-white py-1 px-3 rounded">
-            Logout
-          </button>
-        </div>
-      </header>
-
-      {/* Main Content Area */}
-      <div className="flex flex-1">
-        <SidebarProvider>
-          <AppSidebar />
-          <SidebarTrigger />
-        </SidebarProvider>
-
-        <main className="flex-1 p-8">
-          {/* Main content goes here */}
-        </main>
-      </div>
+        </ResizablePanel>
+        <ResizableHandle />
+        <ResizablePanel defaultSize={89}>
+          <div className="flex h-full items-center justify-center p-6">
+            <span className="font-semibold">Main</span>
+          </div>
+        </ResizablePanel>
+      </ResizablePanelGroup> 
+          :
+      <ResizablePanelGroup
+      direction="horizontal"
+      className="rounded-lg border md:min-w-[450px]"
+      >
+        <ResizablePanel defaultSize={15}>
+          <div className="flex h-[636px] items-center justify-center p-6">
+            <SidebarProvider>
+              <AppSidebar />
+            </SidebarProvider>
+          </div>
+        </ResizablePanel>
+        <ResizablePanel defaultSize={85}>
+          <ResizablePanelGroup direction="vertical">
+            <ResizablePanel defaultSize={11} className="bg-blue-400">
+              <div className="flex h-full items-center justify-end p-6">
+                <HeaderSection />
+              </div>
+            </ResizablePanel>
+            <ResizablePanel defaultSize={89}>
+              <div className="flex h-full items-center justify-center p-6">
+                <span className="font-semibold">Main</span>
+              </div>
+            </ResizablePanel>
+          </ResizablePanelGroup>
+        </ResizablePanel>
+      </ResizablePanelGroup>}
     </div>
   );
 }
