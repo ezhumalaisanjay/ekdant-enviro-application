@@ -5,6 +5,7 @@ import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/componen
 import HeaderSection from "./Header/header"
 import { useEffect, useState } from "react";
 import { MobileSidebar } from "./app-sidebar/AppSidebar";
+import ServiceRequest from "./Form/ServiceRequest"
 
 export default function Layout() {
   return (
