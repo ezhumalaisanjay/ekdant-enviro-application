@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/sidebar";
 import Image from "next/image";
 import logo from '@/imges/ekdant-logo.png';
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetDescription, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { DialogTitle } from "@radix-ui/react-dialog";
 
