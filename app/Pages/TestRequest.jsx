@@ -1,15 +1,14 @@
 "use client"
-import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "../app-sidebar/AppSidebar";
 import ServiceRequestForm from "../Form/ServiceRequest";
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
+import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
 import Table from "../Table/index"
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-  BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
 import { Separator } from "@/components/ui/separator"
@@ -20,7 +19,7 @@ export default function ServiceRequest() {
     <>
       <SidebarProvider>
         <AppSidebar />
-        <div className="flex flex-col">
+        <div className="flex flex-col w-full p-3">
           <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
             <div className="flex items-center gap-2 px-4">
               <SidebarTrigger className="-ml-1" />
@@ -42,12 +41,13 @@ export default function ServiceRequest() {
             <div className="flex justify-between items-center m-3">
               <h1 className="font-semibold">Service Request</h1>
               <Drawer>
-                <DrawerTrigger className="p-2 rounded-lg text-sm font-semibold bg-rose-400 hover:bg-rose-300">
+                <DrawerTrigger className="p-3 rounded-lg text-sm font-semibold bg-blue-500 hover:bg-blue-400">
                   Add Service Request
                 </DrawerTrigger>
                 <DrawerContent>
                   <DrawerHeader>
                     <DrawerTitle>Service Request Form</DrawerTitle>
+                    <DrawerDescription></DrawerDescription>
                   </DrawerHeader>
                   <ServiceRequestForm />
                 </DrawerContent>

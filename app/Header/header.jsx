@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button"
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { Bell, Search, SquarePlus, UserRoundPen } from "lucide-react"
 import Image from "next/image"
 import Logo from "../../imges/ekdant-logo.png"
