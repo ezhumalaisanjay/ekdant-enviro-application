@@ -1,111 +1,70 @@
-import { Calendar, Home, Inbox, Menu, Search, Settings } from "lucide-react";
+"use client"
+
+import type * as React from "react"
 import {
-  Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from "@/components/ui/sidebar";
-import Image from "next/image";
-import logo from '@/imges/ekdant-logo.png';
-import { Sheet, SheetContent, SheetDescription, SheetTrigger } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
-import { DialogTitle } from "@radix-ui/react-dialog";
+  Frame,
+  Map,
+  PieChart,
+} from "lucide-react"
 
-// Menu items.
-const items = [
-  {
-    title: "Home",
-    url: "#",
-    icon: Home,
-  },
-  {
-    title: "Inbox",
-    url: "#",
-    icon: Inbox,
-  },
-  {
-    title: "Calendar",
-    url: "#",
-    icon: Calendar,
-  },
-  {
-    title: "Search",
-    url: "#",
-    icon: Search,
-  },
-  {
-    title: "Settings",
-    url: "#",
-    icon: Settings,
-  },
-];
+import { NavProjects } from "./nav-projects"
+import { NavUser } from "./nav-user"
+import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenuButton, SidebarRail } from "@/components/ui/sidebar"
+import Image from "next/image"
+import logo from "../../imges/ekdant-logo-icon.png"
 
-export function AppSidebar() {
-  return (
-    <Sidebar>
-      <SidebarContent className="bg-blue-400">
-        {/* Logo Section */}
-        <div className="flex items-center justify-center p-4">
-          <Image src={logo} alt="Logo" width={200} height={150} />
-        </div>
+// This is sample data.
+const data = {
+  user: {
+    name: "shadcn",
+    email: "m@example.com",
+    avatar: "/avatars/shadcn.jpg",
+  },
 
-        <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url} className="flex items-center font-semibold space-x-2">
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-      </SidebarContent>
-    </Sidebar>
-  );
+  projects: [
+    {
+      name: "DashBoard",
+      url: "#",
+      icon: Frame,
+      title: "Dashboard",
+      id: 0,
+    },
+    {
+      name: "Service Request",
+      url: "#",
+      icon: PieChart,
+      title: "Service Request",
+      id: 1,
+    },
+    {
+      name: "Travel",
+      url: "#",
+      icon: Map,
+      title: "Travel",
+      id: 2,
+    },
+  ],
 }
 
-export function MobileSidebar() {
-
-  return(
-    <>
-      <Sheet >
-        <SheetTrigger asChild>
-          <Button variant="ghost"> <Menu /> </Button>
-        </SheetTrigger>
-        <SheetContent side="left" className="bg-blue-400 w-52 p-0">
-          <DialogTitle className="p-3 m-3">
-            <Image src={logo} alt="Logo" width={200} height={150} />
-          </DialogTitle>
-          <SheetDescription className="ml-4">
-            Applications
-          </SheetDescription>
+export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  return (
+    <Sidebar collapsible="icon" {...props}>
+      <SidebarHeader>
+        <SidebarMenuButton asChild>
           <div>
-            <ul className="m-2">
-              {items.map((item) => (
-                <li key={item.title}>
-                  <Button variant="ghost" asChild  className="flex w-full justify-start">
-                    <a href={item.url} className="flex items-center font-semibold space-x-2">
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </a>
-                  </Button>
-                </li>
-                ))}
-            </ul>
+            <Image src={logo} alt="Logo" width={30} height={30}/>
+            <div className="text-xs text-green-600 font-semibold">Ekdant Enviro Services Ltd</div>
           </div>
-        </SheetContent>
-      </Sheet>
-    </>
+        </SidebarMenuButton>
+      </SidebarHeader>
+      <SidebarContent>
+        <NavProjects projects={data.projects} />
+      </SidebarContent>
+      <SidebarFooter>
+        <NavUser user={data.user} />
+      </SidebarFooter>
+      <SidebarRail />
+    </Sidebar>
   )
 }
+

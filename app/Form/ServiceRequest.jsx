@@ -16,7 +16,7 @@ import { format } from "date-fns"
 const formSchema = z.object({
 })
 
-function ServiceRequest() {
+function ServiceRequestForm() {
   const [serviceSelected, setServiceSelected] = useState("");
 
   const form = useForm({
@@ -536,10 +536,9 @@ function ServiceRequest() {
 
 
   return(
-    <div className="p-3 w-full m-2">
+    <div className="p-5 w-full h-[580px] overflow-y-auto">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)}>
-          <h2 className="text-lg font-semibold mb-4">Service Request Form</h2>
 
           {/* Customer Details */}
           <div className="grid lg:grid-cols-2 gap-3">
@@ -1377,18 +1376,24 @@ function ServiceRequest() {
                       serviceSelected == "Feldspar Analysis Parameter" || 
                       serviceSelected == "Quartz Sample Analysis Parameters" || 
                       serviceSelected == "Lime Stone Sample Analysis Parameters" ?
-                    staffOptions1.map((option, index) =>
-                      <SelectItem value={option} key={index}>{option}</SelectItem>
-                    ) : 
+                    <>
+                      <SelectItem value="Select">Select</SelectItem>
+                      {
+                      staffOptions1.map((option, index) =>
+                      <SelectItem value={option} key={index}>{option}</SelectItem>)}
+                    </> : 
                     serviceSelected == "Water - Microbiological Analysis" ||
                     serviceSelected == "Water –Complete Microbiological Analysis" ||
                     serviceSelected == "Food Microbiological Parameters" ||
                     serviceSelected == "Plate - Microbiological Analysis" || 
                     serviceSelected == "Swab - Microbiological Analysis" ||
                     serviceSelected == "Sewage Water Microbiological Parameters" ? 
-                    staffOptions2.map((option, index) =>
-                      <SelectItem value={option} key={index}>{option}</SelectItem>
-                    ) : 
+                    <>
+                      <SelectItem value="Select">Select</SelectItem>
+                        {
+                        staffOptions2.map((option, index) =>
+                        <SelectItem value={option} key={index}>{option}</SelectItem>)}
+                    </> : 
                     serviceSelected == "Ambient Air Quality Monitoring Parameters" ||
                     serviceSelected == "DG Stack Emission Parameters" ||
                     serviceSelected == "Ambient Noise Monitoring Parameters" ||
@@ -1398,9 +1403,12 @@ function ServiceRequest() {
                     serviceSelected == "Compressor Air Monitoring Parameters" ||
                     serviceSelected == "Weather Monitoring Parameters" ||
                     serviceSelected == "Oxygen Purity Parameters" ?
-                    staffOptions3.map((option, index) =>
-                      <SelectItem value={option} key={index}>{option}</SelectItem>
-                    ) : <SelectItem value="Select">Select</SelectItem>}
+                    <>
+                      <SelectItem value="Select">Select</SelectItem>
+                      {
+                      staffOptions3.map((option, index) =>
+                        <SelectItem value={option} key={index}>{option}</SelectItem>)}
+                    </> : <SelectItem value="Select">Select</SelectItem>}
                   </SelectContent>
                 </Select>
               </FormControl>
@@ -1448,4 +1456,4 @@ function ServiceRequest() {
   )
 }
 
-export default ServiceRequest
+export default ServiceRequestForm

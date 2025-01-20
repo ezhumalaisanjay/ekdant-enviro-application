@@ -3,8 +3,10 @@ import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/
 import { Input } from "@/components/ui/input"
 import { Apple, Facebook, Instagram, LoaderCircle, LogOut, Mail } from "lucide-react"
 import { useState } from "react"
+import { useAuth } from "react-oidc-context"
 
 function Login() {
+  const { login } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const loader = () => {
     setIsLoading(true);
@@ -35,7 +37,7 @@ function Login() {
             <div className="flex justify-end text-sm mt-1">
               <a href="">Forgot password?</a>
             </div>
-            <Button className="flex w-full m-2" onClick={loader} disabled={isLoading}>
+            <Button className="flex w-full m-2" onClick={login} disabled={isLoading}>
               {(isLoading) && <LoaderCircle className="animate-spin" /> }
               Log in
             </Button>
