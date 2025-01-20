@@ -6,7 +6,6 @@ import {
   Map,
   PieChart,
 } from "lucide-react"
-
 import { NavProjects } from "./nav-projects"
 import { NavUser } from "./nav-user"
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenuButton, SidebarRail } from "@/components/ui/sidebar"

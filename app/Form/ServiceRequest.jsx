@@ -7,7 +7,6 @@ import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
@@ -525,7 +524,7 @@ function ServiceRequestForm() {
     setFormData({ ...formData, confirmation: e.target.checked });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = () => {
     console.log("Form Data Submitted: ", formData);
     const inputElement = document.querySelectorAll("input");
     inputElement.forEach((input) => {
@@ -1134,7 +1133,7 @@ function ServiceRequestForm() {
               control={form.control}
               name="checkbox"
               key={index}
-              render={({ field }) => 
+              render={() => 
                 <FormItem className="flex gap-3 items-center">
                   <FormControl>
                     <input type="checkbox" onChange={handleCheckboxChange} value={options}/>    
@@ -1203,7 +1202,7 @@ function ServiceRequestForm() {
               control={form.control}
               name="checkbox"
               key={index}
-              render={({ field }) => 
+              render={() => 
                 <FormItem className="flex gap-3 items-center">
                   <FormControl>
                     <input type="checkbox" onChange={handleCheckboxChange} value={options}/>    
