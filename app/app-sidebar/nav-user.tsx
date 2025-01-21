@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "@/components/ui/sidebar"
+import Link from "next/link"
 
 export function NavUser({
   user,
@@ -87,8 +88,10 @@ export function NavUser({
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <LogOut />
-              Log out
+              <Link href="/login" className="flex gap-2">
+                <LogOut className="size-4"/>
+                Log out
+              </Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

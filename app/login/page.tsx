@@ -1,7 +1,9 @@
+"use client"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Apple, Facebook, Instagram, LoaderCircle, LogOut } from "lucide-react"
+import Link from "next/link"
 import { useState } from "react"
 
 function Login() {
@@ -13,7 +15,7 @@ function Login() {
 
   return (
     <>
-      <div className="flex h-[639px] justify-center items-center bg-gradient-to-r from-indigo-500 via-indigo-300 to-indigo-200">
+      <div className="flex h-[710px] justify-center items-center bg-gradient-to-r from-indigo-500 via-indigo-300 to-indigo-200">
         <Card className="w-max">
           <CardHeader>
             <div className="flex flex-col justify-center text-center">
@@ -34,10 +36,12 @@ function Login() {
             <div className="flex justify-end text-sm mt-1">
               <a href="">Forgot password?</a>
             </div>
-            <Button className="flex w-full m-2" onClick={loader} disabled={isLoading}>
-              {(isLoading) && <LoaderCircle className="animate-spin" /> }
-              Log in
-            </Button>
+            <Link href="/dashboard">
+              <Button className="flex w-full m-2" onClick={loader} disabled={isLoading}>
+                {(isLoading) && <LoaderCircle className="animate-spin" /> }
+                Log in
+              </Button>
+            </Link>
             <div className="text-center text-sm">or Sign in with</div>
             <div className="flex justify-evenly mt-3">
               <Button variant="secondary" className="rounded-full p-3"><Facebook /></Button>

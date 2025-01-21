@@ -18,11 +18,13 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
-import { useState } from "react"
+import Link from "next/link"
 
 export function NavProjects({
   projects,
+  active,
 }: {
+  active: number,
   projects: {
     name: string
     url: string
@@ -31,8 +33,7 @@ export function NavProjects({
     id: number
   }[]
 }) {
-  const { isMobile } = useSidebar()
-  const [active, setActive] = useState(0);  
+  const { isMobile } = useSidebar()  
 
   return (
     <SidebarGroup>
@@ -43,12 +44,11 @@ export function NavProjects({
             <SidebarMenuButton asChild 
             className={active === index ? "font-semibold" : ""}
             tooltip={item.title} 
-            onClick={() => {setActive(item.id)}}
             >
-              <a href={item.url}>
+              <Link href={item.url}>
                 <item.icon />
                 <span>{item.name}</span>
-              </a>
+              </Link>
             </SidebarMenuButton>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

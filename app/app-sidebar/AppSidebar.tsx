@@ -23,14 +23,14 @@ const data = {
   projects: [
     {
       name: "DashBoard",
-      url: "#",
+      url: "/dashboard",
       icon: Frame,
       title: "Dashboard",
       id: 0,
     },
     {
-      name: "Service Request",
-      url: "#",
+      name: "Test Request",
+      url: "/testrequest",
       icon: PieChart,
       title: "Service Request",
       id: 1,
@@ -45,9 +45,9 @@ const data = {
   ],
 }
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar({ active }: { active: number}) {
   return (
-    <Sidebar collapsible="icon" {...props}>
+    <Sidebar collapsible="icon">
       <SidebarHeader>
         <SidebarMenuButton asChild>
           <div>
@@ -57,7 +57,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenuButton>
       </SidebarHeader>
       <SidebarContent>
-        <NavProjects projects={data.projects} />
+        <NavProjects projects={data.projects} active={active}/>
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />
