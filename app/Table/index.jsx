@@ -63,7 +63,7 @@ const columns = [
       <Button 
       variant="ghost" 
       onClick={() => column.toggleSorting(column.getSorted) === "asc"}>
-        Alloted to
+        Allotted to
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>,
   },  {
@@ -75,7 +75,7 @@ const columns = [
         Remarks
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>,
-  },
+  }, 
 ];
 
 const data = [{}]
