@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/breadcrumb"
 import { Separator } from "@/components/ui/separator"
 import Link from "next/link";
+import { AreaChartComponent } from "../Charts/AreaChart";
 
 export default function DashBoard() {
   
@@ -31,8 +32,9 @@ export default function DashBoard() {
               </Breadcrumb>
             </div>
           </header>
+          { /*main Content here */ }
           <div>
-            { /*main Content here */ }
+            <AreaChartComponent />
           </div>
           </div>
       </SidebarProvider>

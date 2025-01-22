@@ -163,7 +163,7 @@ const columns = [
     accessorKey: "drawnBy",
     header: "Drawn By"
   }, {
-    id: "actions",
+    id: "modify",
     cell: ({ row }) => {
       const payment = row.original
       console.log(row);
@@ -176,7 +176,7 @@ const columns = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuLabel>Modifications</DropdownMenuLabel>
             <DropdownMenuItem
               onClick={() => navigator.clipboard.writeText(payment.srn)}
             >

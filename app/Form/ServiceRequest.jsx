@@ -546,7 +546,7 @@ function ServiceRequestForm() {
 
 
   return(
-    <div className="p-5 w-full h-[580px] overflow-y-auto">
+    <div className="p-5 w-full h-[500px] overflow-y-auto">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)}>
           
