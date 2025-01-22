@@ -42,7 +42,7 @@ export default function ServiceRequest() {
             <div className="flex justify-between items-center m-3">
               <h1 className="font-semibold">Service Request</h1>
               <Drawer>
-                <DrawerTrigger className="p-3 rounded-lg text-sm font-semibold bg-blue-500 hover:bg-blue-400">
+                <DrawerTrigger className="p-2 rounded-lg text-sm text-white font-semibold bg-blue-500 hover:bg-blue-400">
                   Add Service Request
                 </DrawerTrigger>
                 <DrawerContent>
