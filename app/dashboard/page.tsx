@@ -10,6 +10,12 @@ import {
 import { Separator } from "@/components/ui/separator"
 import Link from "next/link";
 import { AreaChartComponent } from "../Charts/AreaChart";
+import { BarChartComponent } from "../Charts/BarChart";
+import { PieChartComponent } from "../Charts/PieChart";
+import { BigAreaChartComponent } from "../Charts/BigAreaChart";
+import { LineChartComponent } from "../Charts/LineChart";
+import { LegendChartComponent } from "../Charts/LegendChart"
+import { StepChartComponent } from "../Charts/StepChart";
 
 export default function DashBoard() {
   
@@ -33,8 +39,20 @@ export default function DashBoard() {
             </div>
           </header>
           { /*main Content here */ }
-          <div>
-            <AreaChartComponent />
+          <div className="grid gap-3">
+            <div className="flex flex-wrap justify-evenly gap-3">
+              <AreaChartComponent />
+              <BarChartComponent />
+              <PieChartComponent />
+            </div>
+            <div>
+              <BigAreaChartComponent />
+            </div>
+            <div className="flex flex-wrap justify-evenly gap-3">
+              <LineChartComponent />
+              <LegendChartComponent />
+              <StepChartComponent />
+            </div>
           </div>
           </div>
       </SidebarProvider>

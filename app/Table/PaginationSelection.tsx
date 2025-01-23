@@ -1,4 +1,4 @@
-import { PaginationState } from "@/components/ui/data-table";
+import { PaginationState } from "@/app/Table/data-table";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dispatch, SetStateAction } from "react";
 

@@ -2,7 +2,7 @@
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "../app-sidebar/AppSidebar";
 import ServiceRequestForm from "../Form/ServiceRequest";
-import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
+import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
 import Table from "../Table/index"
 import {
   Breadcrumb,
@@ -13,6 +13,8 @@ import {
 } from "@/components/ui/breadcrumb"
 import { Separator } from "@/components/ui/separator"
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { X } from "lucide-react";
 
 export default function ServiceRequest() {
   
@@ -46,9 +48,14 @@ export default function ServiceRequest() {
                   Add Service Request
                 </DrawerTrigger>
                 <DrawerContent>
-                  <DrawerHeader>
-                    <DrawerTitle>Service Request Form</DrawerTitle>
-                    <DrawerDescription></DrawerDescription>
+                  <DrawerHeader className="flex justify-between">
+                    <div>
+                      <DrawerTitle>Service Request Form</DrawerTitle>
+                      <DrawerDescription></DrawerDescription>
+                    </div>
+                    <DrawerClose>
+                      <Button variant="outline"><X /></Button>
+                    </DrawerClose>
                   </DrawerHeader>
                   <ServiceRequestForm />
                 </DrawerContent>

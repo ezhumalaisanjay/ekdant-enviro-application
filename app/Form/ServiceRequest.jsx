@@ -1531,6 +1531,7 @@ function ServiceRequestForm() {
 
           {/* Submit */}
           <Button type="submit">Submit</Button>
+          <Button variant="outline" type="reset">Reset</Button>
         </form>
       </Form>
     </div>

@@ -15,9 +15,9 @@ import { format } from "date-fns"
 const formSchema = z.object({
 })
 
-function MappedServiceRequestForm() {
-  const [serviceSelected, setServiceSelected] = useState("");
-
+function MappedServiceRequestForm({ rowData }) {
+  const [serviceSelected, setServiceSelected] = useState(rowData.serviceType);
+  console.log(rowData)
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -26,6 +26,7 @@ function MappedServiceRequestForm() {
   });
 
   const [formData, setFormData] = useState({
+    srn: "",
     fullName: "",
     contactNumber: "",
     email: "",
@@ -39,6 +40,7 @@ function MappedServiceRequestForm() {
     drawnBy: "",
     confirmation: false,
   });
+
 
   const serviceRequests = [
     "Water: General Parameters",
@@ -557,7 +559,7 @@ function MappedServiceRequestForm() {
               <FormItem className="flex items-center gap-3 mb-8">
                 <FormLabel className="lg:text-nowrap font-semibold">Sample Reference Number :</FormLabel>
                 <FormControl>
-                  <div>W001-01</div>
+                  <div>{rowData.srn}</div>
                 </FormControl>
                 <FormMessage />
               </FormItem>} />
@@ -572,6 +574,7 @@ function MappedServiceRequestForm() {
                 <FormControl>
                   <Input 
                   name="fullName"
+                  value={rowData.fullName}
                   onChange={handleInputChange}
                   placeholder="Full Name"/>
                 </FormControl>
@@ -588,6 +591,7 @@ function MappedServiceRequestForm() {
                 <FormControl>
                   <Input 
                   name="contactNumber"
+                  value={rowData.contact}
                   onChange={handleInputChange}
                   placeholder="Enter your Number"/>
                 </FormControl>
@@ -604,6 +608,7 @@ function MappedServiceRequestForm() {
                 <FormControl>
                   <Input 
                   name="email"
+                  value={rowData.email}
                   onChange={handleInputChange}
                   placeholder="Email"/>
                 </FormControl>
@@ -620,6 +625,7 @@ function MappedServiceRequestForm() {
                 <FormControl>
                   <Input 
                   name="address"
+                  value={rowData.address}
                   onChange={handleInputChange}
                   placeholder="Enter your address..." className="flex h-24"/>
                 </FormControl>
@@ -639,6 +645,7 @@ function MappedServiceRequestForm() {
               <FormControl>
                 <Select
                 name="serviceType"
+                value={rowData.serviceType}
                 onValueChange={handleSelectChangeService}
                 >
                   <SelectTrigger>
@@ -670,7 +677,7 @@ function MappedServiceRequestForm() {
               render={() => 
                 <FormItem className="flex gap-3 items-center">
                   <FormControl>
-                    <input type="checkbox" onChange={handleCheckboxChange} value={options}/>    
+                    <input type="checkbox" checked={rowData.parameters} onChange={handleCheckboxChange} value={options}/>    
                   </FormControl>
                   <FormLabel>{options}</FormLabel>
                   <FormMessage />
@@ -1342,7 +1349,7 @@ function MappedServiceRequestForm() {
                     <Button 
                       variant={"outline"}
                       className={"w-full flex pl-3 text-left font-normal" + !field.value && "text-muted-foreground"}>
-                      {field.value ? (
+                      {rowData.preferredDate ? `${rowData.preferredDate}` : field.value ? (
                         format(field.value, "PPP")
                       ) : (
                         <span>Pick a date</span>
@@ -1354,7 +1361,7 @@ function MappedServiceRequestForm() {
                 <PopoverContent className="w-auto p-0" align="start">
                   <Calendar
                     mode="single"
-                    selected={field.value}
+                    selected={rowData.preferredDate}
                     onSelect={field.onChange}
                     disabled={(date) =>
                       date > new Date() || date < new Date("1900-01-01")
@@ -1376,6 +1383,7 @@ function MappedServiceRequestForm() {
               <FormLabel className="text-nowrap">Allotted to</FormLabel>
               <FormControl>
                 <Select
+                value={rowData.allottedTo}
                 onValueChange={handleSelectChangeAllocate}
                 >
                   <SelectTrigger>
@@ -1445,6 +1453,7 @@ function MappedServiceRequestForm() {
               <FormLabel className="lg:text-nowrap"> Drawn By </FormLabel>
               <FormControl>
                 <Select
+                value={rowData.drawnBy}
                 onValueChange={handleSelectChangeDrawn}>
                   <SelectTrigger>
                     <SelectValue placeholder="EES"/>
@@ -1470,7 +1479,7 @@ function MappedServiceRequestForm() {
                     <Button 
                       variant={"outline"}
                       className={"w-full flex pl-3 text-left font-normal" + !field.value && "text-muted-foreground"}>
-                      {field.value ? (
+                      { rowData.date ? `${rowData.date}` : field.value ? (
                         format(field.value, "PPP")
                       ) : (
                         <span>Service date</span>
@@ -1482,7 +1491,7 @@ function MappedServiceRequestForm() {
                 <PopoverContent className="w-auto p-0" align="start">
                   <Calendar
                     mode="single"
-                    selected={field.value}
+                    selected={rowData.date}
                     onSelect={field.onChange}
                     disabled={(date) =>
                       date > new Date() || date < new Date("1900-01-01")
@@ -1506,6 +1515,7 @@ function MappedServiceRequestForm() {
               <FormControl>
                 <Input 
                 name="remarks"
+                value={rowData.remarks}
                 onChange={handleInputChange}
                 placeholder="type here.." className="h-24"/>
               </FormControl>
@@ -1521,7 +1531,7 @@ function MappedServiceRequestForm() {
           render={() => 
             <FormItem className="flex gap-3 items-center mb-3">
               <FormControl>
-                 <input type="checkbox" onChange={handleConfirmationChange} />    
+                 <input type="checkbox" checked={rowData.confirmation} onChange={handleConfirmationChange} />    
               </FormControl>
               <FormLabel>I confirm the details are accurate and agree to the pricing terms.</FormLabel>
               <FormMessage />

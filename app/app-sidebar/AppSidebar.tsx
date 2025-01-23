@@ -3,7 +3,6 @@
 import type * as React from "react"
 import {
   Frame,
-  Map,
   PieChart,
 } from "lucide-react"
 import { NavProjects } from "./nav-projects"
@@ -34,13 +33,6 @@ const data = {
       icon: PieChart,
       title: "Service Request",
       id: 1,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
-      title: "Travel",
-      id: 2,
     },
   ],
 }

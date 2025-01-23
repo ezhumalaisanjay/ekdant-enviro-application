@@ -30,8 +30,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import React, { useState } from "react"
-import { Input } from "./input"
-import { Button } from "./button"
+import { Input } from "../../components/ui/input"
+import { Button } from "../../components/ui/button"
 import PaginationSelection from "@/app/Table/PaginationSelection"
 import { ChevronLeft, ChevronRight, Download, File, FileText, ListCollapseIcon, Sheet } from "lucide-react"
 
@@ -59,7 +59,19 @@ export function DataTable<TData, TValue>({
     pageSize: 4,
   })
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({})
+    React.useState<VisibilityState>({
+      srn: true,
+      fullName: true,
+      address: true,
+      serviceType: true,
+      date: true,
+      allottedTo: true,
+      drawnBy: true,
+      email: false,
+      preferredDate: false,
+      contact: false,
+      parameters: false
+    })
 
   const table = useReactTable({
     data,
@@ -117,7 +129,7 @@ export function DataTable<TData, TValue>({
                 <ListCollapseIcon />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
+            <DropdownMenuContent className="h-[200px] overflow-y-scroll" align="end">
               {table
                 .getAllColumns()
                 .filter(
@@ -146,8 +158,7 @@ export function DataTable<TData, TValue>({
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
+                {headerGroup.headers.map((header) => (
                     <TableHead key={header.id}>
                       {header.isPlaceholder
                         ? null
@@ -157,7 +168,7 @@ export function DataTable<TData, TValue>({
                           )}
                     </TableHead>
                   )
-                })}
+                )}
               </TableRow>
             ))}
           </TableHeader>

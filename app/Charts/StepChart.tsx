@@ -1,6 +1,6 @@
 "use client"
 
-import { TrendingUp } from "lucide-react"
+import { Activity, TrendingUp } from "lucide-react"
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts"
 
 import {
@@ -18,32 +18,29 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart"
 const chartData = [
-  { day: "Monday", desktop: 186, mobile: 80 },
-  { day: "Tuesday", desktop: 305, mobile: 200 },
-  { day: "Wednesday", desktop: 237, mobile: 120 },
-  { day: "Thursday", desktop: 73, mobile: 190 },
-  { day: "Friday", desktop: 209, mobile: 130 },
-  { day: "Saturday", desktop: 214, mobile: 140 },
+  { month: "January", desktop: 186 },
+  { month: "February", desktop: 305 },
+  { month: "March", desktop: 237 },
+  { month: "April", desktop: 73 },
+  { month: "May", desktop: 209 },
+  { month: "June", desktop: 214 },
 ]
 
 const chartConfig = {
   desktop: {
     label: "Desktop",
     color: "hsl(var(--chart-1))",
-  },
-  mobile: {
-    label: "Mobile",
-    color: "hsl(var(--chart-2))",
+    icon: Activity,
   },
 } satisfies ChartConfig
 
-export function AreaChartComponent() {
+export function StepChartComponent() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Area Chart - Stacked</CardTitle>
+        <CardTitle>Area Chart - Step</CardTitle>
         <CardDescription>
-          Showing total visitors for the last Week
+          Showing total visitors for the last 6 months
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -66,23 +63,14 @@ export function AreaChartComponent() {
             />
             <ChartTooltip
               cursor={false}
-              content={<ChartTooltipContent indicator="dot" />}
-            />
-            <Area
-              dataKey="mobile"
-              type="natural"
-              fill="var(--color-mobile)"
-              fillOpacity={0.4}
-              stroke="var(--color-mobile)"
-              stackId="a"
+              content={<ChartTooltipContent hideLabel />}
             />
             <Area
               dataKey="desktop"
-              type="natural"
+              type="step"
               fill="var(--color-desktop)"
               fillOpacity={0.4}
               stroke="var(--color-desktop)"
-              stackId="a"
             />
           </AreaChart>
         </ChartContainer>
@@ -91,10 +79,10 @@ export function AreaChartComponent() {
         <div className="flex w-full items-start gap-2 text-sm">
           <div className="grid gap-2">
             <div className="flex items-center gap-2 font-medium leading-none">
-              Trending up by 5.2% this Week <TrendingUp className="h-4 w-4" />
+              Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
             </div>
             <div className="flex items-center gap-2 leading-none text-muted-foreground">
-              This Week (Sunday - Saturday)
+              January - June 2024
             </div>
           </div>
         </div>

@@ -76,13 +76,20 @@ function Login() {
         <CardContent className="mt-8">
           <div className="flex flex-col gap-3">
             <div>
+              <Label>Full Name</Label>
+              <Input placeholder="Full Name" className="p-5 pl-1"/>
+            </div>
+            <div>
               <Label>Email</Label>
-              <Input placeholder="Email" className="p-5"/>
+              <Input placeholder="Email" className="p-5 pl-1"/>
             </div>
             <div>
               <Label>Password</Label>
-              <Input type="password" placeholder="Password" className="p-5"/>
-            </div>
+              <div className="flex flex-col gap-2">
+                <Input type="password" placeholder="Password" className="p-5 pl-1"/>
+                <Input type="password" placeholder="Confirm Password" className="p-5 pl-1"/>
+              </div>
+              </div>
           </div>
             <Button className="flex w-full m-4 mt-9" onClick={loader} disabled={isLoading}>
               {(isLoading) && <LoaderCircle className="animate-spin" /> }
