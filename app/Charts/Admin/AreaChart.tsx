@@ -17,33 +17,40 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
-const chartData = [
-  { day: "Monday", desktop: 186, mobile: 80 },
-  { day: "Tuesday", desktop: 305, mobile: 200 },
-  { day: "Wednesday", desktop: 237, mobile: 120 },
-  { day: "Thursday", desktop: 73, mobile: 190 },
-  { day: "Friday", desktop: 209, mobile: 130 },
-  { day: "Saturday", desktop: 214, mobile: 140 },
-]
-
-const chartConfig = {
-  desktop: {
-    label: "Desktop",
-    color: "hsl(var(--chart-1))",
-  },
-  mobile: {
-    label: "Mobile",
-    color: "hsl(var(--chart-2))",
-  },
-} satisfies ChartConfig
 
 export function AreaChartComponent() {
+
+  const chartData = [
+    { day: "Sunday", walkin: 15, email: 13, call : 21 },
+    { day: "Monday", walkin: 12, email: 5, call : 20 },
+    { day: "Tuesday", walkin: 19, email: 7, call : 22 },
+    { day: "Wednesday", walkin: 18, email: 6, call : 10 },
+    { day: "Thursday", walkin: 16, email: 2, call : 18 },
+    { day: "Friday", walkin: 21, email: 9, call : 11 },
+    { day: "Saturday", walkin: 22, email: 6, call : 12 },
+  ]
+  
+  const chartConfig = {
+    walkin: {
+      label: "walkin",
+      color: "hsl(var(--chart-1))",
+    },
+    email: {
+      label: "email",
+      color: "hsl(var(--chart-2))",
+    },
+    call: {
+      label: "call",
+      color: "hsl(var(--chart-3))",
+    },
+  } satisfies ChartConfig
+  
   return (
-    <Card>
+    <Card className="w-[350px]">
       <CardHeader>
-        <CardTitle>Area Chart - Stacked</CardTitle>
+        <CardTitle>Customer Visited Source</CardTitle>
         <CardDescription>
-          Showing total visitors for the last Week
+          Showing total customers visited source for the week
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -58,7 +65,7 @@ export function AreaChartComponent() {
           >
             <CartesianGrid vertical={false} />
             <XAxis
-              dataKey="month"
+              dataKey="day"
               tickLine={false}
               axisLine={false}
               tickMargin={8}
@@ -69,19 +76,27 @@ export function AreaChartComponent() {
               content={<ChartTooltipContent indicator="dot" />}
             />
             <Area
-              dataKey="mobile"
+              dataKey="email"
               type="natural"
-              fill="var(--color-mobile)"
+              fill="var(--color-email)"
               fillOpacity={0.4}
-              stroke="var(--color-mobile)"
+              stroke="var(--color-email)"
               stackId="a"
             />
             <Area
-              dataKey="desktop"
+              dataKey="walkin"
               type="natural"
-              fill="var(--color-desktop)"
+              fill="var(--color-walkin)"
               fillOpacity={0.4}
-              stroke="var(--color-desktop)"
+              stroke="var(--color-walkin)"
+              stackId="a"
+            />
+            <Area
+              dataKey="call"
+              type="natural"
+              fill="var(--color-call)"
+              fillOpacity={0.4}
+              stroke="var(--color-call)"
               stackId="a"
             />
           </AreaChart>

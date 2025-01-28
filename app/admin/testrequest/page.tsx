@@ -1,9 +1,9 @@
 "use client"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebar } from "../app-sidebar/AppSidebar";
-import ServiceRequestForm from "../Form/ServiceRequest";
+import { AppSidebar } from "../../app-sidebar/AppSidebar";
+import ServiceRequestForm from "../../Form/ServiceRequest";
 import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
-import Table from "../Table/index"
+import Table from "../../Table/index"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -14,14 +14,39 @@ import {
 import { Separator } from "@/components/ui/separator"
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { X } from "lucide-react";
+import { Frame, PieChart, X } from "lucide-react";
 
 export default function ServiceRequest() {
   
+  const data = {
+    user: {
+      name: "Admin",
+      email: "admin@example.com",
+      avatar: "/avatars/shadcn.jpg",
+    },
+  
+    projects: [
+      {
+        name: "DashBoard",
+        url: "/admin/dashboard",
+        icon: Frame,
+        title: "Dashboard",
+        id: 0,
+      },
+      {
+        name: "Test Request",
+        url: "/admin/testrequest",
+        icon: PieChart,
+        title: "Service Request",
+        id: 1,
+      },
+    ],
+  }
+
   return (
     <>
       <SidebarProvider>
-        <AppSidebar active={1} />
+        <AppSidebar active={1} data={data}/>
         <div className="flex flex-col w-full p-3">
           <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
             <div className="flex items-center gap-2 px-4">
@@ -30,7 +55,7 @@ export default function ServiceRequest() {
               <Breadcrumb>
                 <BreadcrumbList>
                   <BreadcrumbItem className="hidden md:block">
-                    <BreadcrumbLink><Link href="/dashboard"> DashBoard </Link></BreadcrumbLink>
+                    <Link href="/admin/dashboard"> DashBoard </Link>
                   </BreadcrumbItem>
                   <BreadcrumbSeparator />
                   <BreadcrumbItem className="hidden md:block font-semibold text-slate-800">

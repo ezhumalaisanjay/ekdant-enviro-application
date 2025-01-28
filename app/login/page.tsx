@@ -45,7 +45,7 @@ function Login() {
             <div className="flex justify-end text-sm mt-1">
               <a href="">Forgot password?</a>
             </div>
-            <Link href="/dashboard">
+            <Link href="/admin/dashboard">
               <Button className="flex w-full m-4" onClick={loader} disabled={isLoading}>
                 {(isLoading) && <LoaderCircle className="animate-spin" /> }
                 Log in

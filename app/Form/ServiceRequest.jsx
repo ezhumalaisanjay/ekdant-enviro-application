@@ -1,7 +1,7 @@
 "use client"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -11,20 +11,24 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns"
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 const formSchema = z.object({
+  fullName: z.string(),
+  preferredDate: z.string().date(),
+  date: z.string().date()
 })
 
 function ServiceRequestForm() {
   const [serviceSelected, setServiceSelected] = useState("");
-
+  const [pickUp, setPickUp] = useState("");
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       fullName: "",
     }
   });
-
+  
   const [formData, setFormData] = useState({
     fullName: "",
     contactNumber: "",
@@ -37,8 +41,10 @@ function ServiceRequestForm() {
     date: "",
     remarks: "",
     drawnBy: "",
+    pickUp: "",
     confirmation: false,
   });
+  const uniqueId = `W001-${Math.floor(Math.random() * 1000)}`
 
   const serviceRequests = [
     "Water: General Parameters",
@@ -487,6 +493,156 @@ function ServiceRequestForm() {
     "Oxygen Purity ( O2)"
   ]
 
+  
+  useEffect(() => {
+    if(serviceSelected === "Water: General Parameters") {
+      setFormData((prevState) => ({
+        ...prevState,
+        parameters: firstOptions,
+      }))}
+    else if(serviceSelected === "Water Complete Analysis as per 10500: 2012") {
+      setFormData((prevState) => ({
+        ...prevState,
+        parameters: secondOptions,
+      }))}
+    else if(serviceSelected === "Water - Construction Parameters") {
+      setFormData((prevState) => ({
+        ...prevState,
+        parameters: thirdOptions,
+      }))}
+    else if(serviceSelected === "Water - Microbiological Analysis") {
+      setFormData((prevState) => ({
+        ...prevState,
+        parameters: fourthOptions,
+      }))}
+    else if(serviceSelected === "Water –Complete Microbiological Analysis") {
+      setFormData((prevState) => ({
+        ...prevState,
+        parameters: fifthOptions,
+      }))}
+    else if(serviceSelected === "Food Microbiological Parameters") {
+      setFormData((prevState) => ({
+        ...prevState,
+        parameters: sixthOptions,
+      }))}
+    else if(serviceSelected === "Food Chemical Parameters") {
+      setFormData((prevState) => ({
+        ...prevState,
+        parameters: seventhOptions,
+      }))}
+    else if(serviceSelected === "Sludge Analysis Parameters") {
+      setFormData((prevState) => ({
+        ...prevState,
+        parameters: eighthOptions,
+      }))}
+    else if(serviceSelected === "Soil Testing Parameters") {
+      setFormData((prevState) => ({
+        ...prevState,
+        parameters: ninethOptions,
+      }))}
+    else if(serviceSelected === "Oil - Diesel Testing Parameters") {
+      setFormData((prevState) => ({
+        ...prevState,
+        parameters: tenthOptions,
+      }))}
+    else if(serviceSelected === "Oil - Nutrition Value + FSSAI Parameters") {
+      setFormData((prevState) => ({
+        ...prevState,
+        parameters: eleventhOptions,
+      }))}
+    else if(serviceSelected === "Coal Analysis Parameters") {
+      setFormData((prevState) => ({
+        ...prevState,
+        parameters: twelfthOptions,
+      }))}
+    else if(serviceSelected === "Effluent Water Analysis Parameters") {
+      setFormData((prevState) => ({
+        ...prevState,
+        parameters: thirteenthOptions,
+      }))}
+    else if(serviceSelected === "Sewage Water Chemical Parameters") {
+      setFormData((prevState) => ({
+        ...prevState,
+        parameters: fourteenthOptions,
+      }))}
+    else if(serviceSelected === "Ambient Air Quality Monitoring Parameters") {
+      setFormData((prevState) => ({
+        ...prevState,
+        parameters: fifteenthOptions,
+      }))}
+    else if(serviceSelected === "DG Stack Emission Parameters") {
+      setFormData((prevState) => ({
+        ...prevState,
+        parameters: sixteenthOptions,
+      }))}
+    else if(serviceSelected === "Ambient Noise Monitoring Parameters") {
+      setFormData((prevState) => ({
+        ...prevState,
+        parameters: seventeenthOptions,
+      }))}
+    else if(serviceSelected === "DG Noise Monitoring Parameters") {
+      setFormData((prevState) => ({
+        ...prevState,
+        parameters: eighteenthOptions,
+      }))}
+    else if(serviceSelected === "Lux Monitoring Parameters") {
+      setFormData((prevState) => ({
+        ...prevState,
+        parameters: nineteenthOptions,
+      }))}
+    else if(serviceSelected === "Indoor Air Quality") {
+      setFormData((prevState) => ({
+        ...prevState,
+        parameters: twenteenthOptions,
+      }))}
+    else if(serviceSelected === "Compressor Air Monitoring Parameters") {
+      setFormData((prevState) => ({
+        ...prevState,
+        parameters: twentyFirstOptions,
+      }))}
+    else if(serviceSelected === "Feldspar Analysis Parameter") {
+      setFormData((prevState) => ({
+        ...prevState,
+        parameters: twentySecondOptions,
+      }))}
+    else if(serviceSelected === "Quartz Sample Analysis Parameters") {
+      setFormData((prevState) => ({
+        ...prevState,
+        parameters: twentyThirdOptions,
+      }))}
+    else if(serviceSelected === "Lime Stone Sample Analysis Parameters") {
+      setFormData((prevState) => ({
+        ...prevState,
+        parameters: twentyFourthOptions,
+      }))}
+    else if(serviceSelected === "Plate - Microbiological Analysis") {
+      setFormData((prevState) => ({
+        ...prevState,
+        parameters: twentyFifthOptions,
+      }))}
+    else if(serviceSelected === "Swab - Microbiological Analysis") {
+      setFormData((prevState) => ({
+        ...prevState,
+        parameters: twentySixthOptions,
+      }))}
+    else if(serviceSelected === "Sewage Water Microbiological Parameters") {
+      setFormData((prevState) => ({
+        ...prevState,
+        parameters: twentySeventhOptions,
+      }))}
+    else if(serviceSelected === "Weather Monitoring Parameters") {
+      setFormData((prevState) => ({
+        ...prevState,
+        parameters: twentyEighthOptions,
+      }))}
+      else if(serviceSelected === "Oxygen Purity Parameters") {
+        setFormData((prevState) => ({
+          ...prevState,
+          parameters: twentyNinethOptions,
+        }))}
+      console.log(formData.parameters)
+  }, [serviceSelected])
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -495,6 +651,11 @@ function ServiceRequestForm() {
   const handleSelectChangeService = (value) => {
     setFormData({ ...formData, serviceType: value})
     setServiceSelected(value);
+  }
+
+  const handleSelectChangePickup = (value) => {
+    setFormData({ ...formData, pickUp: value})
+    setPickUp(value);
   }
 
   const handleSelectChangeDrawn = (value) => {
@@ -516,8 +677,7 @@ function ServiceRequestForm() {
   }
 
   const handleCheckboxChange = (e) => {
-    const { value, checked } = e.target;
-    console.log(e.target.value);
+    let { value, checked } = e.target;
     if (checked) {
       setFormData((prevState) => ({
         ...prevState,
@@ -546,973 +706,1090 @@ function ServiceRequestForm() {
 
 
   return(
-    <div className="p-5 w-full h-[500px] overflow-y-auto">
+    <div className="p-3 w-full h-[500px] overflow-y-auto">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)}>
-          
-          <FormField 
-            control={form.control}
-            name="fullName"
-            render={() => 
-              <FormItem className="flex items-center gap-3 mb-8">
-                <FormLabel className="lg:text-nowrap font-semibold">Sample Reference Number :</FormLabel>
-                <FormControl>
-                  <div>W001-01</div>
-                </FormControl>
-                <FormMessage />
-              </FormItem>} />
-          {/* Customer Details */}
-          <div className="grid lg:grid-cols-2 gap-3">
-            <FormField 
-            control={form.control}
-            name="fullName"
-            render={() => 
-              <FormItem>
-                <FormLabel>Full Name</FormLabel>
-                <FormControl>
-                  <Input 
+          <div className="grid gap-3">
+            <Card>
+              <CardHeader></CardHeader>
+              <CardContent>
+                <FormField 
+                  control={form.control}
                   name="fullName"
-                  onChange={handleInputChange}
-                  placeholder="Full Name"/>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            }
-            />
-            <FormField 
-            control={form.control}
-            name="contactNumber"
-            render={() => 
-              <FormItem>
-                <FormLabel>Contact Number</FormLabel>
-                <FormControl>
-                  <Input 
+                  render={() => 
+                    <FormItem className="flex items-center gap-3 mb-8">
+                      <FormLabel className="lg:text-nowrap font-semibold">Sample Reference Number :</FormLabel>
+                      <FormControl>
+                        <Input type="text" defaultValue={uniqueId} readOnly/>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>} 
+                    />    
+              </CardContent>
+            </Card>
+
+            {/* Customer Details */}  
+            <Card>
+              <CardHeader className="font-semibold">Customer Details</CardHeader>
+              <CardContent>
+                <div className="grid lg:grid-cols-2 gap-3">
+                  <FormField 
+                  control={form.control}
+                  name="fullName"
+                  render={() => 
+                    <FormItem>
+                      <FormLabel>Full Name</FormLabel>
+                      <FormControl>
+                        <Input 
+                        name="fullName"
+                        onChange={handleInputChange}
+                        placeholder="Full Name"/>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  }
+                  />
+                  <FormField 
+                  control={form.control}
                   name="contactNumber"
-                  onChange={handleInputChange}
-                  placeholder="Enter your Number"/>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            }
-            />
-            <FormField 
-            control={form.control}
-            name="email"
-            render={() => 
-              <FormItem>
-                <FormLabel>Email Address</FormLabel>
-                <FormControl>
-                  <Input 
+                  render={() => 
+                    <FormItem>
+                      <FormLabel>Contact Number</FormLabel>
+                      <FormControl>
+                        <Input 
+                        name="contactNumber"
+                        onChange={handleInputChange}
+                        placeholder="Enter your Number"/>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  }
+                  />
+                  <FormField 
+                  control={form.control}
                   name="email"
-                  onChange={handleInputChange}
-                  placeholder="Email"/>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            }
-            />
-            <FormField 
-            control={form.control}
-            name="address"
-            render={() => 
-              <FormItem>
-                <FormLabel>Address</FormLabel>
-                <FormControl>
-                  <Input 
+                  render={() => 
+                    <FormItem>
+                      <FormLabel>Email Address</FormLabel>
+                      <FormControl>
+                        <Input 
+                        name="email"
+                        onChange={handleInputChange}
+                        placeholder="Email"/>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  }
+                  />
+                  <FormField 
+                  control={form.control}
                   name="address"
-                  onChange={handleInputChange}
-                  placeholder="Enter your address..." className="flex h-24"/>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            }
-            />
-          </div>
-
-          {/* Service Details */}
-          <FormField 
-          control={form.control}
-          name="serviceType"
-          render={() => 
-            <FormItem className="flex mb-3 gap-3 items-center">
-              <FormLabel className="text-nowrap">Service Type</FormLabel>
-              <FormControl>
-                <Select
-                name="serviceType"
-                onValueChange={handleSelectChangeService}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select"/>
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Select">Select</SelectItem>
-                    {serviceRequests.map((request, index) => <SelectItem value={request} key={index}>{request}</SelectItem>)}
-                  </SelectContent>
-                </Select>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          }
-          />
-          <FormLabel>Parameters to Test:</FormLabel>
-          {serviceSelected == "Water: General Parameters" ? 
-          <>
-            <div className="flex mt-3 mb-3 gap-3">
-              <div>Physical Parameter & </div>
-              <div>Chemical Parameter</div>  
-            </div>
-            <div className="grid lg:grid-cols-2 gap-3 items-center">
-            {
-              firstOptions.map( (options, index) => <FormField 
-              control={form.control}
-              name="checkbox"
-              key={index}
-              render={() => 
-                <FormItem className="flex gap-3 items-center">
-                  <FormControl>
-                    <input type="checkbox" onChange={handleCheckboxChange} value={options}/>    
-                  </FormControl>
-                  <FormLabel>{options}</FormLabel>
-                  <FormMessage />
-                </FormItem>
-              }
-              />) 
-            }
-            </div>
-          </> : serviceSelected == "Water Complete Analysis as per 10500: 2012" ? 
-          <>
-            <div className="flex mt-3 mb-3 gap-3">
-              <div>Physical Parameter & </div>
-              <div>Chemical Parameter</div>  
-            </div>
-            <div className="grid lg:grid-cols-2 gap-3 items-center">
-            {
-              secondOptions.map( (options, index) => <FormField 
-              control={form.control}
-              name="checkbox"
-              key={index}
-              render={() => 
-                <FormItem className="flex gap-3 items-center">
-                  <FormControl>
-                    <input type="checkbox" onChange={handleCheckboxChange} value={options}/>    
-                  </FormControl>
-                  <FormLabel>{options}</FormLabel>
-                  <FormMessage />
-                </FormItem>
-              }
-              />) 
-            }
-            </div>
-          </> : serviceSelected == "Water - Construction Parameters" ? 
-          <>
-            <div className="flex mt-3 mb-3 gap-3">
-              <div>Parameter & </div>
-              <div>Neutralization</div>  
-            </div>
-            <div className="grid lg:grid-cols-2 gap-3 items-center">
-            {
-              thirdOptions.map( (options, index) => <FormField 
-              control={form.control}
-              name="checkbox"
-              key={index}
-              render={() => 
-                <FormItem className="flex gap-3 items-center">
-                  <FormControl>
-                    <input type="checkbox" onChange={handleCheckboxChange} value={options}/>    
-                  </FormControl>
-                  <FormLabel>{options}</FormLabel>
-                  <FormMessage />
-                </FormItem>
-              }
-              />) 
-            }
-            </div>
-          </> : serviceSelected == "Water - Microbiological Analysis" ? 
-          <>
-            <div className="flex mt-3 mb-3 gap-3">
-              <div>Parameters </div>  
-            </div>
-            <div className="grid lg:grid-cols-2 gap-3 items-center">
-            {
-              fourthOptions.map( (options, index) => <FormField 
-              control={form.control}
-              name="checkbox"
-              key={index}
-              render={() => 
-                <FormItem className="flex gap-3 items-center">
-                  <FormControl>
-                    <input type="checkbox" onChange={handleCheckboxChange} value={options}/>    
-                  </FormControl>
-                  <FormLabel>{options}</FormLabel>
-                  <FormMessage />
-                </FormItem>
-              }
-              />) 
-            }
-            </div>
-          </> : serviceSelected == "Water –Complete Microbiological Analysis" ? 
-          <>
-            <div className="flex mt-3 mb-3 gap-3">
-              <div>Parameters </div>  
-            </div>
-            <div className="grid lg:grid-cols-2 gap-3 items-center">
-            {
-              fifthOptions.map( (options, index) => <FormField 
-              control={form.control}
-              name="checkbox"
-              key={index}
-              render={() => 
-                <FormItem className="flex gap-3 items-center">
-                  <FormControl>
-                    <input type="checkbox" onChange={handleCheckboxChange} value={options}/>    
-                  </FormControl>
-                  <FormLabel>{options}</FormLabel>
-                  <FormMessage />
-                </FormItem>
-              }
-              />) 
-            }
-            </div>
-          </> : serviceSelected == "Food Microbiological Parameters" ? 
-          <>
-            <div className="flex mt-3 mb-3 gap-3">
-              <div> Microbiological Parameter </div>  
-            </div>
-            <div className="grid lg:grid-cols-2 gap-3 items-center">
-            {
-              sixthOptions.map( (options, index) => <FormField 
-              control={form.control}
-              name="checkbox"
-              key={index}
-              render={() => 
-                <FormItem className="flex gap-3 items-center">
-                  <FormControl>
-                    <input type="checkbox" onChange={handleCheckboxChange} value={options}/>    
-                  </FormControl>
-                  <FormLabel>{options}</FormLabel>
-                  <FormMessage />
-                </FormItem>
-              }
-              />) 
-            }
-            </div>
-          </> : serviceSelected == "Food Chemical Parameters" ? 
-          <>
-            <div className="flex mt-3 mb-3 gap-3">
-              <div> Parameters </div>  
-            </div>
-            <div className="grid lg:grid-cols-2 gap-3 items-center">
-            {
-              seventhOptions.map( (options, index) => <FormField 
-              control={form.control}
-              name="checkbox"
-              key={index}
-              render={() => 
-                <FormItem className="flex gap-3 items-center">
-                  <FormControl>
-                    <input type="checkbox" onChange={handleCheckboxChange} value={options}/>    
-                  </FormControl>
-                  <FormLabel>{options}</FormLabel>
-                  <FormMessage />
-                </FormItem>
-              }
-              />) 
-            }
-            </div>
-          </> : serviceSelected == "Sludge Analysis Parameters" ? 
-          <>
-            <div className="flex mt-3 mb-3 gap-3">
-              <div> Parameters </div>  
-            </div>
-            <div className="grid lg:grid-cols-2 gap-3 items-center">
-            {
-              eighthOptions.map( (options, index) => <FormField 
-              control={form.control}
-              name="checkbox"
-              key={index}
-              render={() => 
-                <FormItem className="flex gap-3 items-center">
-                  <FormControl>
-                    <input type="checkbox" onChange={handleCheckboxChange} value={options}/>    
-                  </FormControl>
-                  <FormLabel>{options}</FormLabel>
-                  <FormMessage />
-                </FormItem>
-              }
-              />) 
-            }
-            </div>
-          </> : serviceSelected == "Soil Testing Parameters" ? 
-          <>
-            <div className="flex mt-3 mb-3 gap-3">
-              <div>Physical Parameters & </div>  
-              <div>Chemical Parameters</div>
-            </div>
-            <div className="grid lg:grid-cols-2 gap-3 items-center">
-            {
-              ninethOptions.map( (options, index) => <FormField 
-              control={form.control}
-              name="checkbox"
-              key={index}
-              render={() => 
-                <FormItem className="flex gap-3 items-center">
-                  <FormControl>
-                    <input type="checkbox" onChange={handleCheckboxChange} value={options}/>    
-                  </FormControl>
-                  <FormLabel>{options}</FormLabel>
-                  <FormMessage />
-                </FormItem>
-              }
-              />) 
-            }
-            </div>
-          </> : serviceSelected == "Oil - Diesel Testing Parameters" ? 
-          <>
-            <div className="flex mt-3 mb-3 gap-3">
-              <div> Parameters </div>  
-            </div>
-            <div className="grid lg:grid-cols-2 gap-3 items-center">
-            {
-              tenthOptions.map( (options, index) => <FormField 
-              control={form.control}
-              name="checkbox"
-              key={index}
-              render={() => 
-                <FormItem className="flex gap-3 items-center">
-                  <FormControl>
-                    <input type="checkbox" onChange={handleCheckboxChange} value={options}/>    
-                  </FormControl>
-                  <FormLabel>{options}</FormLabel>
-                  <FormMessage />
-                </FormItem>
-              }
-              />) 
-            }
-            </div>
-          </> : serviceSelected == "Oil - Nutrition Value + FSSAI Parameters" ? 
-          <>
-            <div className="flex mt-3 mb-3 gap-3">
-              <div> Parameters & </div>
-              <div> FSSAI Parameters </div>  
-            </div>
-            <div className="grid lg:grid-cols-2 gap-3 items-center">
-            {
-              eleventhOptions.map( (options, index) => <FormField 
-              control={form.control}
-              name="checkbox"
-              key={index}
-              render={() => 
-                <FormItem className="flex gap-3 items-center">
-                  <FormControl>
-                    <input type="checkbox" onChange={handleCheckboxChange} value={options}/>    
-                  </FormControl>
-                  <FormLabel>{options}</FormLabel>
-                  <FormMessage />
-                </FormItem>
-              }
-              />) 
-            }
-            </div>
-          </> : serviceSelected == "Coal Analysis Parameters" ? 
-          <>
-            <div className="flex mt-3 mb-3 gap-3">
-              <div> Proximate analysis & Gross Calorific Value(GCV)</div>
-              <div> Ultimate analysis </div>  
-            </div>
-            <div className="grid lg:grid-cols-2 gap-3 items-center">
-            {
-              twelfthOptions.map( (options, index) => <FormField 
-              control={form.control}
-              name="checkbox"
-              key={index}
-              render={() => 
-                <FormItem className="flex gap-3 items-center">
-                  <FormControl>
-                    <input type="checkbox" onChange={handleCheckboxChange} value={options}/>    
-                  </FormControl>
-                  <FormLabel>{options}</FormLabel>
-                  <FormMessage />
-                </FormItem>
-              }
-              />) 
-            }
-            </div>
-          </> : serviceSelected == "Effluent Water Analysis Parameters" ? 
-          <>
-            <div className="flex mt-3 mb-3 gap-3">
-              <div> Parameters </div>
-            </div>
-            <div className="grid lg:grid-cols-2 gap-3 items-center">
-            {
-              thirteenthOptions.map( (options, index) => <FormField 
-              control={form.control}
-              name="checkbox"
-              key={index}
-              render={() => 
-                <FormItem className="flex gap-3 items-center">
-                  <FormControl>
-                    <input type="checkbox" onChange={handleCheckboxChange} value={options}/>    
-                  </FormControl>
-                  <FormLabel>{options}</FormLabel>
-                  <FormMessage />
-                </FormItem>
-              }
-              />) 
-            }
-            </div>
-          </> : serviceSelected == "Sewage Water Chemical Parameters" ? 
-          <>
-            <div className="flex mt-3 mb-3 gap-3">
-              <div> Parameters </div>
-            </div>
-            <div className="grid lg:grid-cols-2 gap-3 items-center">
-            {
-              fourteenthOptions.map( (options, index) => <FormField 
-              control={form.control}
-              name="checkbox"
-              key={index}
-              render={() => 
-                <FormItem className="flex gap-3 items-center">
-                  <FormControl>
-                    <input type="checkbox" onChange={handleCheckboxChange} value={options}/>    
-                  </FormControl>
-                  <FormLabel>{options}</FormLabel>
-                  <FormMessage />
-                </FormItem>
-              }
-              />) 
-            }
-            </div>
-          </> : serviceSelected == "Ambient Air Quality Monitoring Parameters" ? 
-          <>
-            <div className="flex mt-3 mb-3 gap-3">
-              <div> Parameters </div>
-            </div>
-            <div className="grid lg:grid-cols-2 gap-3 items-center">
-            {
-              fifteenthOptions.map( (options, index) => <FormField 
-              control={form.control}
-              name="checkbox"
-              key={index}
-              render={() => 
-                <FormItem className="flex gap-3 items-center">
-                  <FormControl>
-                    <input type="checkbox" onChange={handleCheckboxChange} value={options}/>    
-                  </FormControl>
-                  <FormLabel>{options}</FormLabel>
-                  <FormMessage />
-                </FormItem>
-              }
-              />) 
-            }
-            </div>
-          </> : serviceSelected == "DG Stack Emission Parameters" ? 
-          <>
-            <div className="flex mt-3 mb-3 gap-3">
-              <div> Parameters </div>
-            </div>
-            <div className="grid lg:grid-cols-2 gap-3 items-center">
-            {
-              sixteenthOptions.map( (options, index) => <FormField 
-              control={form.control}
-              name="checkbox"
-              key={index}
-              render={() => 
-                <FormItem className="flex gap-3 items-center">
-                  <FormControl>
-                    <input type="checkbox" onChange={handleCheckboxChange} value={options}/>    
-                  </FormControl>
-                  <FormLabel>{options}</FormLabel>
-                  <FormMessage />
-                </FormItem>
-              }
-              />) 
-            }
-            </div>
-          </> : serviceSelected == "Ambient Noise Monitoring Parameters" ? 
-          <>
-            <div className="flex mt-3 mb-3 gap-3">
-              <div> Parameters </div>
-            </div>
-            <div className="grid lg:grid-cols-2 gap-3 items-center">
-            {
-              seventeenthOptions.map( (options, index) => <FormField 
-              control={form.control}
-              name="checkbox"
-              key={index}
-              render={() => 
-                <FormItem className="flex gap-3 items-center">
-                  <FormControl>
-                    <input type="checkbox" onChange={handleCheckboxChange} value={options}/>    
-                  </FormControl>
-                  <FormLabel>{options}</FormLabel>
-                  <FormMessage />
-                </FormItem>
-              }
-              />) 
-            }
-            </div>
-          </> : serviceSelected == "DG Noise Monitoring Parameters" ? 
-          <>
-            <div className="flex mt-3 mb-3 gap-3">
-              <div> Parameters </div>
-            </div>
-            <div className="grid lg:grid-cols-2 gap-3 items-center">
-            {
-              eighteenthOptions.map( (options, index) => <FormField 
-              control={form.control}
-              name="checkbox"
-              key={index}
-              render={() => 
-                <FormItem className="flex gap-3 items-center">
-                  <FormControl>
-                    <input type="checkbox" onChange={handleCheckboxChange} value={options}/>    
-                  </FormControl>
-                  <FormLabel>{options}</FormLabel>
-                  <FormMessage />
-                </FormItem>
-              }
-              />) 
-            }
-            </div>
-          </> : serviceSelected == "Lux Monitoring Parameters" ? 
-          <>
-            <div className="flex mt-3 mb-3 gap-3">
-              <div> Parameters </div>
-            </div>
-            <div className="grid lg:grid-cols-2 gap-3 items-center">
-            {
-              nineteenthOptions.map( (options, index) => <FormField 
-              control={form.control}
-              name="checkbox"
-              key={index}
-              render={() => 
-                <FormItem className="flex gap-3 items-center">
-                  <FormControl>
-                    <input type="checkbox" onChange={handleCheckboxChange} value={options}/>    
-                  </FormControl>
-                  <FormLabel>{options}</FormLabel>
-                  <FormMessage />
-                </FormItem>
-              }
-              />) 
-            }
-            </div>
-          </> : serviceSelected == "Indoor Air Quality" ? 
-          <>
-            <div className="flex mt-3 mb-3 gap-3">
-              <div> Physical Parameters & Chemical Parameters </div>
-            </div>
-            <div className="grid lg:grid-cols-2 gap-3 items-center">
-            {
-              twenteenthOptions.map( (options, index) => <FormField 
-              control={form.control}
-              name="checkbox"
-              key={index}
-              render={() => 
-                <FormItem className="flex gap-3 items-center">
-                  <FormControl>
-                    <input type="checkbox" onChange={handleCheckboxChange} value={options}/>    
-                  </FormControl>
-                  <FormLabel>{options}</FormLabel>
-                  <FormMessage />
-                </FormItem>
-              }
-              />) 
-            }
-            </div>
-          </> : serviceSelected == "Compressor Air Monitoring Parameters" ? 
-          <>
-            <div className="flex mt-3 mb-3 gap-3">
-              <div> Parameters </div>
-            </div>
-            <div className="grid lg:grid-cols-2 gap-3 items-center">
-            {
-              twentyFirstOptions.map( (options, index) => <FormField 
-              control={form.control}
-              name="checkbox"
-              key={index}
-              render={() => 
-                <FormItem className="flex gap-3 items-center">
-                  <FormControl>
-                    <input type="checkbox" onChange={handleCheckboxChange} value={options}/>    
-                  </FormControl>
-                  <FormLabel>{options}</FormLabel>
-                  <FormMessage />
-                </FormItem>
-              }
-              />) 
-            }
-            </div>
-          </> : serviceSelected == "Feldspar Analysis Parameter" ? 
-          <>
-            <div className="flex mt-3 mb-3 gap-3">
-              <div> Parameters </div>
-            </div>
-            <div className="grid lg:grid-cols-2 gap-3 items-center">
-            {
-              twentySecondOptions.map( (options, index) => <FormField 
-              control={form.control}
-              name="checkbox"
-              key={index}
-              render={() => 
-                <FormItem className="flex gap-3 items-center">
-                  <FormControl>
-                    <input type="checkbox" onChange={handleCheckboxChange} value={options}/>    
-                  </FormControl>
-                  <FormLabel>{options}</FormLabel>
-                  <FormMessage />
-                </FormItem>
-              }
-              />) 
-            }
-            </div>
-          </> : serviceSelected == "Quartz Sample Analysis Parameters" ? 
-          <>
-            <div className="flex mt-3 mb-3 gap-3">
-              <div> Parameters </div>
-            </div>
-            <div className="grid lg:grid-cols-2 gap-3 items-center">
-            {
-              twentyThirdOptions.map( (options, index) => <FormField 
-              control={form.control}
-              name="checkbox"
-              key={index}
-              render={() => 
-                <FormItem className="flex gap-3 items-center">
-                  <FormControl>
-                    <input type="checkbox" onChange={handleCheckboxChange} value={options}/>    
-                  </FormControl>
-                  <FormLabel>{options}</FormLabel>
-                  <FormMessage />
-                </FormItem>
-              }
-              />) 
-            }
-            </div>
-          </> : serviceSelected == "Lime Stone Sample Analysis Parameters" ? 
-          <>
-            <div className="flex mt-3 mb-3 gap-3">
-              <div> Parameters </div>
-            </div>
-            <div className="grid lg:grid-cols-2 gap-3 items-center">
-            {
-              twentyFourthOptions.map( (options, index) => <FormField 
-              control={form.control}
-              name="checkbox"
-              key={index}
-              render={() => 
-                <FormItem className="flex gap-3 items-center">
-                  <FormControl>
-                    <input type="checkbox" onChange={handleCheckboxChange} value={options}/>    
-                  </FormControl>
-                  <FormLabel>{options}</FormLabel>
-                  <FormMessage />
-                </FormItem>
-              }
-              />) 
-            }
-            </div>
-          </> : serviceSelected == "Plate - Microbiological Analysis" ? 
-          <>
-            <div className="flex mt-3 mb-3 gap-3">
-              <div> Parameters </div>
-            </div>
-            <div className="grid lg:grid-cols-2 gap-3 items-center">
-            {
-              twentyFifthOptions.map( (options, index) => <FormField 
-              control={form.control}
-              name="checkbox"
-              key={index}
-              render={() => 
-                <FormItem className="flex gap-3 items-center">
-                  <FormControl>
-                    <input type="checkbox" onChange={handleCheckboxChange} value={options}/>    
-                  </FormControl>
-                  <FormLabel>{options}</FormLabel>
-                  <FormMessage />
-                </FormItem>
-              }
-              />) 
-            }
-            </div>
-          </> : serviceSelected == "Swab - Microbiological Analysis" ? 
-          <>
-            <div className="flex mt-3 mb-3 gap-3">
-              <div> Parameters </div>
-            </div>
-            <div className="grid lg:grid-cols-2 gap-3 items-center">
-            {
-              twentySixthOptions.map( (options, index) => <FormField 
-              control={form.control}
-              name="checkbox"
-              key={index}
-              render={() => 
-                <FormItem className="flex gap-3 items-center">
-                  <FormControl>
-                    <input type="checkbox" onChange={handleCheckboxChange} value={options}/>    
-                  </FormControl>
-                  <FormLabel>{options}</FormLabel>
-                  <FormMessage />
-                </FormItem>
-              }
-              />) 
-            }
-            </div>
-          </> : serviceSelected == "Sewage Water Microbiological Parameters" ? 
-          <>
-            <div className="flex mt-3 mb-3 gap-3">
-              <div> Parameters </div>
-            </div>
-            <div className="grid lg:grid-cols-2 gap-3 items-center">
-            {
-              twentySeventhOptions.map( (options, index) => <FormField 
-              control={form.control}
-              name="checkbox"
-              key={index}
-              render={() => 
-                <FormItem className="flex gap-3 items-center">
-                  <FormControl>
-                    <input type="checkbox" onChange={handleCheckboxChange} value={options}/>    
-                  </FormControl>
-                  <FormLabel>{options}</FormLabel>
-                  <FormMessage />
-                </FormItem>
-              }
-              />) 
-            }
-            </div>
-          </> : serviceSelected == "Weather Monitoring Parameters" ? 
-          <>
-            <div className="flex mt-3 mb-3 gap-3">
-              <div> Parameters </div>
-            </div>
-            <div className="grid lg:grid-cols-2 gap-3 items-center">
-            {
-              twentyEighthOptions.map( (options, index) => <FormField 
-              control={form.control}
-              name="checkbox"
-              key={index}
-              render={() => 
-                <FormItem className="flex gap-3 items-center">
-                  <FormControl>
-                    <input type="checkbox" onChange={handleCheckboxChange} value={options}/>    
-                  </FormControl>
-                  <FormLabel>{options}</FormLabel>
-                  <FormMessage />
-                </FormItem>
-              }
-              />) 
-            }
-            </div>
-          </> : serviceSelected == "Oxygen Purity Parameters" ? 
-          <>
-            <div className="flex mt-3 mb-3 gap-3">
-              <div> Parameters </div>
-            </div>
-            <div className="grid lg:grid-cols-2 gap-3 items-center">
-            {
-              twentyNinethOptions.map( (options, index) => <FormField 
-              control={form.control}
-              name="checkbox"
-              key={index}
-              render={() => 
-                <FormItem className="flex gap-3 items-center">
-                  <FormControl>
-                    <input type="checkbox" onChange={handleCheckboxChange} value={options}/>    
-                  </FormControl>
-                  <FormLabel>{options}</FormLabel>
-                  <FormMessage />
-                </FormItem>
-              }
-              />) 
-            }
-            </div>
-          </> : ""
-          }
-          <FormField 
-          control={form.control}
-          name="dateOfService"
-          render={({ field }) => 
-            <FormItem className="flex gap-3 items-center mt-3">
-              <FormLabel className="text-nowrap">Preferred Date of Service</FormLabel>
-               <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button 
-                      variant={"outline"}
-                      className={"w-full flex pl-3 text-left font-normal" + !field.value && "text-muted-foreground"}>
-                      {field.value ? (
-                        format(field.value, "PPP")
-                      ) : (
-                        <span>Pick a date</span>
-                      )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={field.value}
-                    onSelect={field.onChange}
-                    disabled={(date) =>
-                      date > new Date() || date < new Date("1900-01-01")
-                    }
-                    onDayClick={(e) => datePicker(e)}
-                    initialFocus
+                  render={() => 
+                    <FormItem>
+                      <FormLabel>Address</FormLabel>
+                      <FormControl>
+                        <Input 
+                        name="address"
+                        onChange={handleInputChange}
+                        placeholder="Enter your address..." className="flex h-24"/>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  }
                   />
-                </PopoverContent>
-              </Popover>
-              <FormMessage />
-            </FormItem>
-          }
-          />
-          <FormField 
-          control={form.control}
-          name="allotted"
-          render={() => 
-            <FormItem className="flex gap-3 mt-3 mb-3 items-center">
-              <FormLabel className="text-nowrap">Allotted to</FormLabel>
-              <FormControl>
-                <Select
-                onValueChange={handleSelectChangeAllocate}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select"/>
-                  </SelectTrigger>
-                  <SelectContent>
-                    {
-                      serviceSelected == "Water: General Parameters" || 
-                      serviceSelected == "Water Complete Analysis as per 10500: 2012" || 
-                      serviceSelected == "Water - Construction Parameters" || 
-                      serviceSelected == "Food Chemical Parameters" || 
-                      serviceSelected == "Sludge Analysis Parameters" || 
-                      serviceSelected == "Soil Testing Parameters" || 
-                      serviceSelected == "Oil - Diesel Testing Parameters" ||
-                      serviceSelected == "Oil - Nutrition Value + FSSAI Parameters" ||
-                      serviceSelected == "Coal Analysis Parameters" || 
-                      serviceSelected == "Effluent Water Analysis Parameters" || 
-                      serviceSelected == "Sewage Water Chemical Parameters" || 
-                      serviceSelected == "Feldspar Analysis Parameter" || 
-                      serviceSelected == "Quartz Sample Analysis Parameters" || 
-                      serviceSelected == "Lime Stone Sample Analysis Parameters" ?
-                    <>
-                      <SelectItem value="Select">Select</SelectItem>
-                      {
-                      staffOptions1.map((option, index) =>
-                      <SelectItem value={option} key={index}>{option}</SelectItem>)}
-                    </> : 
-                    serviceSelected == "Water - Microbiological Analysis" ||
-                    serviceSelected == "Water –Complete Microbiological Analysis" ||
-                    serviceSelected == "Food Microbiological Parameters" ||
-                    serviceSelected == "Plate - Microbiological Analysis" || 
-                    serviceSelected == "Swab - Microbiological Analysis" ||
-                    serviceSelected == "Sewage Water Microbiological Parameters" ? 
-                    <>
-                      <SelectItem value="Select">Select</SelectItem>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Service Details */}
+            <Card>
+              <CardHeader className="font-semibold">Service Details</CardHeader>
+              <CardContent>
+                <FormField 
+              control={form.control}
+              name="serviceType"
+              render={() => 
+                <FormItem className="flex mb-3 gap-3 items-center">
+                  <FormLabel className="text-nowrap">Service Type</FormLabel>
+                  <FormControl>
+                    <Select
+                    name="serviceType"
+                    onValueChange={handleSelectChangeService}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select"/>
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Select">Select</SelectItem>
+                        {serviceRequests.map((request, index) => <SelectItem value={request} key={index}>{request}</SelectItem>)}
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              }
+              />
+              <FormLabel>Parameters to Test:</FormLabel>
+              {serviceSelected == "Water: General Parameters" ? 
+              <>
+                <div className="flex mt-3 mb-3 gap-3">
+                  <div>Physical Parameter & </div>
+                  <div>Chemical Parameter</div>  
+                </div>
+                <div className="grid lg:grid-cols-2 gap-3 items-center">
+                {
+                  firstOptions.map( (options, index) => <FormField 
+                  control={form.control}
+                  name="checkbox"
+                  key={index}
+                  render={() => 
+                    <FormItem className="flex gap-3 items-center">
+                      <FormControl>
+                        <input type="checkbox" defaultChecked onChange={handleCheckboxChange} value={options}/>    
+                      </FormControl>
+                      <FormLabel>{options}</FormLabel>
+                      <FormMessage />
+                    </FormItem>
+                  }
+                  />) 
+                }
+                </div>
+              </> : serviceSelected == "Water Complete Analysis as per 10500: 2012" ? 
+              <>
+                <div className="flex mt-3 mb-3 gap-3">
+                  <div>Physical Parameter & </div>
+                  <div>Chemical Parameter</div>  
+                </div>
+                <div className="grid lg:grid-cols-2 gap-3 items-center">
+                {
+                  secondOptions.map( (options, index) => <FormField 
+                  control={form.control}
+                  name="checkbox"
+                  key={index}
+                  render={() => 
+                    <FormItem className="flex gap-3 items-center">
+                      <FormControl>
+                        <input type="checkbox" defaultChecked onChange={handleCheckboxChange} value={options}/>    
+                      </FormControl>
+                      <FormLabel>{options}</FormLabel>
+                      <FormMessage />
+                    </FormItem>
+                  }
+                  />) 
+                }
+                </div>
+              </> : serviceSelected == "Water - Construction Parameters" ? 
+              <>
+                <div className="flex mt-3 mb-3 gap-3">
+                  <div>Parameter & </div>
+                  <div>Neutralization</div>  
+                </div>
+                <div className="grid lg:grid-cols-2 gap-3 items-center">
+                {
+                  thirdOptions.map( (options, index) => <FormField 
+                  control={form.control}
+                  name="checkbox"
+                  key={index}
+                  render={() => 
+                    <FormItem className="flex gap-3 items-center">
+                      <FormControl>
+                        <input type="checkbox" defaultChecked onChange={handleCheckboxChange} value={options}/>    
+                      </FormControl>
+                      <FormLabel>{options}</FormLabel>
+                      <FormMessage />
+                    </FormItem>
+                  }
+                  />) 
+                }
+                </div>
+              </> : serviceSelected == "Water - Microbiological Analysis" ? 
+              <>
+                <div className="flex mt-3 mb-3 gap-3">
+                  <div>Parameters </div>  
+                </div>
+                <div className="grid lg:grid-cols-2 gap-3 items-center">
+                {
+                  fourthOptions.map( (options, index) => <FormField 
+                  control={form.control}
+                  name="checkbox"
+                  key={index}
+                  render={() => 
+                    <FormItem className="flex gap-3 items-center">
+                      <FormControl>
+                        <input type="checkbox" defaultChecked onChange={handleCheckboxChange} value={options}/>    
+                      </FormControl>
+                      <FormLabel>{options}</FormLabel>
+                      <FormMessage />
+                    </FormItem>
+                  }
+                  />) 
+                }
+                </div>
+              </> : serviceSelected == "Water –Complete Microbiological Analysis" ? 
+              <>
+                <div className="flex mt-3 mb-3 gap-3">
+                  <div>Parameters </div>  
+                </div>
+                <div className="grid lg:grid-cols-2 gap-3 items-center">
+                {
+                  fifthOptions.map( (options, index) => <FormField 
+                  control={form.control}
+                  name="checkbox"
+                  key={index}
+                  render={() => 
+                    <FormItem className="flex gap-3 items-center">
+                      <FormControl>
+                        <input type="checkbox" defaultChecked onChange={handleCheckboxChange} value={options}/>    
+                      </FormControl>
+                      <FormLabel>{options}</FormLabel>
+                      <FormMessage />
+                    </FormItem>
+                  }
+                  />) 
+                }
+                </div>
+              </> : serviceSelected == "Food Microbiological Parameters" ? 
+              <>
+                <div className="flex mt-3 mb-3 gap-3">
+                  <div> Microbiological Parameter </div>  
+                </div>
+                <div className="grid lg:grid-cols-2 gap-3 items-center">
+                {
+                  sixthOptions.map( (options, index) => <FormField 
+                  control={form.control}
+                  name="checkbox"
+                  key={index}
+                  render={() => 
+                    <FormItem className="flex gap-3 items-center">
+                      <FormControl>
+                        <input type="checkbox" defaultChecked onChange={handleCheckboxChange} value={options}/>    
+                      </FormControl>
+                      <FormLabel>{options}</FormLabel>
+                      <FormMessage />
+                    </FormItem>
+                  }
+                  />) 
+                }
+                </div>
+              </> : serviceSelected == "Food Chemical Parameters" ? 
+              <>
+                <div className="flex mt-3 mb-3 gap-3">
+                  <div> Parameters </div>  
+                </div>
+                <div className="grid lg:grid-cols-2 gap-3 items-center">
+                {
+                  seventhOptions.map( (options, index) => <FormField 
+                  control={form.control}
+                  name="checkbox"
+                  key={index}
+                  render={() => 
+                    <FormItem className="flex gap-3 items-center">
+                      <FormControl>
+                        <input type="checkbox" defaultChecked onChange={handleCheckboxChange} value={options}/>    
+                      </FormControl>
+                      <FormLabel>{options}</FormLabel>
+                      <FormMessage />
+                    </FormItem>
+                  }
+                  />) 
+                }
+                </div>
+              </> : serviceSelected == "Sludge Analysis Parameters" ? 
+              <>
+                <div className="flex mt-3 mb-3 gap-3">
+                  <div> Parameters </div>  
+                </div>
+                <div className="grid lg:grid-cols-2 gap-3 items-center">
+                {
+                  eighthOptions.map( (options, index) => <FormField 
+                  control={form.control}
+                  name="checkbox"
+                  key={index}
+                  render={() => 
+                    <FormItem className="flex gap-3 items-center">
+                      <FormControl>
+                        <input type="checkbox" defaultChecked onChange={handleCheckboxChange} value={options}/>    
+                      </FormControl>
+                      <FormLabel>{options}</FormLabel>
+                      <FormMessage />
+                    </FormItem>
+                  }
+                  />) 
+                }
+                </div>
+              </> : serviceSelected == "Soil Testing Parameters" ? 
+              <>
+                <div className="flex mt-3 mb-3 gap-3">
+                  <div>Physical Parameters & </div>  
+                  <div>Chemical Parameters</div>
+                </div>
+                <div className="grid lg:grid-cols-2 gap-3 items-center">
+                {
+                  ninethOptions.map( (options, index) => <FormField 
+                  control={form.control}
+                  name="checkbox"
+                  key={index}
+                  render={() => 
+                    <FormItem className="flex gap-3 items-center">
+                      <FormControl>
+                        <input type="checkbox" defaultChecked onChange={handleCheckboxChange} value={options}/>    
+                      </FormControl>
+                      <FormLabel>{options}</FormLabel>
+                      <FormMessage />
+                    </FormItem>
+                  }
+                  />) 
+                }
+                </div>
+              </> : serviceSelected == "Oil - Diesel Testing Parameters" ? 
+              <>
+                <div className="flex mt-3 mb-3 gap-3">
+                  <div> Parameters </div>  
+                </div>
+                <div className="grid lg:grid-cols-2 gap-3 items-center">
+                {
+                  tenthOptions.map( (options, index) => <FormField 
+                  control={form.control}
+                  name="checkbox"
+                  key={index}
+                  render={() => 
+                    <FormItem className="flex gap-3 items-center">
+                      <FormControl>
+                        <input type="checkbox" defaultChecked onChange={handleCheckboxChange} value={options}/>    
+                      </FormControl>
+                      <FormLabel>{options}</FormLabel>
+                      <FormMessage />
+                    </FormItem>
+                  }
+                  />) 
+                }
+                </div>
+              </> : serviceSelected == "Oil - Nutrition Value + FSSAI Parameters" ? 
+              <>
+                <div className="flex mt-3 mb-3 gap-3">
+                  <div> Parameters & </div>
+                  <div> FSSAI Parameters </div>  
+                </div>
+                <div className="grid lg:grid-cols-2 gap-3 items-center">
+                {
+                  eleventhOptions.map( (options, index) => <FormField 
+                  control={form.control}
+                  name="checkbox"
+                  key={index}
+                  render={() => 
+                    <FormItem className="flex gap-3 items-center">
+                      <FormControl>
+                        <input type="checkbox" defaultChecked onChange={handleCheckboxChange} value={options}/>    
+                      </FormControl>
+                      <FormLabel>{options}</FormLabel>
+                      <FormMessage />
+                    </FormItem>
+                  }
+                  />) 
+                }
+                </div>
+              </> : serviceSelected == "Coal Analysis Parameters" ? 
+              <>
+                <div className="flex mt-3 mb-3 gap-3">
+                  <div> Proximate analysis & Gross Calorific Value(GCV)</div>
+                  <div> Ultimate analysis </div>  
+                </div>
+                <div className="grid lg:grid-cols-2 gap-3 items-center">
+                {
+                  twelfthOptions.map( (options, index) => <FormField 
+                  control={form.control}
+                  name="checkbox"
+                  key={index}
+                  render={() => 
+                    <FormItem className="flex gap-3 items-center">
+                      <FormControl>
+                        <input type="checkbox" defaultChecked onChange={handleCheckboxChange} value={options}/>    
+                      </FormControl>
+                      <FormLabel>{options}</FormLabel>
+                      <FormMessage />
+                    </FormItem>
+                  }
+                  />) 
+                }
+                </div>
+              </> : serviceSelected == "Effluent Water Analysis Parameters" ? 
+              <>
+                <div className="flex mt-3 mb-3 gap-3">
+                  <div> Parameters </div>
+                </div>
+                <div className="grid lg:grid-cols-2 gap-3 items-center">
+                {
+                  thirteenthOptions.map( (options, index) => <FormField 
+                  control={form.control}
+                  name="checkbox"
+                  key={index}
+                  render={() => 
+                    <FormItem className="flex gap-3 items-center">
+                      <FormControl>
+                        <input type="checkbox" defaultChecked onChange={handleCheckboxChange} value={options}/>    
+                      </FormControl>
+                      <FormLabel>{options}</FormLabel>
+                      <FormMessage />
+                    </FormItem>
+                  }
+                  />) 
+                }
+                </div>
+              </> : serviceSelected == "Sewage Water Chemical Parameters" ? 
+              <>
+                <div className="flex mt-3 mb-3 gap-3">
+                  <div> Parameters </div>
+                </div>
+                <div className="grid lg:grid-cols-2 gap-3 items-center">
+                {
+                  fourteenthOptions.map( (options, index) => <FormField 
+                  control={form.control}
+                  name="checkbox"
+                  key={index}
+                  render={() => 
+                    <FormItem className="flex gap-3 items-center">
+                      <FormControl>
+                        <input type="checkbox" defaultChecked onChange={handleCheckboxChange} value={options}/>    
+                      </FormControl>
+                      <FormLabel>{options}</FormLabel>
+                      <FormMessage />
+                    </FormItem>
+                  }
+                  />) 
+                }
+                </div>
+              </> : serviceSelected == "Ambient Air Quality Monitoring Parameters" ? 
+              <>
+                <div className="flex mt-3 mb-3 gap-3">
+                  <div> Parameters </div>
+                </div>
+                <div className="grid lg:grid-cols-2 gap-3 items-center">
+                {
+                  fifteenthOptions.map( (options, index) => <FormField 
+                  control={form.control}
+                  name="checkbox"
+                  key={index}
+                  render={() => 
+                    <FormItem className="flex gap-3 items-center">
+                      <FormControl>
+                        <input type="checkbox" defaultChecked onChange={handleCheckboxChange} value={options}/>    
+                      </FormControl>
+                      <FormLabel>{options}</FormLabel>
+                      <FormMessage />
+                    </FormItem>
+                  }
+                  />) 
+                }
+                </div>
+              </> : serviceSelected == "DG Stack Emission Parameters" ? 
+              <>
+                <div className="flex mt-3 mb-3 gap-3">
+                  <div> Parameters </div>
+                </div>
+                <div className="grid lg:grid-cols-2 gap-3 items-center">
+                {
+                  sixteenthOptions.map( (options, index) => <FormField 
+                  control={form.control}
+                  name="checkbox"
+                  key={index}
+                  render={() => 
+                    <FormItem className="flex gap-3 items-center">
+                      <FormControl>
+                        <input type="checkbox" defaultChecked onChange={handleCheckboxChange} value={options}/>    
+                      </FormControl>
+                      <FormLabel>{options}</FormLabel>
+                      <FormMessage />
+                    </FormItem>
+                  }
+                  />) 
+                }
+                </div>
+              </> : serviceSelected == "Ambient Noise Monitoring Parameters" ? 
+              <>
+                <div className="flex mt-3 mb-3 gap-3">
+                  <div> Parameters </div>
+                </div>
+                <div className="grid lg:grid-cols-2 gap-3 items-center">
+                {
+                  seventeenthOptions.map( (options, index) => <FormField 
+                  control={form.control}
+                  name="checkbox"
+                  key={index}
+                  render={() => 
+                    <FormItem className="flex gap-3 items-center">
+                      <FormControl>
+                        <input type="checkbox" defaultChecked onChange={handleCheckboxChange} value={options}/>    
+                      </FormControl>
+                      <FormLabel>{options}</FormLabel>
+                      <FormMessage />
+                    </FormItem>
+                  }
+                  />) 
+                }
+                </div>
+              </> : serviceSelected == "DG Noise Monitoring Parameters" ? 
+              <>
+                <div className="flex mt-3 mb-3 gap-3">
+                  <div> Parameters </div>
+                </div>
+                <div className="grid lg:grid-cols-2 gap-3 items-center">
+                {
+                  eighteenthOptions.map( (options, index) => <FormField 
+                  control={form.control}
+                  name="checkbox"
+                  key={index}
+                  render={() => 
+                    <FormItem className="flex gap-3 items-center">
+                      <FormControl>
+                        <input type="checkbox" defaultChecked onChange={handleCheckboxChange} value={options}/>    
+                      </FormControl>
+                      <FormLabel>{options}</FormLabel>
+                      <FormMessage />
+                    </FormItem>
+                  }
+                  />) 
+                }
+                </div>
+              </> : serviceSelected == "Lux Monitoring Parameters" ? 
+              <>
+                <div className="flex mt-3 mb-3 gap-3">
+                  <div> Parameters </div>
+                </div>
+                <div className="grid lg:grid-cols-2 gap-3 items-center">
+                {
+                  nineteenthOptions.map( (options, index) => <FormField 
+                  control={form.control}
+                  name="checkbox"
+                  key={index}
+                  render={() => 
+                    <FormItem className="flex gap-3 items-center">
+                      <FormControl>
+                        <input type="checkbox" defaultChecked onChange={handleCheckboxChange} value={options}/>    
+                      </FormControl>
+                      <FormLabel>{options}</FormLabel>
+                      <FormMessage />
+                    </FormItem>
+                  }
+                  />) 
+                }
+                </div>
+              </> : serviceSelected == "Indoor Air Quality" ? 
+              <>
+                <div className="flex mt-3 mb-3 gap-3">
+                  <div> Physical Parameters & Chemical Parameters </div>
+                </div>
+                <div className="grid lg:grid-cols-2 gap-3 items-center">
+                {
+                  twenteenthOptions.map( (options, index) => <FormField 
+                  control={form.control}
+                  name="checkbox"
+                  key={index}
+                  render={() => 
+                    <FormItem className="flex gap-3 items-center">
+                      <FormControl>
+                        <input type="checkbox" defaultChecked onChange={handleCheckboxChange} value={options}/>    
+                      </FormControl>
+                      <FormLabel>{options}</FormLabel>
+                      <FormMessage />
+                    </FormItem>
+                  }
+                  />) 
+                }
+                </div>
+              </> : serviceSelected == "Compressor Air Monitoring Parameters" ? 
+              <>
+                <div className="flex mt-3 mb-3 gap-3">
+                  <div> Parameters </div>
+                </div>
+                <div className="grid lg:grid-cols-2 gap-3 items-center">
+                {
+                  twentyFirstOptions.map( (options, index) => <FormField 
+                  control={form.control}
+                  name="checkbox"
+                  key={index}
+                  render={() => 
+                    <FormItem className="flex gap-3 items-center">
+                      <FormControl>
+                        <input type="checkbox" defaultChecked onChange={handleCheckboxChange} value={options}/>    
+                      </FormControl>
+                      <FormLabel>{options}</FormLabel>
+                      <FormMessage />
+                    </FormItem>
+                  }
+                  />) 
+                }
+                </div>
+              </> : serviceSelected == "Feldspar Analysis Parameter" ? 
+              <>
+                <div className="flex mt-3 mb-3 gap-3">
+                  <div> Parameters </div>
+                </div>
+                <div className="grid lg:grid-cols-2 gap-3 items-center">
+                {
+                  twentySecondOptions.map( (options, index) => <FormField 
+                  control={form.control}
+                  name="checkbox"
+                  key={index}
+                  render={() => 
+                    <FormItem className="flex gap-3 items-center">
+                      <FormControl>
+                        <input type="checkbox" defaultChecked onChange={handleCheckboxChange} value={options}/>    
+                      </FormControl>
+                      <FormLabel>{options}</FormLabel>
+                      <FormMessage />
+                    </FormItem>
+                  }
+                  />) 
+                }
+                </div>
+              </> : serviceSelected == "Quartz Sample Analysis Parameters" ? 
+              <>
+                <div className="flex mt-3 mb-3 gap-3">
+                  <div> Parameters </div>
+                </div>
+                <div className="grid lg:grid-cols-2 gap-3 items-center">
+                {
+                  twentyThirdOptions.map( (options, index) => <FormField 
+                  control={form.control}
+                  name="checkbox"
+                  key={index}
+                  render={() => 
+                    <FormItem className="flex gap-3 items-center">
+                      <FormControl>
+                        <input type="checkbox" defaultChecked onChange={handleCheckboxChange} value={options}/>    
+                      </FormControl>
+                      <FormLabel>{options}</FormLabel>
+                      <FormMessage />
+                    </FormItem>
+                  }
+                  />) 
+                }
+                </div>
+              </> : serviceSelected == "Lime Stone Sample Analysis Parameters" ? 
+              <>
+                <div className="flex mt-3 mb-3 gap-3">
+                  <div> Parameters </div>
+                </div>
+                <div className="grid lg:grid-cols-2 gap-3 items-center">
+                {
+                  twentyFourthOptions.map( (options, index) => <FormField 
+                  control={form.control}
+                  name="checkbox"
+                  key={index}
+                  render={() => 
+                    <FormItem className="flex gap-3 items-center">
+                      <FormControl>
+                        <input type="checkbox" defaultChecked onChange={handleCheckboxChange} value={options}/>    
+                      </FormControl>
+                      <FormLabel>{options}</FormLabel>
+                      <FormMessage />
+                    </FormItem>
+                  }
+                  />) 
+                }
+                </div>
+              </> : serviceSelected == "Plate - Microbiological Analysis" ? 
+              <>
+                <div className="flex mt-3 mb-3 gap-3">
+                  <div> Parameters </div>
+                </div>
+                <div className="grid lg:grid-cols-2 gap-3 items-center">
+                {
+                  twentyFifthOptions.map( (options, index) => <FormField 
+                  control={form.control}
+                  name="checkbox"
+                  key={index}
+                  render={() => 
+                    <FormItem className="flex gap-3 items-center">
+                      <FormControl>
+                        <input type="checkbox" defaultChecked onChange={handleCheckboxChange} value={options}/>    
+                      </FormControl>
+                      <FormLabel>{options}</FormLabel>
+                      <FormMessage />
+                    </FormItem>
+                  }
+                  />) 
+                }
+                </div>
+              </> : serviceSelected == "Swab - Microbiological Analysis" ? 
+              <>
+                <div className="flex mt-3 mb-3 gap-3">
+                  <div> Parameters </div>
+                </div>
+                <div className="grid lg:grid-cols-2 gap-3 items-center">
+                {
+                  twentySixthOptions.map( (options, index) => <FormField 
+                  control={form.control}
+                  name="checkbox"
+                  key={index}
+                  render={() => 
+                    <FormItem className="flex gap-3 items-center">
+                      <FormControl>
+                        <input type="checkbox" defaultChecked onChange={handleCheckboxChange} value={options}/>    
+                      </FormControl>
+                      <FormLabel>{options}</FormLabel>
+                      <FormMessage />
+                    </FormItem>
+                  }
+                  />) 
+                }
+                </div>
+              </> : serviceSelected == "Sewage Water Microbiological Parameters" ? 
+              <>
+                <div className="flex mt-3 mb-3 gap-3">
+                  <div> Parameters </div>
+                </div>
+                <div className="grid lg:grid-cols-2 gap-3 items-center">
+                {
+                  twentySeventhOptions.map( (options, index) => <FormField 
+                  control={form.control}
+                  name="checkbox"
+                  key={index}
+                  render={() => 
+                    <FormItem className="flex gap-3 items-center">
+                      <FormControl>
+                        <input type="checkbox" defaultChecked onChange={handleCheckboxChange} value={options}/>    
+                      </FormControl>
+                      <FormLabel>{options}</FormLabel>
+                      <FormMessage />
+                    </FormItem>
+                  }
+                  />) 
+                }
+                </div>
+              </> : serviceSelected == "Weather Monitoring Parameters" ? 
+              <>
+                <div className="flex mt-3 mb-3 gap-3">
+                  <div> Parameters </div>
+                </div>
+                <div className="grid lg:grid-cols-2 gap-3 items-center">
+                {
+                  twentyEighthOptions.map( (options, index) => <FormField 
+                  control={form.control}
+                  name="checkbox"
+                  key={index}
+                  render={() => 
+                    <FormItem className="flex gap-3 items-center">
+                      <FormControl>
+                        <input type="checkbox" defaultChecked onChange={handleCheckboxChange} value={options}/>    
+                      </FormControl>
+                      <FormLabel>{options}</FormLabel>
+                      <FormMessage />
+                    </FormItem>
+                  }
+                  />) 
+                }
+                </div>
+              </> : serviceSelected == "Oxygen Purity Parameters" ? 
+              <>
+                <div className="flex mt-3 mb-3 gap-3">
+                  <div> Parameters </div>
+                </div>
+                <div className="grid lg:grid-cols-2 gap-3 items-center">
+                {
+                  twentyNinethOptions.map( (options, index) => <FormField 
+                  control={form.control}
+                  name="checkbox"
+                  key={index}
+                  render={() => 
+                    <FormItem className="flex gap-3 items-center">
+                      <FormControl>
+                        <input type="checkbox" defaultChecked onChange={handleCheckboxChange} value={options}/>    
+                      </FormControl>
+                      <FormLabel>{options}</FormLabel>
+                      <FormMessage />
+                    </FormItem>
+                  }
+                  />) 
+                }
+                </div>
+              </> : ""
+              }
+              <FormField 
+              control={form.control}
+              name="dateOfService"
+              render={({ field }) => 
+                <FormItem className="flex gap-3 items-center mt-3">
+                  <FormLabel className="text-nowrap">Preferred Date of Service</FormLabel>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button 
+                          variant={"outline"}
+                          className={"w-full flex pl-3 text-left font-normal" + !field.value && "text-muted-foreground"}>
+                          {field.value ? (
+                            format(field.value, "PPP")
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={field.value}
+                        onSelect={field.onChange}
+                        disabled={(date) =>
+                          date > new Date() || date < new Date("1900-01-01")
+                        }
+                        onDayClick={(e) => datePicker(e)}
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+                  <FormMessage />
+                </FormItem>
+              }
+              />
+              <FormField 
+              control={form.control}
+              name="allotted"
+              render={() => 
+                <FormItem className="flex gap-3 mt-3 mb-3 items-center">
+                  <FormLabel className="text-nowrap">Allotted to</FormLabel>
+                  <FormControl>
+                    <Select
+                    onValueChange={handleSelectChangeAllocate}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select"/>
+                      </SelectTrigger>
+                      <SelectContent>
                         {
-                        staffOptions2.map((option, index) =>
-                        <SelectItem value={option} key={index}>{option}</SelectItem>)}
-                    </> : 
-                    serviceSelected == "Ambient Air Quality Monitoring Parameters" ||
-                    serviceSelected == "DG Stack Emission Parameters" ||
-                    serviceSelected == "Ambient Noise Monitoring Parameters" ||
-                    serviceSelected == "DG Noise Monitoring Parameters" ||
-                    serviceSelected == "Lux Monitoring Parameters" ||
-                    serviceSelected == "Indoor Air Quality" ||
-                    serviceSelected == "Compressor Air Monitoring Parameters" ||
-                    serviceSelected == "Weather Monitoring Parameters" ||
-                    serviceSelected == "Oxygen Purity Parameters" ?
-                    <>
-                      <SelectItem value="Select">Select</SelectItem>
-                      {
-                      staffOptions3.map((option, index) =>
-                        <SelectItem value={option} key={index}>{option}</SelectItem>)}
-                    </> : <SelectItem value="Select">Select</SelectItem>}
-                  </SelectContent>
-                </Select>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          }
-          />
-          <FormField 
-          control={form.control}
-          name="drawnBy"
-          render={() => 
-            <FormItem className="flex gap-4 items-center">
-              <FormLabel className="lg:text-nowrap"> Drawn By </FormLabel>
-              <FormControl>
-                <Select
-                onValueChange={handleSelectChangeDrawn}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="EES"/>
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="EES">EES</SelectItem>
-                    <SelectItem value="Customer">Customer</SelectItem>
-                  </SelectContent>
-                </Select>
-              </FormControl>
-            </FormItem>
-          }
-          />
-          <FormField 
-          control={form.control}
-          name="serviceDateEntry"
-          render={({ field }) => 
-            <FormItem className="flex gap-3 items-center mt-3">
-              <FormLabel className="text-nowrap">Entry Service Date</FormLabel>
-               <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button 
-                      variant={"outline"}
-                      className={"w-full flex pl-3 text-left font-normal" + !field.value && "text-muted-foreground"}>
-                      {field.value ? (
-                        format(field.value, "PPP")
-                      ) : (
-                        <span>Service date</span>
-                      )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                    </Button>
+                          serviceSelected == "Water: General Parameters" || 
+                          serviceSelected == "Water Complete Analysis as per 10500: 2012" || 
+                          serviceSelected == "Water - Construction Parameters" || 
+                          serviceSelected == "Food Chemical Parameters" || 
+                          serviceSelected == "Sludge Analysis Parameters" || 
+                          serviceSelected == "Soil Testing Parameters" || 
+                          serviceSelected == "Oil - Diesel Testing Parameters" ||
+                          serviceSelected == "Oil - Nutrition Value + FSSAI Parameters" ||
+                          serviceSelected == "Coal Analysis Parameters" || 
+                          serviceSelected == "Effluent Water Analysis Parameters" || 
+                          serviceSelected == "Sewage Water Chemical Parameters" || 
+                          serviceSelected == "Feldspar Analysis Parameter" || 
+                          serviceSelected == "Quartz Sample Analysis Parameters" || 
+                          serviceSelected == "Lime Stone Sample Analysis Parameters" ?
+                        <>
+                          <SelectItem value="Select">Select</SelectItem>
+                          {
+                          staffOptions1.map((option, index) =>
+                          <SelectItem value={option} key={index}>{option}</SelectItem>)}
+                        </> : 
+                        serviceSelected == "Water - Microbiological Analysis" ||
+                        serviceSelected == "Water –Complete Microbiological Analysis" ||
+                        serviceSelected == "Food Microbiological Parameters" ||
+                        serviceSelected == "Plate - Microbiological Analysis" || 
+                        serviceSelected == "Swab - Microbiological Analysis" ||
+                        serviceSelected == "Sewage Water Microbiological Parameters" ? 
+                        <>
+                          <SelectItem value="Select">Select</SelectItem>
+                            {
+                            staffOptions2.map((option, index) =>
+                            <SelectItem value={option} key={index}>{option}</SelectItem>)}
+                        </> : 
+                        serviceSelected == "Ambient Air Quality Monitoring Parameters" ||
+                        serviceSelected == "DG Stack Emission Parameters" ||
+                        serviceSelected == "Ambient Noise Monitoring Parameters" ||
+                        serviceSelected == "DG Noise Monitoring Parameters" ||
+                        serviceSelected == "Lux Monitoring Parameters" ||
+                        serviceSelected == "Indoor Air Quality" ||
+                        serviceSelected == "Compressor Air Monitoring Parameters" ||
+                        serviceSelected == "Weather Monitoring Parameters" ||
+                        serviceSelected == "Oxygen Purity Parameters" ?
+                        <>
+                          <SelectItem value="Select">Select</SelectItem>
+                          {
+                          staffOptions3.map((option, index) =>
+                            <SelectItem value={option} key={index}>{option}</SelectItem>)}
+                        </> : <SelectItem value="Select">Select</SelectItem>}
+                      </SelectContent>
+                    </Select>
                   </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={field.value}
-                    onSelect={field.onChange}
-                    disabled={(date) =>
-                      date > new Date() || date < new Date("1900-01-01")
-                    }
-                    onDayClick={(e) => serviceDatePicker(e)}
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-              <FormMessage />
-            </FormItem>
-          }
-          />
+                  <FormMessage />
+                </FormItem>
+              }
+              />
+              <FormField 
+              control={form.control}
+              name="drawnBy"
+              render={() => 
+                <FormItem className="flex gap-4 items-center">
+                  <FormLabel className="lg:text-nowrap"> Drawn By </FormLabel>
+                  <FormControl>
+                    <Select
+                    onValueChange={handleSelectChangeDrawn}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="EES"/>
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="EES">EES</SelectItem>
+                        <SelectItem value="Customer">Customer</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                </FormItem>
+              }
+              />
+              <FormField 
+              control={form.control}
+              name="serviceDateEntry"
+              render={({ field }) => 
+                <FormItem className="flex gap-3 items-center mt-3">
+                  <FormLabel className="text-nowrap">Entry Service Date</FormLabel>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button 
+                          variant={"outline"}
+                          className={"w-full flex pl-3 text-left font-normal" + !field.value && "text-muted-foreground"}>
+                          {field.value ? (
+                            format(field.value, "PPP")
+                          ) : (
+                            <span>Service date</span>
+                          )}
+                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={field.value}
+                        onSelect={field.onChange}
+                        disabled={(date) =>
+                          date > new Date() || date < new Date("1900-01-01")
+                        }
+                        onDayClick={(e) => serviceDatePicker(e)}
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+                  <FormMessage />
+                </FormItem>
+              }
+              />
+              </CardContent>
+            </Card>
+            
+            {/* Logistics Details */}
 
-          <FormField 
-          control={form.control}
-          name="remarks"
-          render={() => 
-            <FormItem className="flex gap-3 mb-3 items-start">
-              <FormLabel className="text-nowrap pt-3">Remarks or Special Request</FormLabel>
-              <FormControl>
-                <Input 
+            <Card>
+              <CardHeader className="font-semibold">Pickup Details</CardHeader>
+              <CardContent>
+                <FormField 
+              control={form.control}
+              name="pickup"
+              render={() => 
+                <FormItem className="flex gap-3 items-center mb-3">
+                  <FormLabel className="text-nowrap">Pickup required?</FormLabel>
+                  <FormControl>
+                    <Select onValueChange={handleSelectChangePickup}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Yes">Yes</SelectItem>
+                        <SelectItem value="No">No</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              }
+              />
+              { pickUp === "Yes" ?
+                <FormField 
+                control={form.control}
+                name="pickupAddress"
+                render={() => 
+                  <FormItem className="flex gap-3 items-center mb-3">
+                    <FormLabel className="text-nowrap">Pickup Address</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter pickup address.." className="h-24"/>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                }
+                />
+              : pickUp === "No" ? 
+              <FormField 
+              control={form.control}
+              name="dropOffAddress"
+              render={() => 
+                <FormItem className="flex gap-3 items-center mb-3">
+                  <FormLabel className="text-nowrap">Drop-off Address</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter drop-off address.." className="h-24"/>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              }
+              /> : "" }
+                <FormField 
+                  control={form.control}
+                  name="pickupDate"
+                  render={({ field }) => 
+                  <FormItem className="flex gap-3 items-center mb-3">
+                    <FormLabel className="text-nowrap">Pickup/Drop-Off Date</FormLabel>
+                    <FormControl>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button 
+                              variant={"outline"}
+                              className={"w-full flex pl-3 text-left font-normal" + !field.value && "text-muted-foreground"}>
+                              {field.value ? (
+                                format(field.value, "PPP")
+                              ) : (
+                                <span>Pickup date</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={field.value}
+                            onSelect={field.onChange}
+                            initialFocus
+                          />
+                        </PopoverContent>
+                      </Popover>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                }
+                />
+
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardHeader></CardHeader>
+              <CardContent>
+                <FormField 
+                control={form.control}
                 name="remarks"
-                onChange={handleInputChange}
-                placeholder="type here.." className="h-24"/>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          }
-          />
+                render={() => 
+                  <FormItem className="flex gap-3 mb-3 items-start">
+                    <FormLabel className="text-nowrap pt-3">Remarks or Special Request</FormLabel>
+                    <FormControl>
+                      <Input 
+                      name="remarks"
+                      onChange={handleInputChange}
+                      placeholder="type here.." className="h-24"/>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                }
+                />
+              </CardContent>
+            </Card>
+          </div>
 
           {/* Confirmation */}
           <FormField 
@@ -1530,7 +1807,7 @@ function ServiceRequestForm() {
           />
 
           {/* Submit */}
-          <Button type="submit">Submit</Button>
+          <Button type="submit" onClick={handleSubmit}>Submit</Button>
           <Button variant="outline" type="reset">Reset</Button>
         </form>
       </Form>

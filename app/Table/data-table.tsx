@@ -70,7 +70,10 @@ export function DataTable<TData, TValue>({
       email: false,
       preferredDate: false,
       contact: false,
-      parameters: false
+      parameters: false,
+      pickup: false,
+      pickupAddress: false,
+      dropoffAddress: false,
     })
 
   const table = useReactTable({
@@ -91,6 +94,7 @@ export function DataTable<TData, TValue>({
       pagination,
     },
   })
+  
 
   return (
     <div>

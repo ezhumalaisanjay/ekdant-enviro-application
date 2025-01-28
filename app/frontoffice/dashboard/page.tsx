@@ -1,28 +1,51 @@
+"use client"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebar } from "../app-sidebar/AppSidebar";
+import { AppSidebar } from "../../app-sidebar/AppSidebar";
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
 import { Separator } from "@/components/ui/separator"
 import Link from "next/link";
-import { AreaChartComponent } from "../Charts/AreaChart";
-import { BarChartComponent } from "../Charts/BarChart";
-import { PieChartComponent } from "../Charts/PieChart";
-import { BigAreaChartComponent } from "../Charts/BigAreaChart";
-import { LineChartComponent } from "../Charts/LineChart";
-import { LegendChartComponent } from "../Charts/LegendChart"
-import { StepChartComponent } from "../Charts/StepChart";
+import { FrontOfficeBarChartComponent } from "../../Charts/FrontOffice/FrontBarChart";
+import { FrontOfficePieChartComponent } from "../../Charts/FrontOffice/FrontPieChart";
+import { FrontOfficeAreaChartComponent } from "../../Charts/FrontOffice/FrontAreaChart";
+import { FrontOfficeBigAreaChartComponent } from "@/app/Charts/FrontOffice/FrontBigAreaChart";
+import { Frame, PieChart } from "lucide-react";
 
-export default function DashBoard() {
+export default function FrontOfficeDashBoard() {
   
+  const data = {
+    user: {
+      name: "FrontOffice",
+      email: "frontoffice@example.com",
+      avatar: "/avatars/shadcn.jpg",
+    },
+
+    projects: [
+      {
+        name: "DashBoard",
+        url: "/frontoffice/dashboard",
+        icon: Frame,
+        title: "Dashboard",
+        id: 0,
+      },
+      {
+        name: "Test Request",
+        url: "/frontoffice/testrequest",
+        icon: PieChart,
+        title: "Service Request",
+        id: 1,
+      },
+    ],
+  }
+
   return (
     <>
       <SidebarProvider>
-        <AppSidebar active={0}/>
+        <AppSidebar active={0} data={data}/>
         <div className="flex flex-col w-full p-3">
           <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
             <div className="flex items-center gap-2 px-4">
@@ -31,7 +54,7 @@ export default function DashBoard() {
               <Breadcrumb>
                 <BreadcrumbList>
                   <BreadcrumbItem className="hidden md:block font-semibold text-slate-800">
-                    <BreadcrumbLink><Link href="/dashboard"> DashBoard </Link></BreadcrumbLink>
+                  <Link href="/frontoffice/dashboard"> DashBoard </Link>
                   </BreadcrumbItem>
                   <BreadcrumbSeparator />
                 </BreadcrumbList>
@@ -41,17 +64,12 @@ export default function DashBoard() {
           { /*main Content here */ }
           <div className="grid gap-3">
             <div className="flex flex-wrap justify-evenly gap-3">
-              <AreaChartComponent />
-              <BarChartComponent />
-              <PieChartComponent />
+              <FrontOfficeAreaChartComponent />
+              <FrontOfficeBarChartComponent />
+              <FrontOfficePieChartComponent />
             </div>
             <div>
-              <BigAreaChartComponent />
-            </div>
-            <div className="flex flex-wrap justify-evenly gap-3">
-              <LineChartComponent />
-              <LegendChartComponent />
-              <StepChartComponent />
+              <FrontOfficeBigAreaChartComponent />
             </div>
           </div>
           </div>

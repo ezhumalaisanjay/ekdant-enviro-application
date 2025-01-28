@@ -17,32 +17,34 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
-const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
-]
-
-const chartConfig = {
-  desktop: {
-    label: "Desktop",
-    color: "hsl(var(--chart-1))",
-  },
-  mobile: {
-    label: "Mobile",
-    color: "hsl(var(--chart-2))",
-  },
-} satisfies ChartConfig
 
 export function LineChartComponent() {
+  
+  const chartData = [
+    { month: "July", ratings: 50, mobile: 80 },
+    { month: "August", ratings: 55, mobile: 200 },
+    { month: "September", ratings: 39, mobile: 120 },
+    { month: "October", ratings: 56, mobile: 190 },
+    { month: "November", ratings: 47, mobile: 130 },
+    { month: "December", ratings: 44, mobile: 140 },
+  ]
+  
+  const chartConfig = {
+    ratings: {
+      label: "ratings",
+      color: "hsl(var(--chart-1))",
+    },
+    mobile: {
+      label: "Mobile",
+      color: "hsl(var(--chart-2))",
+    },
+  } satisfies ChartConfig
+  
   return (
-    <Card>
+    <Card className="w-[350px]">
       <CardHeader>
-        <CardTitle>Line Chart - Label</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>Feedbacks and Ratings</CardTitle>
+        <CardDescription>July - Dec 2024</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
@@ -68,12 +70,12 @@ export function LineChartComponent() {
               content={<ChartTooltipContent indicator="line" />}
             />
             <Line
-              dataKey="desktop"
+              dataKey="ratings"
               type="natural"
-              stroke="var(--color-desktop)"
+              stroke="var(--color-ratings)"
               strokeWidth={2}
               dot={{
-                fill: "var(--color-desktop)",
+                fill: "var(--color-ratings)",
               }}
               activeDot={{
                 r: 6,
@@ -91,10 +93,10 @@ export function LineChartComponent() {
       </CardContent>
       <CardFooter className="flex-col items-start gap-2 text-sm">
         <div className="flex gap-2 font-medium leading-none">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
+          Trending up by 5.2% last 6 months <TrendingUp className="h-4 w-4" />
         </div>
         <div className="leading-none text-muted-foreground">
-          Showing total visitors for the last 6 months
+          Showing total ratings and feedbacks for the last 6 months
         </div>
       </CardFooter>
     </Card>

@@ -14,10 +14,10 @@ import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerHeader, Dr
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
-
-
-
-
+import * as XLSX from "xlsx";
+import jsPDF from "jspdf";
+import 'jspdf-autotable';
+import Papa from "papaparse";
 
 function Table() {
   
@@ -33,7 +33,10 @@ function Table() {
     email: "yokesh@sixtyonesteps.com",
     preferredDate: "23-01-2025",
     contact: "7990097262",
-    parameters: "Appearance"
+    parameters: "Appearance",
+    pickup: "Yes",
+    pickupAddress: "XYZ Address",
+    dropoffAddress: "",
   }, {
     srn: "W001-02",
     fullName: "Ezhumalai",
@@ -45,7 +48,10 @@ function Table() {
     email: "ezhumalai@sixtyonesteps.com",
     preferredDate: "25-01-2025",
     contact: "9087654322",
-    parameters: "PH value"
+    parameters: "PH value",
+    pickup: "No",
+    pickupAddress: "",
+    dropoffAddress: "XYZ Address",
   }, {
     srn: "W001-03",
     fullName: "Kishore",
@@ -57,19 +63,25 @@ function Table() {
     email: "kishore@sixtyonesteps.com",
     preferredDate: "28-01-2025",
     contact: "6098765432",
-    parameters: "chemical"
+    parameters: "chemical",
+    pickup: "Yes",
+    pickupAddress: "MNX Address",
+    dropoffAddress: "",
   }, {
     srn: "W001-01",
     fullName: "Yokesh B",
     address: "XYZ Street",
-    serviceType: "Water Analysis",
+    serviceType: "Water: General Parameters",
     date: "21-01-2025",
     allottedTo: "Elumalai",
     drawnBy: "EES",
     email: "yokesh@sixtyonesteps.com",
     preferredDate: "23-01-2025",
     contact: "7990097262",
-    parameters: "odour"
+    parameters: "Appearance",
+    pickup: "Yes",
+    pickupAddress: "XYZ Address",
+    dropoffAddress: "",
   }, {
     srn: "W001-02",
     fullName: "Ezhumalai",
@@ -81,7 +93,10 @@ function Table() {
     email: "ezhumalai@sixtyonesteps.com",
     preferredDate: "25-01-2025",
     contact: "9087654322",
-    parameters: "PH value"
+    parameters: "PH value",
+    pickup: "No",
+    pickupAddress: "",
+    dropoffAddress: "XYZ Address",
   }, {
     srn: "W001-03",
     fullName: "Kishore",
@@ -93,19 +108,25 @@ function Table() {
     email: "kishore@sixtyonesteps.com",
     preferredDate: "28-01-2025",
     contact: "6098765432",
-    parameters: "chemical"
+    parameters: "chemical",
+    pickup: "Yes",
+    pickupAddress: "MNX Address",
+    dropoffAddress: "",
   }, {
     srn: "W001-01",
     fullName: "Yokesh B",
     address: "XYZ Street",
-    serviceType: "Water Analysis",
+    serviceType: "Water: General Parameters",
     date: "21-01-2025",
     allottedTo: "Elumalai",
     drawnBy: "EES",
     email: "yokesh@sixtyonesteps.com",
     preferredDate: "23-01-2025",
     contact: "7990097262",
-    parameters: "odour"
+    parameters: "Appearance",
+    pickup: "Yes",
+    pickupAddress: "XYZ Address",
+    dropoffAddress: "",
   }, {
     srn: "W001-02",
     fullName: "Ezhumalai",
@@ -117,7 +138,10 @@ function Table() {
     email: "ezhumalai@sixtyonesteps.com",
     preferredDate: "25-01-2025",
     contact: "9087654322",
-    parameters: "PH value"
+    parameters: "PH value",
+    pickup: "No",
+    pickupAddress: "",
+    dropoffAddress: "XYZ Address",
   }, {
     srn: "W001-03",
     fullName: "Kishore",
@@ -129,10 +153,84 @@ function Table() {
     email: "kishore@sixtyonesteps.com",
     preferredDate: "28-01-2025",
     contact: "6098765432",
-    parameters: "chemical"
+    parameters: "chemical",
+    pickup: "Yes",
+    pickupAddress: "MNX Address",
+    dropoffAddress: "",
   }, 
 ])
   const { toast } = useToast()
+
+  const exportToPDF = () => {
+    const doc = new jsPDF();
+    const tableData = datas.map((data) => [
+      data.srn,
+      data.fullName,
+      data.address,
+      data.serviceType,
+      data.date,
+      data.allottedTo,
+      data.drawnBy,
+      data.email,
+      data.preferredDate,
+      data.contact,
+      data.parameters,
+      data.pickup,
+      data.pickupAddress,
+      data.dropoffAddress,
+    ]);
+
+    doc.autoTable({
+      head: [
+        [
+          "SRN",
+          "Full Name",
+          "Address",
+          "Service Type",
+          "Date",
+          "Allotted To",
+          "Drawn By",
+        ],
+      ],
+      body: tableData,
+    });
+    doc.save("data.pdf");
+  };
+
+   // Export to Excel
+   const exportToExcel = () => {
+    const ws = XLSX.utils.json_to_sheet(datas);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Data");
+    XLSX.writeFile(wb, "data.xlsx");
+  };
+
+  // Export to CSV
+  const exportToCSV = () => {
+    const csvData = datas.map((row) => ({
+      srn: row.srn,
+      fullName: row.fullName,
+      address: row.address,
+      serviceType: row.serviceType,
+      date: row.date,
+      allottedTo: row.allottedTo,
+      drawnBy: row.drawnBy,
+      email: row.email,
+      preferredDate: row.preferredDate,
+      contact: row.contact,
+      parameters: row.parameters,
+      pickup: row.pickup,
+      pickupAddress: row.pickupAddress,
+      dropoffAddress: row.dropoffAddress,
+    }));
+
+    const csv = Papa.unparse(csvData);
+    const blob = new Blob([csv], { type: "text/csv" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "data.csv";
+    link.click();
+  };
 
   const columns = [
   {
@@ -196,6 +294,15 @@ function Table() {
   },  {
     accessorKey: "parameters",
     header: "Parameters"
+  }, {
+    accessorKey: "pickup",
+    header: "Pickup"
+  }, {
+    accessorKey: "pickupAddress",
+    header: "Pickup Address"
+  }, {
+    accessorKey: "dropoffAddress",
+    header: "Drop-off Address"
   }, {
     id: "modify",
     cell: ({ row }) => {
@@ -283,11 +390,15 @@ function Table() {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Download</DropdownMenuLabel>
-            <DropdownMenuItem>
+            <DropdownMenuItem className="hover:cursor-pointer" onClick={exportToPDF}>
               <FileText /> PDF
             </DropdownMenuItem>
-            <DropdownMenuItem><Sheet /> Excel</DropdownMenuItem>
-            <DropdownMenuItem><File /> CSV</DropdownMenuItem>
+            <DropdownMenuItem className="hover:cursor-pointer" onClick={exportToExcel}>
+              <Sheet /> Excel
+            </DropdownMenuItem>
+            <DropdownMenuItem className="hover:cursor-pointer" onClick={exportToCSV}>
+              <File /> CSV
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )

@@ -17,31 +17,35 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
-const chartData = [
-  { day: "Sunday", requests: 186, accepted: 80 },
-  { day: "Monday", requests: 305, accepted: 200 },
-  { day: "Tuesday", requests: 237, accepted: 120 },
-  { day: "Wednesday", requests: 73, accepted: 50 },
-  { day: "Thursday", requests: 209, accepted: 130 },
-  { day: "Saturday", requests: 214, accepted: 140 },
-]
-
-const chartConfig = {
-  requests: {
-    label: "requests",
-    color: "hsl(var(--chart-1))",
-  },
-  accepted: {
-    label: "accepted",
-    color: "hsl(var(--chart-2))",
-  },
-} satisfies ChartConfig
 
 export function BarChartComponent() {
+
+  const chartData = [
+    { day: "Sunday", inprocess: 9, completed: 40 },
+    { day: "Monday", inprocess: 7, completed: 39 },
+    { day: "Tuesday", inprocess: 5, completed: 50 },
+    { day: "Wednesday", inprocess: 2, completed: 37 },
+    { day: "Thursday", inprocess: 0, completed: 36 },
+    { day: "friday", inprocess: 3, completed: 38 },
+    { day: "saturday", inprocess: 10, completed: 30 },
+  ]
+  
+  const chartConfig = {
+    inprocess: {
+      label: "In-process",
+      color: "hsl(var(--chart-1))",
+    },
+    completed: {
+      label: "Completed",
+      color: "hsl(var(--chart-2))",
+    },
+  } satisfies ChartConfig
+  
+
   return (
-    <Card>
+    <Card className="w-[350px]">
       <CardHeader>
-        <CardTitle>This Week - Requests and Accepted</CardTitle>
+        <CardTitle>Lab Status</CardTitle>
         <CardDescription>Sunday - Saturday</CardDescription>
       </CardHeader>
       <CardContent>
@@ -59,8 +63,8 @@ export function BarChartComponent() {
               cursor={false}
               content={<ChartTooltipContent indicator="dashed" />}
             />
-            <Bar dataKey="requests" fill="var(--color-requests)" radius={4} />
-            <Bar dataKey="accepted" fill="var(--color-accepted)" radius={4} />
+            <Bar dataKey="inprocess" fill="var(--color-inprocess)" radius={4} />
+            <Bar dataKey="completed" fill="var(--color-completed)" radius={4} />
           </BarChart>
         </ChartContainer>
       </CardContent>
@@ -69,7 +73,7 @@ export function BarChartComponent() {
           Trending up by 5.2% this Week <TrendingUp className="h-4 w-4" />
         </div>
         <div className="leading-none text-muted-foreground">
-          Showing total request and accepted requests for the week
+          Showing total pending and completed requests for the week
         </div>
       </CardFooter>
     </Card>

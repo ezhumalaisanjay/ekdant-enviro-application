@@ -1,10 +1,7 @@
 "use client"
 
+import { type LucideIcon } from "lucide-react"
 import type * as React from "react"
-import {
-  Frame,
-  PieChart,
-} from "lucide-react"
 import { NavProjects } from "./nav-projects"
 import { NavUser } from "./nav-user"
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenuButton, SidebarRail } from "@/components/ui/sidebar"
@@ -12,32 +9,27 @@ import Image from "next/image"
 import logo from "../../imges/ekdant-logo-icon.png"
 
 // This is sample data.
-const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-
-  projects: [
-    {
-      name: "DashBoard",
-      url: "/dashboard",
-      icon: Frame,
-      title: "Dashboard",
-      id: 0,
-    },
-    {
-      name: "Test Request",
-      url: "/testrequest",
-      icon: PieChart,
-      title: "Service Request",
-      id: 1,
-    },
-  ],
+interface User {
+  name: string;
+  email: string;
+  avatar: string;
 }
 
-export function AppSidebar({ active }: { active: number}) {
+interface Project {
+  id: number;
+  name: string;
+  url: string;
+  icon: LucideIcon;
+  title: string;
+}
+
+interface DataItem {
+  user: User;
+  projects: Project[];
+}
+
+
+export function AppSidebar({ active, data }: { active: number; data: DataItem}) {
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
