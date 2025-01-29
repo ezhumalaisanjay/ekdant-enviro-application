@@ -17,10 +17,13 @@ import { Frame, PieChart } from "lucide-react";
 
 export default function FrontOfficeDashBoard() {
   
+  var name_user = localStorage.getItem('name_user') || "Default User"; // Provide a default if null
+  var email_user = localStorage.getItem('email_user') || "default@example.com"; // Provide a default if null
+
   const data = {
     user: {
-      name: "FrontOffice",
-      email: "frontoffice@example.com",
+      name: name_user,
+      email: email_user,
       avatar: "/avatars/shadcn.jpg",
     },
 
@@ -54,7 +57,7 @@ export default function FrontOfficeDashBoard() {
               <Breadcrumb>
                 <BreadcrumbList>
                   <BreadcrumbItem className="hidden md:block font-semibold text-slate-800">
-                  <Link href="/frontoffice/dashboard"> DashBoard </Link>
+                    <Link href="/frontoffice/dashboard"> DashBoard </Link>
                   </BreadcrumbItem>
                   <BreadcrumbSeparator />
                 </BreadcrumbList>
@@ -72,9 +75,8 @@ export default function FrontOfficeDashBoard() {
               <FrontOfficeBigAreaChartComponent />
             </div>
           </div>
-          </div>
+        </div>
       </SidebarProvider>
     </>
   );
 }
-

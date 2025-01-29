@@ -41,7 +41,7 @@ function Login() {
     setIsLoading(true);
     setErrorMessage("");
     try {
-      await confirmSignUp(fullName, confirmationCode);
+      await confirmSignUp(fullName, confirmationCode, phoneNumber, email);
     } catch (error) {
       setErrorMessage(error.message || "Invalid confirmation code.");
     }

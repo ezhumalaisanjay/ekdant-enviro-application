@@ -20,12 +20,16 @@ import { Frame, PieChart } from "lucide-react";
 
 export default function AdminDashBoard() {
   
-const data = {
-  user: {
-    name: "Admin",
-    email: "admin@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
+  
+  var name_user = localStorage.getItem('name_user') || "Default User"; // Provide a default if null
+  var email_user = localStorage.getItem('email_user') || "default@example.com"; // Provide a default if null
+
+  const data = {
+    user: {
+      name: name_user,
+      email: email_user,
+      avatar: "/avatars/shadcn.jpg",
+    },
 
   projects: [
     {

@@ -697,6 +697,8 @@ function ServiceRequestForm() {
 
   const handleSubmit = () => {
     console.log("Form Data Submitted: ", formData);
+
+    createEESRecord(formData);
     const inputElement = document.querySelectorAll("input");
     inputElement.forEach((input) => {
       input.value = ""
@@ -1813,6 +1815,37 @@ function ServiceRequestForm() {
       </Form>
     </div>
   )
+}
+
+
+
+
+
+
+export async function createEESRecord(requestData) {
+  const apiUrl = "https://0znzn1z8z4.execute-api.ap-south-1.amazonaws.com/Dev/EES_Create_Record";
+  requestData["Type"] = "Ticket";
+  requestData["TicketID"] = "Ticket12354545";
+  try {
+    const response = await fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestData),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const responseData = await response.json();
+    console.log("Response:", responseData);
+    return responseData;
+  } catch (error) {
+    console.error("Error:", error);
+    return null;
+  }
 }
 
 export default ServiceRequestForm

@@ -17,10 +17,14 @@ import { Button } from "@/components/ui/button";
 import { Frame, PieChart, X } from "lucide-react";
 
 export default function ServiceRequest() {
+ 
+  let name_user = localStorage.getItem('name_user') || "Default User"; // Provide a default if null
+  let email_user = localStorage.getItem('email_user') || "default@example.com"; // Provide a default if null
+
   const data = {
     user: {
-      name: "FrontOffice",
-      email: "frontoffice@example.com",
+      name: name_user,
+      email: email_user,
       avatar: "/avatars/shadcn.jpg",
     },
   
