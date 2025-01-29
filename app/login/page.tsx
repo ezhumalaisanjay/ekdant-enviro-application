@@ -46,7 +46,7 @@ function Login() {
               <a href="">Forgot password?</a>
             </div>
             <Link href="/admin/dashboard">
-              <Button className="flex w-full m-4" onClick={loader} disabled={isLoading}>
+              <Button className="flex w-full mt-4" onClick={loader} disabled={isLoading}>
                 {(isLoading) && <LoaderCircle className="animate-spin" /> }
                 Log in
               </Button>
@@ -91,7 +91,7 @@ function Login() {
               </div>
               </div>
           </div>
-            <Button className="flex w-full m-4 mt-9" onClick={loader} disabled={isLoading}>
+            <Button className="flex w-full mt-9" onClick={loader} disabled={isLoading}>
               {(isLoading) && <LoaderCircle className="animate-spin" /> }
               Sign Up
             </Button>
