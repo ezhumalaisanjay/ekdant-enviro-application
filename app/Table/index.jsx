@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/app/Table/data-table";
-import { ArrowUpDown, Copy, Download, File, FileText, Pencil, Sheet, Trash2, X } from "lucide-react";
+import { ArrowUpDown, Copy, Pencil, Trash2, X } from "lucide-react";
 import { MoreHorizontal } from "lucide-react"
 import {
   DropdownMenu,
@@ -377,38 +377,12 @@ function Table() {
         </DropdownMenu>
       )
     },
-  }, {
-    id: "export",
-    cell: () => {
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <Download className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Download</DropdownMenuLabel>
-            <DropdownMenuItem className="hover:cursor-pointer" onClick={exportToPDF}>
-              <FileText /> PDF
-            </DropdownMenuItem>
-            <DropdownMenuItem className="hover:cursor-pointer" onClick={exportToExcel}>
-              <Sheet /> Excel
-            </DropdownMenuItem>
-            <DropdownMenuItem className="hover:cursor-pointer" onClick={exportToCSV}>
-              <File /> CSV
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      )
-    },
   },
 ];
 
   return(
     <>
-      <DataTable columns={columns} data={datas} />
+      <DataTable columns={columns} data={datas} exportExcel={exportToExcel} exportPDF={exportToPDF} exportCSV={exportToCSV}/>
     </>
   )
 }

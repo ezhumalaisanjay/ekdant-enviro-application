@@ -38,6 +38,9 @@ import { ChevronLeft, ChevronRight, Download, File, FileText, ListCollapseIcon, 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  exportExcel?: () => void
+  exportPDF?: () => void
+  exportCSV?: () => void
 }
 
 export type PaginationState = {
@@ -48,6 +51,9 @@ export type PaginationState = {
 export function DataTable<TData, TValue>({
   columns,
   data,
+  exportExcel,
+  exportPDF,
+  exportCSV,
 }: DataTableProps<TData, TValue>) {
 
   const [sorting, setSorting] = React.useState<SortingState>([])
@@ -94,11 +100,10 @@ export function DataTable<TData, TValue>({
       pagination,
     },
   })
-  
 
   return (
     <div>
-      <div className="flex justify-between items-center py-4">
+      <div className="flex justify-between items-center p-2">
         <div className="flex w-full">
           <Input
             placeholder="Filter by Name..."
@@ -119,11 +124,15 @@ export function DataTable<TData, TValue>({
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Download</DropdownMenuLabel>
-              <DropdownMenuItem>
+              <DropdownMenuItem className="hover:cursor-pointer" onClick={exportPDF}>
                 <FileText /> PDF
               </DropdownMenuItem>
-              <DropdownMenuItem><Sheet /> Excel</DropdownMenuItem>
-              <DropdownMenuItem><File /> CSV</DropdownMenuItem>
+              <DropdownMenuItem className="hover:cursor-pointer" onClick={exportExcel}>
+                <Sheet /> Excel
+              </DropdownMenuItem>
+              <DropdownMenuItem className="hover:cursor-pointer" onClick={exportCSV}>
+                <File /> CSV
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
           <DropdownMenu>
