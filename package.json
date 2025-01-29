@@ -25,6 +25,7 @@
     "@radix-ui/react-toast": "^1.2.5",
     "@radix-ui/react-tooltip": "^1.1.6",
     "@tanstack/react-table": "^8.20.6",
+    "amazon-cognito-identity-js": "^6.3.12",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
