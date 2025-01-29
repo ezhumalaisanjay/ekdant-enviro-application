@@ -31,7 +31,8 @@ function Login() {
       await signUp(email, password, fullName, phoneNumber);
       setSignUpSuccess(true);
     } catch (error) {
-      setErrorMessage(error.message || "Sign-up failed.");
+      const typedError = error as Error;
+      setErrorMessage(typedError.message || "Sign-up failed.");
     }
     setIsLoading(false);
   };
@@ -43,7 +44,8 @@ function Login() {
     try {
       await confirmSignUp(fullName, confirmationCode);
     } catch (error) {
-      setErrorMessage(error.message || "Invalid confirmation code.");
+      const typedError = error as Error;
+      setErrorMessage(typedError.message || "Invalid confirmation code.");
     }
     setIsLoading(false);
   };
@@ -55,7 +57,8 @@ function Login() {
     try {
       await signIn(email, password);
     } catch (error) {
-      setErrorMessage(error.message || "Sign-in failed. Check your credentials.");
+      const typedError = error as Error;
+      setErrorMessage(typedError.message || "Sign-in failed. Check your credentials.");
     }
     setIsLoading(false);
   };
