@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-dropdown-menu";
-import { signUp } from "@/lib/cognito"; // Import the signUp function
+import { signUp, confirmSignUp, signIn } from "@/lib/cognito"; // Import sign-in function
 
 function Login() {
   const [signUpMode, setSignUpMode] = useState(false);
@@ -19,43 +19,59 @@ function Login() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [confirmationCode, setConfirmationCode] = useState(""); // Add state for confirmation code
-  const [signUpSuccess, setSignUpSuccess] = useState(false); // Track if sign-up was successful
+  const [confirmationCode, setConfirmationCode] = useState("");
+  const [signUpSuccess, setSignUpSuccess] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(""); // Store error messages
 
+  // Handle user sign-up
   const handleSignUp = async () => {
     setIsLoading(true);
+    setErrorMessage(""); // Clear errors
     try {
       await signUp(email, password, fullName, phoneNumber);
-      setIsLoading(false);
-      setSignUpSuccess(true); // Set sign-up success to true
+      setSignUpSuccess(true);
     } catch (error) {
-      console.error("Sign-up error:", error);
-      setIsLoading(false);
+      setErrorMessage(error.message || "Sign-up failed.");
     }
+    setIsLoading(false);
   };
 
-  const handleConfirmCode = () => {
-    // Handle code confirmation logic here (e.g., call API to confirm code)
-    console.log("Confirmation code submitted:", confirmationCode);
+  // Handle confirmation code submission
+  const handleConfirmCode = async () => {
+    setIsLoading(true);
+    setErrorMessage("");
+    try {
+      await confirmSignUp(fullName, confirmationCode);
+    } catch (error) {
+      setErrorMessage(error.message || "Invalid confirmation code.");
+    }
+    setIsLoading(false);
+  };
+
+  // Handle user sign-in
+  const handleSignIn = async () => {
+    setIsLoading(true);
+    setErrorMessage("");
+    try {
+      await signIn(email, password);
+    } catch (error) {
+      setErrorMessage(error.message || "Sign-in failed. Check your credentials.");
+    }
+    setIsLoading(false);
   };
 
   return (
     <div className="flex h-[710px] justify-center items-center">
       {!signUpMode ? (
+        // SIGN-IN FORM
         <Card className="md:w-[460px] p-10 border border-slate-400 border-opacity-25">
           <CardHeader className="pb-2">
             <div className="flex flex-col justify-center text-center">
-              <Button
-                variant="ghost"
-                className="hover:cursor-default hover:bg-white"
-              >
-                {/* Your Icon */}
-              </Button>
               <p className="text-lg font-semibold">Sign In</p>
             </div>
           </CardHeader>
-          <CardDescription className="text-center flex justify-center">
-            <div>Use your email and password to sign in</div>
+          <CardDescription className="text-center">
+            Use your email and password to sign in
           </CardDescription>
           <CardContent className="mt-8">
             <div className="flex flex-col gap-3">
@@ -79,15 +95,15 @@ function Login() {
                 />
               </div>
             </div>
+            {errorMessage && <p className="text-red-500 mt-2">{errorMessage}</p>}
             <Button
-              className="flex w-full m-4"
-              onClick={handleSignUp}
+              className="flex w-full mt-4"
+              onClick={handleSignIn}
               disabled={isLoading}
             >
-              {isLoading && <div className="animate-spin">...</div>}
-              Log in
+              {isLoading ? "Loading..." : "Log in"}
             </Button>
-            <div className="text-center font-light text-sm m-4">
+            <div className="text-center font-light text-sm mt-4">
               Don&rsquo;t have an account?{" "}
               <span
                 className="font-semibold cursor-pointer"
@@ -99,20 +115,15 @@ function Login() {
           </CardContent>
         </Card>
       ) : (
+        // SIGN-UP FORM
         <Card className="md:w-[460px] p-10 border border-slate-400 border-opacity-25">
           <CardHeader className="pb-2">
             <div className="flex flex-col justify-center text-center">
-              <Button
-                variant="ghost"
-                className="hover:cursor-default hover:bg-white"
-              >
-                {/* Your Icon */}
-              </Button>
               <p className="text-lg font-semibold">Sign Up</p>
             </div>
           </CardHeader>
-          <CardDescription className="text-center flex justify-center">
-            <div>Create an account with your email and password</div>
+          <CardDescription className="text-center">
+            Create an account with your email and password
           </CardDescription>
           <CardContent className="mt-8">
             <div className="flex flex-col gap-3">
@@ -154,19 +165,18 @@ function Login() {
                 />
               </div>
             </div>
+            {errorMessage && <p className="text-red-500 mt-2">{errorMessage}</p>}
             <Button
-              className="flex w-full m-4"
+              className="flex w-full mt-4"
               onClick={handleSignUp}
               disabled={isLoading}
             >
-              {isLoading && <div className="animate-spin">...</div>}
-              Sign up
+              {isLoading ? "Loading..." : "Sign up"}
             </Button>
             {signUpSuccess && (
               <div className="mt-4">
                 <p className="text-center text-green-600">
-                  Sign-up successful! Please check your email for the
-                  confirmation code.
+                  Sign-up successful! Please check your email for the confirmation code.
                 </p>
                 <div className="mt-4">
                   <Label>Enter Confirmation Code</Label>
@@ -178,15 +188,15 @@ function Login() {
                   />
                 </div>
                 <Button
-                  className="flex w-full m-4"
+                  className="flex w-full mt-4"
                   onClick={handleConfirmCode}
                   disabled={isLoading}
                 >
-                  Confirm Code
+                  {isLoading ? "Loading..." : "Confirm Code"}
                 </Button>
               </div>
             )}
-            <div className="text-center font-light text-sm m-4">
+            <div className="text-center font-light text-sm mt-4">
               Already have an account?{" "}
               <span
                 className="font-semibold cursor-pointer"
