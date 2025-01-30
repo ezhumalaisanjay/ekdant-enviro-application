@@ -788,16 +788,13 @@ function ServiceRequestForm() {
     inputElement.forEach((input) => {
       input.value = ""
     })
+    toast({
+      title: "Data",
+      description: "Data has been submitted Successfully",
+    })
 
-    setTimeout(() => {
-      toast({
-        title: "Data",
-        description: "Data has been submitted Successfully",
-      });
-      setIsLoading(false);
-    }, 2000);
-
-
+    setIsLoading(false);
+    location.reload();
     // Add logic to send formData to the server or process it further
   };
 
