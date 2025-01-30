@@ -49,6 +49,51 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export function PieChartComponent() {
+  React.useEffect(() => {
+    const getRecords = async (category, type) => {
+      try {
+        // Get current date
+        const endDate = new Date();
+        // Get start date (7 days before today)
+        const startDate = new Date();
+        startDate.setDate(endDate.getDate() - 7);
+    
+        // Format dates as YYYY-MM-DD
+        const formatDate = (date) => date.toISOString().split("T")[0];
+    
+        const response = await fetch("https://0znzn1z8z4.execute-api.ap-south-1.amazonaws.com/Dev/EES_dashboard_barchart", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ 
+            category, 
+            type, 
+            start_date: formatDate(startDate), 
+            end_date: formatDate(endDate) 
+          }),
+        });
+    
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+    
+        const result = await response.json(); // Parse JSON once
+        console.log("Response Data:", result);
+    
+        return result; // Return parsed result
+    
+      } catch (error) {
+        console.error("Error fetching records:", error.message);
+        return { error: error.message };
+      }
+    };
+    
+    // Example calls:
+    getRecords("piechart", "piechart"); // Fetch data for piechart with last 7 days
+    getRecords("barchart", "barchart"); // Fetch data for barchart with last 7 days
+    
+  }, []) 
 
   const totalTickets = React.useMemo(() => {
     return chartData.reduce((acc, curr) => acc + curr.tickets, 0)

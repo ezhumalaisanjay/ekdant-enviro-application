@@ -21,7 +21,7 @@ const formSchema = z.object({
 
 function MappedServiceRequestForm({ rowData }) {
   const [serviceSelected, setServiceSelected] = useState(rowData.serviceType);
-  const [pickUp, setPickUp] = useState("");
+  const [pickUp, setPickUp] = useState(rowData.pickUp);
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -719,7 +719,7 @@ function MappedServiceRequestForm({ rowData }) {
                     <FormItem className="flex items-center gap-3 mb-8">
                       <FormLabel className="lg:text-nowrap font-semibold">Sample Reference Number :</FormLabel>
                       <FormControl>
-                        <Input type="text" defaultValue={rowData.srn} readOnly/>
+                        <Input type="text" defaultValue={rowData.Sample_Reference} readOnly/>
                       </FormControl>
                       <FormMessage />
                     </FormItem>} 
@@ -758,7 +758,7 @@ function MappedServiceRequestForm({ rowData }) {
                       <FormControl>
                         <Input 
                         name="contactNumber"
-                        defaultValue={rowData.contact}
+                        defaultValue={rowData.contactNumber}
                         onChange={handleInputChange}
                         placeholder="Enter your Number"/>
                       </FormControl>
@@ -1693,7 +1693,7 @@ function MappedServiceRequestForm({ rowData }) {
                   <FormLabel className="text-nowrap">Pickup required?</FormLabel>
                   <FormControl>
                     <Select 
-                    defaultValue={rowData.pickup}
+                    defaultValue={rowData.pickUp}
                     onValueChange={handleSelectChangePickup}>
                       <SelectTrigger>
                         <SelectValue placeholder="Select" />
@@ -1716,7 +1716,7 @@ function MappedServiceRequestForm({ rowData }) {
                   <FormItem className="flex gap-3 items-center mb-3">
                     <FormLabel className="text-nowrap">Pickup Address</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter pickup address.." defaultValue={rowData.pickupAddress} className="h-24"/>
+                      <Input placeholder="Enter pickup address.." defaultValue={rowData.address} className="h-24"/>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -1730,7 +1730,7 @@ function MappedServiceRequestForm({ rowData }) {
                 <FormItem className="flex gap-3 items-center mb-3">
                   <FormLabel className="text-nowrap">Drop-off Address</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter drop-off address.." defaultValue={rowData.dropoffAddress} className="h-24"/>
+                    <Input placeholder="Enter drop-off address.." defaultValue={rowData.address} className="h-24"/>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -1809,6 +1809,31 @@ function MappedServiceRequestForm({ rowData }) {
                  <input type="checkbox" onChange={handleConfirmationChange} />    
               </FormControl>
               <FormLabel>I confirm the details are accurate and agree to the pricing terms.</FormLabel>
+              <FormMessage />
+            </FormItem>
+          }
+          />
+
+          {/* Priority */}
+
+          <FormField 
+          control={form.control}
+          name="priority"
+          render={() => 
+            <FormItem className="flex gap-3 items-center mb-3">
+              <FormLabel>Priority</FormLabel>
+              <FormControl>
+                <Select>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select"/>
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="low">Low</SelectItem>
+                    <SelectItem value="medium">Medium</SelectItem>
+                    <SelectItem value="high">High</SelectItem>
+                  </SelectContent>
+                </Select>
+              </FormControl>
               <FormMessage />
             </FormItem>
           }

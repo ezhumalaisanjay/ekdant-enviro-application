@@ -30,10 +30,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import React, { useState } from "react"
-import { Input } from "../../components/ui/input"
-import { Button } from "../../components/ui/button"
-import PaginationSelection from "@/app/Table/PaginationSelection"
+import PaginationSelection from "./PaginationState"
 import { ChevronLeft, ChevronRight, Download, File, FileText, ListCollapseIcon, Sheet } from "lucide-react"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -65,22 +65,7 @@ export function DataTable<TData, TValue>({
     pageSize: 4,
   })
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({
-      srn: true,
-      fullName: true,
-      address: true,
-      serviceType: true,
-      date: true,
-      allottedTo: true,
-      drawnBy: true,
-      email: false,
-      preferredDate: false,
-      contact: false,
-      parameters: false,
-      pickup: false,
-      pickupAddress: false,
-      dropoffAddress: false,
-    })
+    React.useState<VisibilityState>({})
 
   const table = useReactTable({
     data,
@@ -107,9 +92,9 @@ export function DataTable<TData, TValue>({
         <div className="flex w-full">
           <Input
             placeholder="Filter by Name..."
-            value={(table.getColumn("fullName")?.getFilterValue() as string) ?? ""}
+            value={(table.getColumn("customerName")?.getFilterValue() as string) ?? ""}
             onChange={(event) =>
-              table.getColumn("fullName")?.setFilterValue(event.target.value)
+              table.getColumn("customerName")?.setFilterValue(event.target.value)
             }
             className="max-w-sm ml-2"
           />

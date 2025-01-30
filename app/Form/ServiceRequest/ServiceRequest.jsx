@@ -8,10 +8,11 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, Loader2 } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns"
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { useToast } from "@/hooks/use-toast";
 
 const formSchema = z.object({
   fullName: z.string(),
@@ -20,20 +21,29 @@ const formSchema = z.object({
 })
 
 function ServiceRequestForm() {
+  const { toast } = useToast();
   const [serviceSelected, setServiceSelected] = useState("");
+  const [serviceId, setServiceId] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [pickUp, setPickUp] = useState("");
+  const [apiCustomerData, setApiCustomerData] = useState([])
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       fullName: "",
     }
   });
+
+  useEffect(() => {
+
+  }, [serviceSelected])
   
-  const uniqueId = `W001-${Math.floor(Math.random() * 1000)}`
+  const uniqueId = `EES/${serviceId}/${Math.floor(Math.random() * 1000)}`
 
   const [formData, setFormData] = useState({
-    srn: uniqueId,
-    fullName: "",
+    Sample_Reference: uniqueId,
+    visitType: "",
+    companyName: "",
     contactNumber: "",
     email: "",
     address: "",
@@ -45,8 +55,48 @@ function ServiceRequestForm() {
     remarks: "",
     drawnBy: "",
     pickUp: "",
+    priority: "",
+    pickupDate: "",
+    category: "Ticket",
     confirmation: false,
   });
+
+  
+  useEffect(() => {
+    const getRecords = async (category) => {
+      try {
+        const response = await fetch("https://0znzn1z8z4.execute-api.ap-south-1.amazonaws.com/Dev/EES_Get_all_record", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ category }),
+        });
+    
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+    
+        const result = await response.json();
+        console.log(JSON.parse(result.body)); // Return response directly
+
+        const responseData = JSON.parse(result.body);
+        setApiCustomerData(responseData)
+        console.log("Customer Data" ,responseData);
+
+      } catch (error) { 
+        if (error instanceof Error) {
+          console.error("Error fetching records:", error.message);
+          return { error: error.message };
+        } 
+        else {
+        console.error("Unknown error:", error);
+        return { error: "An unknown error occurred" };
+        }
+      }
+    } 
+    getRecords("Customer") 
+  }, [])
 
   const serviceRequests = [
     "Water: General Parameters",
@@ -494,7 +544,6 @@ function ServiceRequestForm() {
   const twentyNinethOptions = [
     "Oxygen Purity ( O2)"
   ]
-
   
   useEffect(() => {
     if(serviceSelected === "Water: General Parameters") {
@@ -642,7 +691,24 @@ function ServiceRequestForm() {
           ...prevState,
           parameters: twentyNinethOptions,
         }))}
-      console.log(formData.parameters)
+        
+      const serviceTypes = [ 
+        { name: "Water: General Parameters", code: "W" }, 
+        { name: "Water Complete Analysis as per 10500: 2012", code: "W" }, 
+        { name: "Water - Construction Parameters", code: "W" }, 
+        { name: "Water - Microbiological Analysis", code: "W" }, 
+        { name: "Water –Complete Microbiological Analysis", code: "W" }, 
+        { name: "Food Microbiological Parameters", code: "FM" }, 
+        { name: "Food Chemical Parameters", code: "FC" }, 
+        { name: "Sludge Analysis Parameters", code: "SW" }, 
+        { name: "Soil Testing Parameters", code: "S" }, { name: "Oil - Diesel Testing Parameters", code: "MM" }, { name: "Oil - Nutrition Value + FSSAI Parameters", code: "MM" }, { name: "Coal Analysis Parameters", code: "MM" }, { name: "Effluent Water Analysis Parameters", code: "WW" }, { name: "Sewage Water Chemical Parameters", code: "WW" }, { name: "Ambient Air Quality Monitoring Parameters", code: "AS" }, { name: "DG Stack Emission Parameters", code: "AS" }, { name: "Ambient Noise Monitoring Parameters", code: "AS" }, { name: "DG Noise Monitoring Parameters", code: "AS" }, { name: "Lux Monitoring Parameters", code: "AS" }, { name: "Indoor Air Quality", code: "AS" }, { name: "Compressor Air Monitoring Parameters", code: "AS" }, { name: "Feldspar Analysis Parameter", code: "MM" }, { name: "Quartz Sample Analysis Parameters", code: "MM" }, { name: "Lime Stone Sample Analysis Parameters", code: "MM" }, { name: "Plate - Microbiological Analysis", code: "EM" }, { name: "Swab - Microbiological Analysis", code: "EM" }, { name: "Sewage Water Microbiological Parameters", code: "EM" }, { name: "Weather Monitoring Parameters", code: "EM" }, { name: "Oxygen Purity Parameters", code: "EM" } ];
+  
+  
+      serviceTypes.map((service) => {
+        if(service.name == serviceSelected) { 
+          console.log(service.code);
+        }
+      })
   }, [serviceSelected])
 
   const handleInputChange = (e) => {
@@ -650,9 +716,17 @@ function ServiceRequestForm() {
     setFormData({ ...formData, [name]: value });
   };
 
+  const handleSelectChangeName = (value) => {
+    setFormData({ ...formData, companyName: value})
+  }
+
   const handleSelectChangeService = (value) => {
     setFormData({ ...formData, serviceType: value})
     setServiceSelected(value);
+  }
+
+  const handleSelectChangeVisitType = (value) => {
+    setFormData({ ...formData, visitType: value})
   }
 
   const handleSelectChangePickup = (value) => {
@@ -665,17 +739,25 @@ function ServiceRequestForm() {
   }
 
   const datePicker = (date) => {
-    const formattedDate = format(date, "MM/dd/yyyy");
+    const formattedDate = format(date, "yyyy-MM-dd");
     setFormData({...formData, preferredDate: formattedDate});
   }
 
   const serviceDatePicker = (date) => {
-    const formattedDate = format(date, "MM/dd/yyyy");
+    const formattedDate = format(date, "yyyy-MM-dd");
     setFormData({...formData, date: formattedDate});
   }
 
+  const pickupDatePicker = (date) => {
+    const formattedDate = format(date, "yyyy-MM-dd");
+    setFormData({...formData, pickupDate: formattedDate});
+  }
   const handleSelectChangeAllocate = (value) => {
     setFormData({...formData, allottedTo: value});
+  }
+
+  const handleSelectChangePriority = (value) => {
+    setFormData({...formData, priority: value});
   }
 
   const handleCheckboxChange = (e) => {
@@ -698,13 +780,22 @@ function ServiceRequestForm() {
   };
 
   const handleSubmit = () => {
+    setIsLoading(true);
     console.log("Form Data Submitted: ", formData);
-
-    createEESRecord(formData);
+    
+    //createEESRecord(formData, formdata.srn);
     const inputElement = document.querySelectorAll("input");
     inputElement.forEach((input) => {
       input.value = ""
     })
+
+    setTimeout(() => {
+      toast({
+        title: "Data",
+        description: "Data has been submitted Successfully",
+      });
+      setIsLoading(false);
+    }, 2000);
     // Add logic to send formData to the server or process it further
   };
 
@@ -721,15 +812,21 @@ function ServiceRequestForm() {
                 <div className="grid lg:grid-cols-2 gap-3">
                   <FormField 
                   control={form.control}
-                  name="fullName"
+                  name="companyName"
                   render={() => 
                     <FormItem>
-                      <FormLabel>Full Name</FormLabel>
+                      <FormLabel>Company Name</FormLabel>
                       <FormControl>
-                        <Input 
-                        name="fullName"
-                        onChange={handleInputChange}
-                        placeholder="Full Name"/>
+                        <Select onValueChange={handleSelectChangeName}>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {apiCustomerData.map((data) => 
+                            <SelectItem value={data.Company_name}>{data.Company_name}</SelectItem>)
+                            }
+                          </SelectContent>
+                        </Select>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -740,7 +837,7 @@ function ServiceRequestForm() {
                   name="contactNumber"
                   render={() => 
                     <FormItem>
-                      <FormLabel>Contact Number</FormLabel>
+                      <FormLabel>Phone Number</FormLabel>
                       <FormControl>
                         <Input 
                         name="contactNumber"
@@ -756,7 +853,7 @@ function ServiceRequestForm() {
                   name="email"
                   render={() => 
                     <FormItem>
-                      <FormLabel>Email Address</FormLabel>
+                      <FormLabel>Email</FormLabel>
                       <FormControl>
                         <Input 
                         name="email"
@@ -778,6 +875,28 @@ function ServiceRequestForm() {
                         name="address"
                         onChange={handleInputChange}
                         placeholder="Enter your address..." className="flex h-24"/>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  }
+                  />
+                  <FormField 
+                  control={form.control}
+                  name="visitType"
+                  render={() => 
+                    <FormItem className="flex gap-2 items-center">
+                      <FormLabel className="text-nowrap">Visit Type</FormLabel>
+                      <FormControl>
+                        <Select onValueChange={handleSelectChangeVisitType}>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="walkin">Walkin</SelectItem>
+                            <SelectItem value="call">Call</SelectItem>
+                            <SelectItem value="email">Email</SelectItem>
+                          </SelectContent>
+                        </Select>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -1741,6 +1860,7 @@ function ServiceRequestForm() {
                             mode="single"
                             selected={field.value}
                             onSelect={field.onChange}
+                            onDayClick={(e) => pickupDatePicker(e)}
                             initialFocus
                           />
                         </PopoverContent>
@@ -1773,9 +1893,37 @@ function ServiceRequestForm() {
                   </FormItem>
                 }
                 />
+
+                {/* Priority */}
+
+                <FormField 
+                  control={form.control}
+                  name="priority"
+                  render={() => 
+                    <FormItem className="flex gap-3 items-center mb-3">
+                      <FormLabel>Priority</FormLabel>
+                      <FormControl>
+                        <Select 
+                        onValueChange={handleSelectChangePriority}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select"/>
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="low">Low</SelectItem>
+                            <SelectItem value="medium">Medium</SelectItem>
+                            <SelectItem value="high">High</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  }
+                  />
               </CardContent>
             </Card>
           </div>
+
 
           {/* Confirmation */}
           <FormField 
@@ -1793,7 +1941,11 @@ function ServiceRequestForm() {
           />
 
           {/* Submit */}
-          <Button type="submit" onClick={handleSubmit}>Submit</Button>
+          <Button type="submit" onClick={handleSubmit}>
+            {!isLoading ? "Submit" 
+              : <> <Loader2 className="animate-spin" /> Submit </>
+            }
+          </Button>
           <Button variant="outline" type="reset">Reset</Button>
         </form>
       </Form>
@@ -1806,10 +1958,10 @@ function ServiceRequestForm() {
 
 
 
-export async function createEESRecord(requestData) {
+export async function createEESRecord(requestData, srn) {
   const apiUrl = "https://0znzn1z8z4.execute-api.ap-south-1.amazonaws.com/Dev/EES_Create_Record";
   requestData["Type"] = "Ticket";
-  requestData["TicketID"] = "Ticket12354545";
+  requestData["TicketID"] = srn;
   try {
     const response = await fetch(apiUrl, {
       method: "POST",

@@ -1,7 +1,7 @@
 "use client"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "../../app-sidebar/AppSidebar";
-import CustomerDetailsForm from "../../Form/customerDetailsForm";
+import CustomerDetailsForm from "../../Form/ClientDetails/customerDetailsForm";
 import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
 import {
   Breadcrumb,
@@ -15,6 +15,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Frame, HeartHandshake, PieChart, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import ClientDetailsTable from "@/app/Table/ClientDetails";
 
 export default function ClientDetails() {
   const [username, setUsername] = useState("");
@@ -77,7 +78,7 @@ export default function ClientDetails() {
                   </BreadcrumbItem>
                   <BreadcrumbSeparator />
                   <BreadcrumbItem className="hidden md:block">
-                    <Link href="/frontoffice/servicerequest">Service Request</Link>
+                    <Link href="/frontoffice/testrequest">Service Request</Link>
                   </BreadcrumbItem>
                   <BreadcrumbSeparator />
                   <BreadcrumbItem className="hidden md:block font-semibold text-slate-800">
@@ -109,7 +110,7 @@ export default function ClientDetails() {
               </Drawer>
             </div>
             <div className="min-w-full overflow-x-auto">
-              
+              <ClientDetailsTable />
             </div>
           </div>
           </div>

@@ -1,9 +1,9 @@
 "use client"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "../../app-sidebar/AppSidebar";
-import ServiceRequestForm from "../../Form/ServiceRequest";
+import ServiceRequestForm from "../../Form/ServiceRequest/ServiceRequest";
 import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
-import Table from "../../Table/index"
+import ServiceRequestTable from "../../Table/ServiceRequest/index"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -102,7 +102,7 @@ export default function ServiceRequest() {
               </Drawer>
             </div>
             <div className="min-w-full overflow-x-auto">
-              <Table />
+              <ServiceRequestTable />
             </div>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { DataTable } from "@/app/Table/data-table";
+import { DataTable } from "./data-table"
 import { ArrowUpDown, Copy, Pencil, Trash2, X } from "lucide-react";
 import { MoreHorizontal } from "lucide-react";
 import {
@@ -9,10 +9,10 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import MappedServiceRequestForm from "../Form/mappedServiceRequest";
+import MappedServiceRequestForm from "../../Form/ServiceRequest/mappedServiceRequest";
 import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import * as XLSX from "xlsx";
 import jsPDF from "jspdf";
@@ -28,7 +28,8 @@ declare module "jspdf" {
 }
 
 interface Data {
-  srn: string;
+  Sample_Reference: string;
+  ticket_status: string;
   fullName: string;
   address: string;
   serviceType: string;
@@ -37,167 +38,57 @@ interface Data {
   drawnBy: string;
   email: string;
   preferredDate: string;
-  contact: string;
+  contactNumber: string;
   parameters: string;
-  pickup: string;
+  pickUp: string;
   pickupAddress: string;
   dropoffAddress: string;
 }
 
-const Table = () => {
-  const [datas, setDatas] = useState<Data[]>([
-    {
-      srn: "W001-01",
-      fullName: "Yokesh B",
-      address: "XYZ Street",
-      serviceType: "Water: General Parameters",
-      date: "21-01-2025",
-      allottedTo: "Elumalai",
-      drawnBy: "EES",
-      email: "yokesh@sixtyonesteps.com",
-      preferredDate: "23-01-2025",
-      contact: "7990097262",
-      parameters: "Appearance",
-      pickup: "Yes",
-      pickupAddress: "XYZ Address",
-      dropoffAddress: "",
-    },
-    {
-      srn: "W001-02",
-      fullName: "Ezhumalai",
-      address: "ZYX Street",
-      serviceType: "Sand Analysis",
-      date: "22-01-2025",
-      allottedTo: "Elumalai",
-      drawnBy: "EES",
-      email: "ezhumalai@sixtyonesteps.com",
-      preferredDate: "25-01-2025",
-      contact: "9087654322",
-      parameters: "PH value",
-      pickup: "No",
-      pickupAddress: "",
-      dropoffAddress: "XYZ Address",
-    },
-    {
-      srn: "W001-03",
-      fullName: "Kishore",
-      address: "ABC Street",
-      serviceType: "Dust Analysis",
-      date: "20-01-2025",
-      allottedTo: "Manimaran",
-      drawnBy: "EES",
-      email: "kishore@sixtyonesteps.com",
-      preferredDate: "28-01-2025",
-      contact: "6098765432",
-      parameters: "chemical",
-      pickup: "Yes",
-      pickupAddress: "MNX Address",
-      dropoffAddress: "",
-    },
-    {
-      srn: "W001-01",
-      fullName: "Yokesh B",
-      address: "XYZ Street",
-      serviceType: "Water: General Parameters",
-      date: "21-01-2025",
-      allottedTo: "Elumalai",
-      drawnBy: "EES",
-      email: "yokesh@sixtyonesteps.com",
-      preferredDate: "23-01-2025",
-      contact: "7990097262",
-      parameters: "Appearance",
-      pickup: "Yes",
-      pickupAddress: "XYZ Address",
-      dropoffAddress: "",
-    },
-    {
-      srn: "W001-02",
-      fullName: "Ezhumalai",
-      address: "ZYX Street",
-      serviceType: "Sand Analysis",
-      date: "22-01-2025",
-      allottedTo: "Elumalai",
-      drawnBy: "EES",
-      email: "ezhumalai@sixtyonesteps.com",
-      preferredDate: "25-01-2025",
-      contact: "9087654322",
-      parameters: "PH value",
-      pickup: "No",
-      pickupAddress: "",
-      dropoffAddress: "XYZ Address",
-    },
-    {
-      srn: "W001-03",
-      fullName: "Kishore",
-      address: "ABC Street",
-      serviceType: "Dust Analysis",
-      date: "20-01-2025",
-      allottedTo: "Manimaran",
-      drawnBy: "EES",
-      email: "kishore@sixtyonesteps.com",
-      preferredDate: "28-01-2025",
-      contact: "6098765432",
-      parameters: "chemical",
-      pickup: "Yes",
-      pickupAddress: "MNX Address",
-      dropoffAddress: "",
-    },
-    {
-      srn: "W001-01",
-      fullName: "Yokesh B",
-      address: "XYZ Street",
-      serviceType: "Water: General Parameters",
-      date: "21-01-2025",
-      allottedTo: "Elumalai",
-      drawnBy: "EES",
-      email: "yokesh@sixtyonesteps.com",
-      preferredDate: "23-01-2025",
-      contact: "7990097262",
-      parameters: "Appearance",
-      pickup: "Yes",
-      pickupAddress: "XYZ Address",
-      dropoffAddress: "",
-    },
-    {
-      srn: "W001-02",
-      fullName: "Ezhumalai",
-      address: "ZYX Street",
-      serviceType: "Sand Analysis",
-      date: "22-01-2025",
-      allottedTo: "Elumalai",
-      drawnBy: "EES",
-      email: "ezhumalai@sixtyonesteps.com",
-      preferredDate: "25-01-2025",
-      contact: "9087654322",
-      parameters: "PH value",
-      pickup: "No",
-      pickupAddress: "",
-      dropoffAddress: "XYZ Address",
-    },
-    {
-      srn: "W001-03",
-      fullName: "Kishore",
-      address: "ABC Street",
-      serviceType: "Dust Analysis",
-      date: "20-01-2025",
-      allottedTo: "Manimaran",
-      drawnBy: "EES",
-      email: "kishore@sixtyonesteps.com",
-      preferredDate: "28-01-2025",
-      contact: "6098765432",
-      parameters: "chemical",
-      pickup: "Yes",
-      pickupAddress: "MNX Address",
-      dropoffAddress: "",
-    },
-  ]);
+const ServiceRequestTable = () => {
+  const [datas, setDatas] = useState<Data[]>([]);
+
+  useEffect(() => {
+    const getRecords = async (category: string) => {
+      try {
+        const response = await fetch("https://0znzn1z8z4.execute-api.ap-south-1.amazonaws.com/Dev/EES_Get_all_record", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ category }),
+        });
+    
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+    
+        const result = await response.json();
+        console.log(JSON.parse(result.body)); // Return response directly
+
+        const responseData = JSON.parse(result.body);
+        setDatas(responseData);
+        console.log(responseData);
+
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          console.error("Error fetching records:", error.message);
+          return { error: error.message };
+        } else {
+          console.error("Unknown error:", error);
+          return { error: "An unknown error occurred" };
+        }
+      }
+    } 
+    getRecords("Ticket") 
+  }, [])
 
   const { toast } = useToast();
 
   const exportToPDF = () => {
     const doc = new jsPDF();
     const tableData = datas.map((data) => [
-      data.srn,
+      data.Sample_Reference,
       data.fullName,
       data.address,
       data.serviceType,
@@ -206,9 +97,9 @@ const Table = () => {
       data.drawnBy,
       data.email,
       data.preferredDate,
-      data.contact,
+      data.contactNumber,
       data.parameters,
-      data.pickup,
+      data.pickUp,
       data.pickupAddress,
       data.dropoffAddress,
     ]);
@@ -239,7 +130,7 @@ const Table = () => {
 
   const exportToCSV = () => {
     const csvData = datas.map((row) => ({
-      srn: row.srn,
+      srn: row.Sample_Reference,
       fullName: row.fullName,
       address: row.address,
       serviceType: row.serviceType,
@@ -248,9 +139,9 @@ const Table = () => {
       drawnBy: row.drawnBy,
       email: row.email,
       preferredDate: row.preferredDate,
-      contact: row.contact,
+      contact: row.contactNumber,
       parameters: row.parameters,
-      pickup: row.pickup,
+      pickup: row.pickUp,
       pickupAddress: row.pickupAddress,
       dropoffAddress: row.dropoffAddress,
     }));
@@ -265,8 +156,11 @@ const Table = () => {
 
   const columns: ColumnDef<Data>[] = [
     {
-      accessorKey: "srn",
-      header: "Sample Reference Number",
+      accessorKey: "Sample_Reference",
+      header: "SRN",
+    },{
+      accessorKey: "ticket_status",
+      header: "Ticket Status",
     },
     {
       accessorKey: "fullName",
@@ -337,7 +231,7 @@ const Table = () => {
       header: "Preferred Date",
     },
     {
-      accessorKey: "contact",
+      accessorKey: "contactNumber",
       header: "Contact No.",
     },
     {
@@ -345,15 +239,15 @@ const Table = () => {
       header: "Parameters",
     },
     {
-      accessorKey: "pickup",
+      accessorKey: "pickUp",
       header: "Pickup",
     },
     {
-      accessorKey: "pickupAddress",
+      accessorKey: "address",
       header: "Pickup Address",
     },
     {
-      accessorKey: "dropoffAddress",
+      accessorKey: "address",
       header: "Drop-off Address",
     },
     {
@@ -371,7 +265,7 @@ const Table = () => {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Modifications</DropdownMenuLabel>
               <DropdownMenuItem
-                onClick={() => navigator.clipboard.writeText(rowData.srn)}
+                onClick={() => navigator.clipboard.writeText(rowData.Sample_Reference)}
                 className="hover:cursor-pointer"
               >
                 <Copy /> Copy
@@ -381,7 +275,7 @@ const Table = () => {
                   <DrawerTrigger>
                     <div className="flex gap-2">
                       <Pencil className="size-4" />{" "}
-                      <div className="text-sm"> Edit</div>
+                      <div className="text-sm"> View </div>
                     </div>
                   </DrawerTrigger>
                   <DrawerContent>
@@ -426,7 +320,7 @@ const Table = () => {
                       <AlertDialogAction
                         onClick={() => {
                           const newArray = datas.filter(
-                            (data) => data.srn !== rowData.srn
+                            (data) => data.Sample_Reference !== rowData.Sample_Reference
                           );
                           console.log("This is new Array", newArray);
                           setDatas(newArray);
@@ -462,4 +356,4 @@ const Table = () => {
   );
 };
 
-export default Table;
+export default ServiceRequestTable;

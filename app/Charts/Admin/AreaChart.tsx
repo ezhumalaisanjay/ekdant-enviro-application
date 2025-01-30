@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/chart"
 
 export function AreaChartComponent() {
-
+  
   const chartData = [
     { day: "Sunday", walkin: 15, email: 13, call : 21 },
     { day: "Monday", walkin: 12, email: 5, call : 20 },
