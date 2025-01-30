@@ -783,7 +783,7 @@ function ServiceRequestForm() {
     setIsLoading(true);
     console.log("Form Data Submitted: ", formData);
     
-    /*await createEESRecord(formData, formData.Sample_Reference);*/
+    await createEESRecord(formData, formData.Sample_Reference);
     const inputElement = document.querySelectorAll("input");
     inputElement.forEach((input) => {
       input.value = ""

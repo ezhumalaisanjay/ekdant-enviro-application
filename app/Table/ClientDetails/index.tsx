@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { DataTable } from "./data-table"
-import { Copy, Pencil, Trash2, X } from "lucide-react";
+import { Copy, Trash2} from "lucide-react";
 import { MoreHorizontal } from "lucide-react";
 import {
   DropdownMenu,
@@ -9,7 +9,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
+//import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { useEffect, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
@@ -166,6 +166,7 @@ const ClientDetailsTable = () => {
                 <Copy /> Copy
               </DropdownMenuItem>
               <div className="ml-2">
+                {/*
                 <Drawer>
                   <DrawerTrigger>
                     <div className="flex gap-2">
@@ -189,7 +190,7 @@ const ClientDetailsTable = () => {
                     </DrawerHeader>
 
                   </DrawerContent>
-                </Drawer>
+                </Drawer> */ }
               </div>
               <div>
                 <AlertDialog>

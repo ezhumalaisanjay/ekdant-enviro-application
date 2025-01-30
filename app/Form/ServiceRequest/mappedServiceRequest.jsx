@@ -737,11 +737,11 @@ function MappedServiceRequestForm({ rowData }) {
                   name="fullName"
                   render={() => 
                     <FormItem>
-                      <FormLabel>Full Name</FormLabel>
+                      <FormLabel>Company Name</FormLabel>
                       <FormControl>
                         <Input 
                         name="fullName"
-                        defaultValue={rowData.fullName}
+                        defaultValue={rowData.companyName}
                         onChange={handleInputChange}
                         placeholder="Full Name"/>
                       </FormControl>
@@ -795,6 +795,31 @@ function MappedServiceRequestForm({ rowData }) {
                         defaultValue={rowData.address}
                         onChange={handleInputChange}
                         placeholder="Enter your address..." className="flex h-24"/>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  }
+                  />
+                  
+                  <FormField 
+                  control={form.control}
+                  name="visit_type"
+                  render={() => 
+                    <FormItem className="flex gap-2 items-center">
+                      <FormLabel className="text-nowrap">Visit Type</FormLabel>
+                      <FormControl>
+                        <Select 
+                        defaultValue={rowData.visit_type}
+                        onValueChange={handleSelectChangeVisitType}>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="walkin">Walkin</SelectItem>
+                            <SelectItem value="call">Call</SelectItem>
+                            <SelectItem value="email">Email</SelectItem>
+                          </SelectContent>
+                        </Select>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
