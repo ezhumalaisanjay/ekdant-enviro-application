@@ -1,9 +1,8 @@
 "use client"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "../../app-sidebar/AppSidebar";
-import ServiceRequestForm from "../../Form/ServiceRequest";
+import CustomerDetailsForm from "../../Form/customerDetailsForm";
 import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
-import Table from "../../Table/index"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -17,7 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Frame, HeartHandshake, PieChart, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
-export default function ServiceRequest() {
+export default function ClientDetails() {
   const [username, setUsername] = useState("");
   const [userEmail, setUserEmail] = useState("");
 
@@ -65,7 +64,7 @@ export default function ServiceRequest() {
   return (
     <>
       <SidebarProvider>
-        <AppSidebar active={1} data={data} />
+        <AppSidebar active={2} data={data} />
         <div className="flex flex-col w-full p-3">
           <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
             <div className="flex items-center gap-2 px-4">
@@ -77,8 +76,12 @@ export default function ServiceRequest() {
                     <Link href="/frontoffice/dashboard"> DashBoard </Link>
                   </BreadcrumbItem>
                   <BreadcrumbSeparator />
+                  <BreadcrumbItem className="hidden md:block">
+                    <Link href="/frontoffice/servicerequest">Service Request</Link>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator />
                   <BreadcrumbItem className="hidden md:block font-semibold text-slate-800">
-                    <BreadcrumbLink href="#">Service Request</BreadcrumbLink>
+                    <BreadcrumbLink href="#">Client Details</BreadcrumbLink>
                   </BreadcrumbItem>
                 </BreadcrumbList>
               </Breadcrumb>
@@ -86,27 +89,27 @@ export default function ServiceRequest() {
           </header>
           <div>
             <div className="flex justify-between items-center m-3">
-              <h1 className="font-semibold">Service Request</h1>
+              <h1 className="font-semibold">Client Details</h1>
               <Drawer>
                 <DrawerTrigger className="p-2 rounded-lg text-sm text-white font-semibold bg-blue-500 hover:bg-blue-400">
-                  Add Service Request
+                  Add Client
                 </DrawerTrigger>
                 <DrawerContent>
                   <DrawerHeader className="flex justify-between">
                     <div>
-                      <DrawerTitle>Service Request Form</DrawerTitle>
+                      <DrawerTitle>Client Details Form</DrawerTitle>
                       <DrawerDescription></DrawerDescription>
                     </div>
                     <DrawerClose>
                       <Button variant="outline"><X /></Button>
                     </DrawerClose>
                   </DrawerHeader>
-                  <ServiceRequestForm />
+                  <CustomerDetailsForm />
                 </DrawerContent>
               </Drawer>
             </div>
             <div className="min-w-full overflow-x-auto">
-              <Table />
+              
             </div>
           </div>
           </div>

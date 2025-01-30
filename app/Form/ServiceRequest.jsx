@@ -29,7 +29,10 @@ function ServiceRequestForm() {
     }
   });
   
+  const uniqueId = `W001-${Math.floor(Math.random() * 1000)}`
+
   const [formData, setFormData] = useState({
+    srn: uniqueId,
     fullName: "",
     contactNumber: "",
     email: "",
@@ -44,7 +47,6 @@ function ServiceRequestForm() {
     pickUp: "",
     confirmation: false,
   });
-  const uniqueId = `W001-${Math.floor(Math.random() * 1000)}`
 
   const serviceRequests = [
     "Water: General Parameters",
@@ -712,24 +714,6 @@ function ServiceRequestForm() {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)}>
           <div className="grid gap-3">
-            <Card>
-              <CardHeader></CardHeader>
-              <CardContent>
-                <FormField 
-                  control={form.control}
-                  name="fullName"
-                  render={() => 
-                    <FormItem className="flex items-center gap-3 mb-8">
-                      <FormLabel className="lg:text-nowrap font-semibold">Sample Reference Number :</FormLabel>
-                      <FormControl>
-                        <Input type="text" defaultValue={uniqueId} readOnly/>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>} 
-                    />    
-              </CardContent>
-            </Card>
-
             {/* Customer Details */}  
             <Card>
               <CardHeader className="font-semibold">Customer Details</CardHeader>

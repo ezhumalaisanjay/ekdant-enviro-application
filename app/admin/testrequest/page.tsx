@@ -15,17 +15,26 @@ import { Separator } from "@/components/ui/separator"
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Frame, PieChart, X } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export default function ServiceRequest() {
-  
-  
-  const name_user = localStorage.getItem('name_user') || "Default User"; // Provide a default if null
-  const email_user = localStorage.getItem('email_user') || "default@example.com"; // Provide a default if null
+  const [username, setUsername] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+
+  useEffect(() => {
+      if (typeof window !== 'undefined') {
+        const userName = localStorage.getItem('name_user') || "Default User";
+        const userEMAIL = localStorage.getItem('email_user') || "default@example.com";
+        setUserEmail(userEMAIL);
+        setUsername(userName);
+      }
+    }, [])
+
 
   const data = {
     user: {
-      name: name_user,
-      email: email_user,
+      name: username,
+      email: userEmail,
       avatar: "/avatars/shadcn.jpg",
     },
   

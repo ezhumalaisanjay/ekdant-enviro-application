@@ -13,17 +13,26 @@ import { FrontOfficeBarChartComponent } from "../../Charts/FrontOffice/FrontBarC
 import { FrontOfficePieChartComponent } from "../../Charts/FrontOffice/FrontPieChart";
 import { FrontOfficeAreaChartComponent } from "../../Charts/FrontOffice/FrontAreaChart";
 import { FrontOfficeBigAreaChartComponent } from "@/app/Charts/FrontOffice/FrontBigAreaChart";
-import { Frame, PieChart } from "lucide-react";
+import { Frame, HeartHandshake, PieChart } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export default function FrontOfficeDashBoard() {
-  
-  const name_user = localStorage.getItem('name_user') || "Default User"; // Provide a default if null
-  const email_user = localStorage.getItem('email_user') || "default@example.com"; // Provide a default if null
+  const [username, setUsername] = useState("");
+  const [userEmail, setUserEmail] = useState("");
 
+  useEffect( () => {
+      if (typeof window !== 'undefined') {
+        const userName = localStorage.getItem('name_user') || "Default User";
+        const userEMAIL = localStorage.getItem('email_user') || "default@example.com";
+        setUserEmail(userEMAIL);
+        setUsername(userName);
+      }
+    }, [])
+  
   const data = {
     user: {
-      name: name_user,
-      email: email_user,
+      name: username,
+      email: userEmail,
       avatar: "/avatars/shadcn.jpg",
     },
 
@@ -41,6 +50,13 @@ export default function FrontOfficeDashBoard() {
         icon: PieChart,
         title: "Service Request",
         id: 1,
+      },
+      {
+        name: "Client Details",
+        url: "/frontoffice/clientdetails",
+        icon: HeartHandshake,
+        title: "Client Details",
+        id: 2,
       },
     ],
   }
