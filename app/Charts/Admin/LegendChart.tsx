@@ -19,29 +19,81 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
+import { useEffect, useState } from "react"
 
 export function LegendChartComponent() {
+  const [chartData, setChartData] = useState([]);
   
-  const chartData = [
-    { day: "Sunday", intransit: 1, received: 25, delivered: 25, },
-    { day: "Monday", intransit: 2, received: 46, delivered: 46,  },
-    { day: "Tuesday", intransit: 7, received: 45, delivered: 45,  },
-    { day: "Wednesday", intransit: 3, received: 39, delivered: 39,  },
-    { day: "Thursday", intransit: 7, received: 33, delivered: 33,  },
-    { day: "Friday", intransit: 3, received: 31, delivered: 31,  },
-    { day: "Saturday", intransit: 0, received: 20, delivered: 20,  },
-  ]
+    useEffect(() => {
+    
+      const getRecords = async (category: string, type: string) => {
+        try {
+    
+          const today = new Date();
+          const dayOfWeek = today.getDay(); // Get the day of the week (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
+    
+          // Get the start of the week (Sunday as the first day of the week)
+          const startOfWeek = new Date(today);
+          startOfWeek.setDate(today.getDate() - dayOfWeek); // Adjust the date to the previous Sunday
+    
+          // Get the end of the week (Saturday as the last day of the week)
+          const endOfWeek = new Date(startOfWeek);
+          endOfWeek.setDate(startOfWeek.getDate() + 6); // Add 6 days to get the Saturday
+    
+      
+          // Format dates as YYYY-MM-DD
+          const formatDate = (date: Date) => date.toISOString().split("T")[0];
+      
+          const response = await fetch("https://0znzn1z8z4.execute-api.ap-south-1.amazonaws.com/Dev/EES_dashboard_barchart", {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ 
+              category, 
+              type, 
+              start_date: formatDate(startOfWeek),
+              end_date: formatDate(endOfWeek) 
+            }),
+          });
+      
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+      
+          const result = await response.json(); // Parse JSON once
+          const responseData = result.barchartlogisticData;     
+          console.log("Response BarChartLogistics Data:", result);
+      
+          setChartData(responseData);
+          return responseData; // Return parsed result
+      
+        } catch (error: unknown) {
+          if (error instanceof Error) {
+            console.error("Error fetching records:", error.message);
+            return { error: error.message };
+          } else {
+            console.error("Unknown error:", error);
+            return { error: "An unknown error occurred" };
+          }
+        }
+      };
+      
+      // Example calls:
+      getRecords("barchartlogistic", "barchartlogistic"); // Fetch data for piechart with last 7 days
+    
+    }, [])
   
   const chartConfig = {
-    intransit: {
+    In_Transit: {
       label: "In-Transit",
       color: "hsl(var(--chart-1))",
     },
-    received: {
+    Sample_Received: {
       label: "Received",
       color: "hsl(var(--chart-2))",
     },
-    delivered: {
+    Delivered_to_Lab: {
       label: "Delivered",
       color: "hsl(var(--chart-3))"
     }
@@ -59,7 +111,7 @@ export function LegendChartComponent() {
           <BarChart accessibilityLayer data={chartData}>
             <CartesianGrid vertical={false} />
             <XAxis
-              dataKey="day"
+              dataKey="dayOfWeek"
               tickLine={false}
               tickMargin={10}
               axisLine={false}
@@ -68,21 +120,21 @@ export function LegendChartComponent() {
             <ChartTooltip content={<ChartTooltipContent hideLabel />} />
             <ChartLegend content={<ChartLegendContent />} />
             <Bar
-              dataKey="intransit"
+              dataKey="In_Transit"
               stackId="a"
-              fill="var(--color-intransit)"
+              fill="var(--color-In_Transit)"
               radius={[0, 0, 4, 4]}
             />
             <Bar
-              dataKey="received"
+              dataKey="Sample_Received"
               stackId="a"
-              fill="var(--color-received)"
+              fill="var(--color-Sample_Received)"
               radius={[0, 0, 0, 0]}
             />
             <Bar
-              dataKey="delivered"
+              dataKey="Delivered_to_Lab"
               stackId="a"
-              fill="var(--color-delivered)"
+              fill="var(--color-Delivered_to_Lab)"
               radius={[4, 4, 0, 0]}
             />
           </BarChart>

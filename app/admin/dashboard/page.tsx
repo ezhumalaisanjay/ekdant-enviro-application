@@ -12,7 +12,7 @@ import Link from "next/link";
 import { AreaChartComponent } from "../../Charts/Admin/AreaChart";
 import { BarChartComponent } from "../../Charts/Admin/BarChart";
 import { PieChartComponent } from "../../Charts/Admin/PieChart";
-import { BigAreaChartComponent } from "../../Charts/Admin/BigAreaChart";
+//import { BigAreaChartComponent } from "../../Charts/Admin/BigAreaChart";
 import { LineChartComponent } from "../../Charts/Admin/LineChart";
 import { LegendChartComponent } from "../../Charts/Admin/LegendChart"
 import { StepChartComponent } from "../../Charts/Admin/PieChartActive";
@@ -83,9 +83,10 @@ export default function AdminDashBoard() {
               <BarChartComponent />
               <PieChartComponent />
             </div>
+            {/*
             <div>
               <BigAreaChartComponent />
-            </div>
+            </div>*/}
             <div className="flex flex-wrap justify-evenly gap-3">
               <LineChartComponent />
               <LegendChartComponent />

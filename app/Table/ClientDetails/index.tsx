@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { DataTable } from "./data-table"
-import { ArrowUpDown, Copy, Pencil, Trash2, X } from "lucide-react";
+import { Copy, Pencil, Trash2, X } from "lucide-react";
 import { MoreHorizontal } from "lucide-react";
 import {
   DropdownMenu,
@@ -28,11 +28,12 @@ declare module "jspdf" {
 
 interface Data {
   CustomerID: string,
-  Company_name: string,
+  company_name: string,
   Address: string,
   Email: string,
   Phone: string
 }
+
 
 const ClientDetailsTable = () => {
   const [datas, setDatas] = useState<Data[]>([]);
@@ -78,7 +79,7 @@ const ClientDetailsTable = () => {
     const doc = new jsPDF();
     const tableData = datas.map((data) => [
       data.CustomerID,
-      data.Company_name,
+      data.company_name,
       data.Address,
       data.Email,
       data.Phone,
@@ -109,7 +110,7 @@ const ClientDetailsTable = () => {
   const exportToCSV = () => {
     const csvData = datas.map((row) => ({
       customerId : row.CustomerID,
-      companyName : row.Company_name,
+      companyName : row.company_name,
       customerAddress : row.Address,
       customerEmail : row.Email,
       customerContact : row.Phone,
@@ -129,7 +130,7 @@ const ClientDetailsTable = () => {
       header: "Customer ID",
     },
     {
-      accessorKey: "Company_name",
+      accessorKey: "company_name",
       header: "Company Name",
     },
     {

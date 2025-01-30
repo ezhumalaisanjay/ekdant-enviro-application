@@ -19,12 +19,69 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart"
 
-const chartData = [
-  { status: "high", tickets: 56, fill: "var(--color-high)" },
-  { status: "moderate", tickets: 70, fill: "var(--color-moderate)" },
-  { status: "medium", tickets: 74, fill: "var(--color-medium)" },
-  { status: "low", tickets: 85, fill: "var(--color-low)" },
-]
+export function PieChartComponent() {
+  const [chartData, setChartData] = React.useState([])
+  //const [totalTickets, setTotalTickets] = React.useState(0)
+  
+  React.useEffect(() => {
+  
+    const getRecords = async (category: string, type: string) => {
+      try {
+  
+        const today = new Date();
+        const dayOfWeek = today.getDay(); // Get the day of the week (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
+  
+        // Get the start of the week (Sunday as the first day of the week)
+        const startOfWeek = new Date(today);
+        startOfWeek.setDate(today.getDate() - dayOfWeek); // Adjust the date to the previous Sunday
+  
+        // Get the end of the week (Saturday as the last day of the week)
+        const endOfWeek = new Date(startOfWeek);
+        endOfWeek.setDate(startOfWeek.getDate() + 6); // Add 6 days to get the Saturday
+  
+    
+        // Format dates as YYYY-MM-DD
+        const formatDate = (date: Date) => date.toISOString().split("T")[0];
+    
+        const response = await fetch("https://0znzn1z8z4.execute-api.ap-south-1.amazonaws.com/Dev/EES_dashboard_barchart", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ 
+            category, 
+            type, 
+            start_date: formatDate(startOfWeek),
+            end_date: formatDate(endOfWeek) 
+          }),
+        });
+    
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+    
+        const result = await response.json(); // Parse JSON once
+        const responseData = result.pieChartPriorityData;
+        console.log("Response PieChartPriority Data:", result);
+    
+        setChartData(responseData);
+        return responseData; // Return parsed result
+    
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          console.error("Error fetching records:", error.message);
+          return { error: error.message };
+        } else {
+          console.error("Unknown error:", error);
+          return { error: "An unknown error occurred" };
+        }
+      }
+    };
+    
+    // Example calls:
+    getRecords("piechartpriority", "piechartpriority"); // Fetch data for piechart with last 7 days
+  
+  }, [])
 
 const chartConfig = {
   tickets: {
@@ -48,56 +105,11 @@ const chartConfig = {
   }
 } satisfies ChartConfig
 
-export function PieChartComponent() {
-  React.useEffect(() => {
-    const getRecords = async (category, type) => {
-      try {
-        // Get current date
-        const endDate = new Date();
-        // Get start date (7 days before today)
-        const startDate = new Date();
-        startDate.setDate(endDate.getDate() - 7);
-    
-        // Format dates as YYYY-MM-DD
-        const formatDate = (date) => date.toISOString().split("T")[0];
-    
-        const response = await fetch("https://0znzn1z8z4.execute-api.ap-south-1.amazonaws.com/Dev/EES_dashboard_barchart", {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ 
-            category, 
-            type, 
-            start_date: formatDate(startDate), 
-            end_date: formatDate(endDate) 
-          }),
-        });
-    
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-    
-        const result = await response.json(); // Parse JSON once
-        console.log("Response Data:", result);
-    
-        return result; // Return parsed result
-    
-      } catch (error) {
-        console.error("Error fetching records:", error.message);
-        return { error: error.message };
-      }
-    };
-    
-    // Example calls:
-    getRecords("piechart", "piechart"); // Fetch data for piechart with last 7 days
-    getRecords("barchart", "barchart"); // Fetch data for barchart with last 7 days
-    
-  }, []) 
-
+/*
   const totalTickets = React.useMemo(() => {
     return chartData.reduce((acc, curr) => acc + curr.tickets, 0)
   }, [])
+*/
 
   return (
     <Card className="flex flex-col w-[350px]">
@@ -137,14 +149,14 @@ export function PieChartComponent() {
                           y={viewBox.cy}
                           className="fill-foreground text-3xl font-bold"
                         >
-                          {totalTickets.toLocaleString()}
+                          
                         </tspan>
                         <tspan
                           x={viewBox.cx}
                           y={(viewBox.cy || 0) + 24}
                           className="fill-muted-foreground"
                         >
-                          Tickets
+                          
                         </tspan>
                       </text>
                     )

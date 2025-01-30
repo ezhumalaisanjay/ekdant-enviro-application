@@ -12,7 +12,7 @@ import Link from "next/link";
 import { FrontOfficeBarChartComponent } from "../../Charts/FrontOffice/FrontBarChart";
 import { FrontOfficePieChartComponent } from "../../Charts/FrontOffice/FrontPieChart";
 import { FrontOfficeAreaChartComponent } from "../../Charts/FrontOffice/FrontAreaChart";
-import { FrontOfficeBigAreaChartComponent } from "@/app/Charts/FrontOffice/FrontBigAreaChart";
+//import { FrontOfficeBigAreaChartComponent } from "@/app/Charts/FrontOffice/FrontBigAreaChart";
 import { Frame, HeartHandshake, PieChart } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -87,9 +87,10 @@ export default function FrontOfficeDashBoard() {
               <FrontOfficeBarChartComponent />
               <FrontOfficePieChartComponent />
             </div>
+            {/*
             <div>
               <FrontOfficeBigAreaChartComponent />
-            </div>
+            </div> */}
           </div>
         </div>
       </SidebarProvider>

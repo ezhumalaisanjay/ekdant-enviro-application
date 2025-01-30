@@ -20,16 +20,11 @@ function CustomerDetailsForm() {
   const { toast } = useToast()
   const [formData, setFormData] = useState(
     {
-      companyName: "",
-      companyNumber: "",
-      companyEmail: "",
-      companyAddress: "",
-      contact_details: {
-        customerName: "",
-        customerNumber: "",
-        customerEmail: "",
-        customerAddress: "",
-      }      
+      company_name: "",
+      Phone: "",
+      Email: "",
+      Address: "",
+      category: "Customer",
     })
 
   const formSchema = z.object({
@@ -63,11 +58,16 @@ function CustomerDetailsForm() {
 
     await createEESRecord(formData);
 
+    const inputElement = document.querySelectorAll("input");
+    inputElement.forEach((input) => {
+      input.value = ""
+    })
     setIsLoading(false);
     toast({
       title: "Client Data",
       description: "Client Data has been submitted Successfully",
     })
+    location.reload();
   }
 
   return(
@@ -82,13 +82,13 @@ function CustomerDetailsForm() {
                   <div className="flex flex-col gap-3">
                   <FormField 
                     control={form.control}
-                    name="companyName"
+                    name="company_name"
                     render={() => 
                       <FormItem>
                         <FormLabel>Name of your company</FormLabel>
                         <FormControl>
                           <Input 
-                          name="companyName"
+                          name="company_name"
                           onChange={handleInputChange}
                           placeholder="Company Name"/>
                         </FormControl>
@@ -98,13 +98,13 @@ function CustomerDetailsForm() {
                     />
                     <FormField 
                     control={form.control}
-                    name="companyNumber"
+                    name="Phone"
                     render={() => 
                       <FormItem>
                         <FormLabel>Phone Number</FormLabel>
                         <FormControl>
                           <Input 
-                          name="customerNumber"
+                          name="Phone"
                           onChange={handleInputChange}
                           placeholder="Enter your Mobile Number"/>
                         </FormControl>
@@ -114,13 +114,13 @@ function CustomerDetailsForm() {
                     />
                     <FormField 
                     control={form.control}
-                    name="companyEmail"
+                    name="Email"
                     render={() => 
                       <FormItem>
                         <FormLabel>Email</FormLabel>
                         <FormControl>
                           <Input 
-                          name="companyEmail"
+                          name="Email"
                           onChange={handleInputChange}
                           placeholder="Email"/>
                         </FormControl>
@@ -130,13 +130,13 @@ function CustomerDetailsForm() {
                     />
                     <FormField 
                     control={form.control}
-                    name="companyAddress"
+                    name="Address"
                     render={() => 
                       <FormItem>
                         <FormLabel>Address</FormLabel>
                         <FormControl>
                           <Input 
-                          name="companyAddress"
+                          name="Address"
                           onChange={handleInputChange}
                           placeholder="Address"/>
                         </FormControl>
@@ -285,7 +285,7 @@ function CustomerDetailsForm() {
             </div> 
 
             {/* Submit */}
-          <Button type="submit" onClick={handleSubmit}>
+          <Button type="submit">
             {!isLoading ? "Submit" 
               : <> <Loader2 className="animate-spin" /> Submit </>
             }
@@ -302,6 +302,7 @@ function CustomerDetailsForm() {
 export async function createEESRecord(requestData) {
   const apiUrl = "https://0znzn1z8z4.execute-api.ap-south-1.amazonaws.com/Dev/EES_Create_Record";
   requestData["Type"] = "Customer";
+  requestData["category"] = "Customer";
   try {
     const response = await fetch(apiUrl, {
       method: "POST",

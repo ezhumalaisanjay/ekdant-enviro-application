@@ -17,18 +17,70 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
+import { useEffect, useState } from "react"
 
 export function AreaChartComponent() {
+  const [chartData, setChartData] = useState([])
   
-  const chartData = [
-    { day: "Sunday", walkin: 15, email: 13, call : 21 },
-    { day: "Monday", walkin: 12, email: 5, call : 20 },
-    { day: "Tuesday", walkin: 19, email: 7, call : 22 },
-    { day: "Wednesday", walkin: 18, email: 6, call : 10 },
-    { day: "Thursday", walkin: 16, email: 2, call : 18 },
-    { day: "Friday", walkin: 21, email: 9, call : 11 },
-    { day: "Saturday", walkin: 22, email: 6, call : 12 },
-  ]
+  useEffect(() => {
+  
+    const getRecords = async (category: string, type: string) => {
+      try {
+  
+        const today = new Date();
+        const dayOfWeek = today.getDay(); // Get the day of the week (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
+  
+        // Get the start of the week (Sunday as the first day of the week)
+        const startOfWeek = new Date(today);
+        startOfWeek.setDate(today.getDate() - dayOfWeek); // Adjust the date to the previous Sunday
+  
+        // Get the end of the week (Saturday as the last day of the week)
+        const endOfWeek = new Date(startOfWeek);
+        endOfWeek.setDate(startOfWeek.getDate() + 6); // Add 6 days to get the Saturday
+  
+    
+        // Format dates as YYYY-MM-DD
+        const formatDate = (date: Date) => date.toISOString().split("T")[0];
+    
+        const response = await fetch("https://0znzn1z8z4.execute-api.ap-south-1.amazonaws.com/Dev/EES_dashboard_barchart", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ 
+            category, 
+            type, 
+            start_date: formatDate(startOfWeek),
+            end_date: formatDate(endOfWeek) 
+          }),
+        });
+    
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+    
+        const result = await response.json(); // Parse JSON once
+        const responseData = result.areaChartData
+        console.log("Response Area Data:", result);
+    
+        setChartData(responseData)
+        return responseData; // Return parsed result
+    
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          console.error("Error fetching records:", error.message);
+          return { error: error.message };
+        } else {
+          console.error("Unknown error:", error);
+          return { error: "An unknown error occurred" };
+        }
+      }
+    };
+    
+    // Example calls:
+    getRecords("areachart", "areachart"); // Fetch data for piechart with last 7 days
+  
+  }, [])
   
   const chartConfig = {
     walkin: {
@@ -65,7 +117,7 @@ export function AreaChartComponent() {
           >
             <CartesianGrid vertical={false} />
             <XAxis
-              dataKey="day"
+              dataKey="dayOfWeek"
               tickLine={false}
               axisLine={false}
               tickMargin={8}

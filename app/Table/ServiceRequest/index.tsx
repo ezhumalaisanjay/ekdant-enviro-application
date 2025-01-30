@@ -163,7 +163,7 @@ const ServiceRequestTable = () => {
       header: "Ticket Status",
     },
     {
-      accessorKey: "fullName",
+      accessorKey: "companyName",
       header: ({column}) => (
         <Button
           variant="ghost"

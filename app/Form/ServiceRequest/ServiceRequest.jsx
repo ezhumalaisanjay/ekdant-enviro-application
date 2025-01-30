@@ -23,7 +23,6 @@ const formSchema = z.object({
 function ServiceRequestForm() {
   const { toast } = useToast();
   const [serviceSelected, setServiceSelected] = useState("");
-  const [serviceId, setServiceId] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [pickUp, setPickUp] = useState("");
   const [apiCustomerData, setApiCustomerData] = useState([])
@@ -38,11 +37,11 @@ function ServiceRequestForm() {
 
   }, [serviceSelected])
   
-  const uniqueId = `EES/${serviceId}/${Math.floor(Math.random() * 1000)}`
+  const uniqueId = `EES/${Math.floor(Math.random() * 1000)}`
 
   const [formData, setFormData] = useState({
     Sample_Reference: uniqueId,
-    visitType: "",
+    visit_type: "",
     companyName: "",
     contactNumber: "",
     email: "",
@@ -57,6 +56,7 @@ function ServiceRequestForm() {
     pickUp: "",
     priority: "",
     pickupDate: "",
+    ticket_status: "New",
     category: "Ticket",
     confirmation: false,
   });
@@ -726,7 +726,7 @@ function ServiceRequestForm() {
   }
 
   const handleSelectChangeVisitType = (value) => {
-    setFormData({ ...formData, visitType: value})
+    setFormData({ ...formData, visit_type: value})
   }
 
   const handleSelectChangePickup = (value) => {
@@ -779,11 +779,11 @@ function ServiceRequestForm() {
     setFormData({ ...formData, confirmation: e.target.checked });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setIsLoading(true);
     console.log("Form Data Submitted: ", formData);
     
-    //createEESRecord(formData, formdata.srn);
+    await createEESRecord(formData, formData.Sample_Reference);
     const inputElement = document.querySelectorAll("input");
     inputElement.forEach((input) => {
       input.value = ""
@@ -796,6 +796,8 @@ function ServiceRequestForm() {
       });
       setIsLoading(false);
     }, 2000);
+
+
     // Add logic to send formData to the server or process it further
   };
 
@@ -822,8 +824,8 @@ function ServiceRequestForm() {
                             <SelectValue placeholder="Select" />
                           </SelectTrigger>
                           <SelectContent>
-                            {apiCustomerData.map((data) => 
-                            <SelectItem value={data.Company_name}>{data.Company_name}</SelectItem>)
+                            {apiCustomerData.map((data, index) => 
+                            <SelectItem value={data.company_name} key={index}>{data.company_name}</SelectItem>)
                             }
                           </SelectContent>
                         </Select>
@@ -882,7 +884,7 @@ function ServiceRequestForm() {
                   />
                   <FormField 
                   control={form.control}
-                  name="visitType"
+                  name="visit_type"
                   render={() => 
                     <FormItem className="flex gap-2 items-center">
                       <FormLabel className="text-nowrap">Visit Type</FormLabel>

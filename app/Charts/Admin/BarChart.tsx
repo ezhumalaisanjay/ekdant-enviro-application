@@ -17,26 +17,78 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
+import { useEffect, useState } from "react"
 
 export function BarChartComponent() {
+  const [chartData, setChartData] = useState([])
 
-  const chartData = [
-    { day: "Sunday", inprocess: 9, completed: 40 },
-    { day: "Monday", inprocess: 7, completed: 39 },
-    { day: "Tuesday", inprocess: 5, completed: 50 },
-    { day: "Wednesday", inprocess: 2, completed: 37 },
-    { day: "Thursday", inprocess: 0, completed: 36 },
-    { day: "friday", inprocess: 3, completed: 38 },
-    { day: "saturday", inprocess: 10, completed: 30 },
-  ]
+  useEffect(() => {
+    
+      const getRecords = async (category: string, type: string) => {
+        try {
+    
+          const today = new Date();
+          const dayOfWeek = today.getDay(); // Get the day of the week (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
+    
+          // Get the start of the week (Sunday as the first day of the week)
+          const startOfWeek = new Date(today);
+          startOfWeek.setDate(today.getDate() - dayOfWeek); // Adjust the date to the previous Sunday
+    
+          // Get the end of the week (Saturday as the last day of the week)
+          const endOfWeek = new Date(startOfWeek);
+          endOfWeek.setDate(startOfWeek.getDate() + 6); // Add 6 days to get the Saturday
+    
+      
+          // Format dates as YYYY-MM-DD
+          const formatDate = (date: Date) => date.toISOString().split("T")[0];
+      
+          const response = await fetch("https://0znzn1z8z4.execute-api.ap-south-1.amazonaws.com/Dev/EES_dashboard_barchart", {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ 
+              category, 
+              type, 
+              start_date: formatDate(startOfWeek),
+              end_date: formatDate(endOfWeek) 
+            }),
+          });
+      
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+      
+          const result = await response.json(); // Parse JSON once
+          const responseData = result.barchartlabData
+          console.log("Response BarChartLab Data:", result);
+      
+          setChartData(responseData);
+          return responseData; // Return parsed result
+      
+        } catch (error: unknown) {
+          if (error instanceof Error) {
+            console.error("Error fetching records:", error.message);
+            return { error: error.message };
+          } else {
+            console.error("Unknown error:", error);
+            return { error: "An unknown error occurred" };
+          }
+        }
+      };
+      
+      // Example calls:
+      getRecords("barchartlab", "barchartlab"); // Fetch data for piechart with last 7 days
+    
+    }, [])
   
   const chartConfig = {
-    inprocess: {
-      label: "In-process",
+    Testing_in_Progress: {
+      label: "In-Progress",
       color: "hsl(var(--chart-1))",
     },
-    completed: {
-      label: "Completed",
+    Report_Generated: {
+      label: "Generated",
       color: "hsl(var(--chart-2))",
     },
   } satisfies ChartConfig
@@ -53,7 +105,7 @@ export function BarChartComponent() {
           <BarChart accessibilityLayer data={chartData}>
             <CartesianGrid vertical={false} />
             <XAxis
-              dataKey="day"
+              dataKey="dayOfWeek"
               tickLine={false}
               tickMargin={10}
               axisLine={false}
@@ -63,8 +115,8 @@ export function BarChartComponent() {
               cursor={false}
               content={<ChartTooltipContent indicator="dashed" />}
             />
-            <Bar dataKey="inprocess" fill="var(--color-inprocess)" radius={4} />
-            <Bar dataKey="completed" fill="var(--color-completed)" radius={4} />
+            <Bar dataKey="Testing_in_Progress" fill="var(--color-Testing_in_Progress)" radius={4} />
+            <Bar dataKey="Report_Generated" fill="var(--color-Report_Generated)" radius={4} />
           </BarChart>
         </ChartContainer>
       </CardContent>
