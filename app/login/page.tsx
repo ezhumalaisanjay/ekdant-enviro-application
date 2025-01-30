@@ -30,8 +30,12 @@ function Login() {
     try {
       await signUp(email, password, fullName, phoneNumber);
       setSignUpSuccess(true);
-    } catch (error) {
-      setErrorMessage(error.message || "Sign-up failed.");
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setErrorMessage(error.message || "Sign-in failed. Check your credentials.");
+      } else {
+        setErrorMessage("Sign-in failed. Check your credentials.");
+      }
     }
     setIsLoading(false);
   };
@@ -42,8 +46,12 @@ function Login() {
     setErrorMessage("");
     try {
       await confirmSignUp(fullName, confirmationCode);
-    } catch (error) {
-      setErrorMessage(error.message || "Invalid confirmation code.");
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setErrorMessage(error.message || "Sign-in failed. Check your credentials.");
+      } else {
+        setErrorMessage("Sign-in failed. Check your credentials.");
+      }
     }
     setIsLoading(false);
   };
@@ -54,10 +62,12 @@ function Login() {
     setErrorMessage("");
     try {
       await signIn(email, password);
-    } catch (error) {
-      setErrorMessage(
-        error.message || "Sign-in failed. Check your credentials."
-      );
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setErrorMessage(error.message || "Sign-in failed. Check your credentials.");
+      } else {
+        setErrorMessage("Sign-in failed. Check your credentials.");
+      }
     }
     setIsLoading(false);
   };
