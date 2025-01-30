@@ -19,10 +19,8 @@ import { StepChartComponent } from "../../Charts/Admin/PieChartActive";
 import { Frame, PieChart } from "lucide-react";
 
 export default function AdminDashBoard() {
-  
-  
-  const name_user = localStorage.getItem('name_user') || "Default User"; // Provide a default if null
-  const email_user = localStorage.getItem('email_user') || "default@example.com"; // Provide a default if null
+  const name_user = localStorage.getItem("name_user") ?? "Guest User"; // Use nullish coalescing for better handling
+  const email_user = localStorage.getItem("email_user") ?? "guest@example.com"; // Default email for better UX
 
   const data = {
     user: {
@@ -31,28 +29,28 @@ export default function AdminDashBoard() {
       avatar: "/avatars/shadcn.jpg",
     },
 
-  projects: [
-    {
-      name: "DashBoard",
-      url: "/admin/dashboard",
-      icon: Frame,
-      title: "Dashboard",
-      id: 0,
-    },
-    {
-      name: "Test Request",
-      url: "/admin/testrequest",
-      icon: PieChart,
-      title: "Service Request",
-      id: 1,
-    },
-  ],
-}
+    projects: [
+      {
+        name: "DashBoard",
+        url: "/admin/dashboard",
+        icon: Frame,
+        title: "Dashboard",
+        id: 0,
+      },
+      {
+        name: "Test Request",
+        url: "/admin/testrequest",
+        icon: PieChart,
+        title: "Service Request",
+        id: 1,
+      },
+    ],
+  };
 
   return (
     <>
       <SidebarProvider>
-        <AppSidebar active={0} data={data}/>
+        <AppSidebar active={0} data={data} />
         <div className="flex flex-col w-full p-3">
           <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
             <div className="flex items-center gap-2 px-4">
@@ -61,14 +59,14 @@ export default function AdminDashBoard() {
               <Breadcrumb>
                 <BreadcrumbList>
                   <BreadcrumbItem className="hidden md:block font-semibold text-slate-800">
-                  <Link href="/admin/dashboard"> DashBoard </Link>
+                    <Link href="/admin/dashboard"> DashBoard </Link>
                   </BreadcrumbItem>
                   <BreadcrumbSeparator />
                 </BreadcrumbList>
               </Breadcrumb>
             </div>
           </header>
-          { /*main Content here */ }
+          {/*main Content here */}
           <div className="grid gap-3">
             <div className="flex flex-wrap justify-evenly gap-3">
               <AreaChartComponent />
@@ -84,7 +82,7 @@ export default function AdminDashBoard() {
               <StepChartComponent />
             </div>
           </div>
-          </div>
+        </div>
       </SidebarProvider>
     </>
   );

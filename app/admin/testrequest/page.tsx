@@ -17,10 +17,8 @@ import { Button } from "@/components/ui/button";
 import { Frame, PieChart, X } from "lucide-react";
 
 export default function ServiceRequest() {
-  
-  
-  const name_user = localStorage.getItem('name_user') || "Default User"; // Provide a default if null
-  const email_user = localStorage.getItem('email_user') || "default@example.com"; // Provide a default if null
+  const name_user = localStorage.getItem("name_user") ?? "Guest User"; // Use "Guest User" as a fallback
+  const email_user = localStorage.getItem("email_user") ?? "guest@example.com"; // Default email for better UX
 
   const data = {
     user: {
@@ -28,7 +26,7 @@ export default function ServiceRequest() {
       email: email_user,
       avatar: "/avatars/shadcn.jpg",
     },
-  
+
     projects: [
       {
         name: "DashBoard",
@@ -45,12 +43,12 @@ export default function ServiceRequest() {
         id: 1,
       },
     ],
-  }
+  };
 
   return (
     <>
       <SidebarProvider>
-        <AppSidebar active={1} data={data}/>
+        <AppSidebar active={1} data={data} />
         <div className="flex flex-col w-full p-3">
           <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
             <div className="flex items-center gap-2 px-4">
@@ -83,7 +81,9 @@ export default function ServiceRequest() {
                       <DrawerDescription></DrawerDescription>
                     </div>
                     <DrawerClose>
-                      <Button variant="outline"><X /></Button>
+                      <Button variant="outline">
+                        <X />
+                      </Button>
                     </DrawerClose>
                   </DrawerHeader>
                   <ServiceRequestForm />
@@ -94,7 +94,7 @@ export default function ServiceRequest() {
               <Table />
             </div>
           </div>
-          </div>
+        </div>
       </SidebarProvider>
     </>
   );
