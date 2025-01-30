@@ -36,7 +36,7 @@ export default function ServiceRequest() {
       email: userEmail,
       avatar: "/avatars/shadcn.jpg",
     },
-  
+
     projects: [
       {
         name: "DashBoard",
@@ -60,7 +60,7 @@ export default function ServiceRequest() {
         id: 2,
       },
     ],
-  }
+  };
 
   return (
     <>
@@ -98,7 +98,9 @@ export default function ServiceRequest() {
                       <DrawerDescription></DrawerDescription>
                     </div>
                     <DrawerClose>
-                      <Button variant="outline"><X /></Button>
+                      <Button variant="outline">
+                        <X />
+                      </Button>
                     </DrawerClose>
                   </DrawerHeader>
                   <ServiceRequestForm />
@@ -109,7 +111,7 @@ export default function ServiceRequest() {
               <Table />
             </div>
           </div>
-          </div>
+        </div>
       </SidebarProvider>
     </>
   );

@@ -396,7 +396,7 @@ function MappedServiceRequestForm({ rowData }) {
     "Before Acoustic",
     "After Acoustic",
     "Total Insertion Loss",
-  ]
+  ];
 
   const nineteenthOptions = [
     "Illumination"
