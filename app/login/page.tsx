@@ -31,8 +31,7 @@ function Login() {
       await signUp(email, password, fullName, phoneNumber);
       setSignUpSuccess(true);
     } catch (error) {
-      const typedError = error as Error;
-      setErrorMessage(typedError.message || "Sign-up failed.");
+      setErrorMessage(error.message || "Sign-up failed.");
     }
     setIsLoading(false);
   };
@@ -42,10 +41,9 @@ function Login() {
     setIsLoading(true);
     setErrorMessage("");
     try {
-      await confirmSignUp(fullName, confirmationCode, phoneNumber, email);
+      await confirmSignUp(fullName, confirmationCode);
     } catch (error) {
-      const typedError = error as Error;
-      setErrorMessage(typedError.message || "Invalid confirmation code.");
+      setErrorMessage(error.message || "Invalid confirmation code.");
     }
     setIsLoading(false);
   };
@@ -57,8 +55,9 @@ function Login() {
     try {
       await signIn(email, password);
     } catch (error) {
-      const typedError = error as Error;
-      setErrorMessage(typedError.message || "Sign-in failed. Check your credentials.");
+      setErrorMessage(
+        error.message || "Sign-in failed. Check your credentials."
+      );
     }
     setIsLoading(false);
   };
@@ -98,7 +97,9 @@ function Login() {
                 />
               </div>
             </div>
-            {errorMessage && <p className="text-red-500 mt-2">{errorMessage}</p>}
+            {errorMessage && (
+              <p className="text-red-500 mt-2">{errorMessage}</p>
+            )}
             <Button
               className="flex w-full mt-4"
               onClick={handleSignIn}
@@ -168,7 +169,9 @@ function Login() {
                 />
               </div>
             </div>
-            {errorMessage && <p className="text-red-500 mt-2">{errorMessage}</p>}
+            {errorMessage && (
+              <p className="text-red-500 mt-2">{errorMessage}</p>
+            )}
             <Button
               className="flex w-full mt-4"
               onClick={handleSignUp}
@@ -179,7 +182,8 @@ function Login() {
             {signUpSuccess && (
               <div className="mt-4">
                 <p className="text-center text-green-600">
-                  Sign-up successful! Please check your email for the confirmation code.
+                  Sign-up successful! Please check your email for the
+                  confirmation code.
                 </p>
                 <div className="mt-4">
                   <Label>Enter Confirmation Code</Label>
