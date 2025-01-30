@@ -783,7 +783,7 @@ function ServiceRequestForm() {
     setIsLoading(true);
     console.log("Form Data Submitted: ", formData);
     
-    await createEESRecord(formData, formData.Sample_Reference);
+    /*await createEESRecord(formData, formData.Sample_Reference);*/
     const inputElement = document.querySelectorAll("input");
     inputElement.forEach((input) => {
       input.value = ""
@@ -1726,7 +1726,7 @@ function ServiceRequestForm() {
                     <Select
                     onValueChange={handleSelectChangeDrawn}>
                       <SelectTrigger>
-                        <SelectValue placeholder="EES"/>
+                        <SelectValue placeholder="Select"/>
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="EES">EES</SelectItem>
