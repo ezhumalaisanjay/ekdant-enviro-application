@@ -800,7 +800,7 @@ function ServiceRequestForm() {
 
 
   return(
-    <div className="p-3 w-full h-[500px] overflow-y-auto">
+    <div className="p-3 w-full h-[682px] overflow-y-auto">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)}>
           <div className="grid gap-3">
