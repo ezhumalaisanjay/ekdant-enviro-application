@@ -20,6 +20,7 @@ import "jspdf-autotable";
 import Papa from "papaparse";
 import { ColumnDef } from '@tanstack/react-table';
 import { autoTable } from "jspdf-autotable";
+import { Checkbox } from "@/components/ui/checkbox";
 
 declare module "jspdf" {
   interface jsPDF {
@@ -156,6 +157,27 @@ const ServiceRequestTable = () => {
 
   const columns: ColumnDef<Data>[] = [
     {
+      id: "select",
+      header: ({ table }) => (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() || 
+            (table.getIsSomePageRowsSelected() && "indeterminate")
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+        />
+      ),
+      cell: ({row}) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+          />
+      ),
+      enableSorting: false,
+      enableHiding: false,
+    }, {
       accessorKey: "Sample_Reference",
       header: "SRN",
     },{
@@ -168,7 +190,7 @@ const ServiceRequestTable = () => {
         <Button
           variant="ghost"
           className="p-0 m-0"
-          onClick={() => column.getToggleSortingHandler()}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Customer Name
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -185,8 +207,7 @@ const ServiceRequestTable = () => {
         <Button
           className="p-0 m-0"
           variant="ghost"
-          onClick={() => column.getToggleSortingHandler()}
-          
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Service Type
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -199,7 +220,7 @@ const ServiceRequestTable = () => {
         <Button
           className="p-0 m-0"
           variant="ghost"
-          onClick={() => column.getToggleSortingHandler()}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Date
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -212,7 +233,7 @@ const ServiceRequestTable = () => {
         <Button
           className="p-0 m-0"
           variant="ghost"
-          onClick={() => column.getToggleSortingHandler()}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Allotted To
           <ArrowUpDown className="ml-2 h-4 w-4" />

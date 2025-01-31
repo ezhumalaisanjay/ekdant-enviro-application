@@ -27,6 +27,8 @@ function ServiceRequestForm({drawerClose}) {
   const [pickUp, setPickUp] = useState("");
   const [apiCustomerData, setApiCustomerData] = useState([])
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCustomerName, setSelectedCustomerName] = useState("");
+  const [mappedApiData, setMappedApiData] = useState(null);
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -39,9 +41,9 @@ function ServiceRequestForm({drawerClose}) {
     Sample_Reference: uniqueId,
     visit_type: "",
     companyName: "",
-    contactNumber: "",
-    email: "",
-    address: "",
+    contactNumber: mappedApiData?.Phone || "",
+    email: mappedApiData?.Email || "",
+    address: mappedApiData?.Address || "",
     serviceType: "",
     parameters: [],
     preferredDate: "",
@@ -93,6 +95,21 @@ function ServiceRequestForm({drawerClose}) {
     getRecords("Customer") 
 
   }, [])
+
+  useEffect(() => {
+
+    const getMappedData = () => {
+      const TempMappedApiData = apiCustomerData.filter((data) => data.company_name === selectedCustomerName);
+      console.log("TemporarayMapped Data :", TempMappedApiData);
+      setMappedApiData(TempMappedApiData[0]);
+    }
+
+    if (selectedCustomerName) {
+      getMappedData();
+    }
+
+  }, [selectedCustomerName])
+
 
   const serviceRequests = [
     "Water: General Parameters",
@@ -722,6 +739,7 @@ function ServiceRequestForm({drawerClose}) {
 
   const handleSelectChangeName = (value) => {
     setFormData({ ...formData, companyName: value})
+    setSelectedCustomerName(value);
   }
 
   const handleSelectChangeService = (value) => {
@@ -841,6 +859,7 @@ function ServiceRequestForm({drawerClose}) {
                       <FormControl>
                         <Input 
                         name="contactNumber"
+                        defaultValue={mappedApiData?.Phone || ""}
                         onChange={handleInputChange}
                         placeholder="Enter your Number"/>
                       </FormControl>
@@ -857,6 +876,7 @@ function ServiceRequestForm({drawerClose}) {
                       <FormControl>
                         <Input 
                         name="email"
+                        defaultValue={mappedApiData?.Email || ""}
                         onChange={handleInputChange}
                         placeholder="Email"/>
                       </FormControl>
@@ -873,6 +893,7 @@ function ServiceRequestForm({drawerClose}) {
                       <FormControl>
                         <Input 
                         name="address"
+                        defaultValue={mappedApiData?.Address || ""}
                         onChange={handleInputChange}
                         placeholder="Enter your address..." className="flex h-24"/>
                       </FormControl>

@@ -19,6 +19,7 @@ import "jspdf-autotable";
 import Papa from "papaparse";
 import { ColumnDef } from '@tanstack/react-table';
 import { autoTable } from "jspdf-autotable";
+import { Checkbox } from "@/components/ui/checkbox";
 
 declare module "jspdf" {
   interface jsPDF {
@@ -126,6 +127,27 @@ const ClientDetailsTable = () => {
 
   const columns: ColumnDef<Data>[] = [
     {
+      id: "select",
+      header: ({ table }) => (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() || 
+            (table.getIsSomePageRowsSelected() && "indeterminate")
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+        />
+      ),
+      cell: ({row}) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+          />
+      ),
+      enableSorting: false,
+      enableHiding: false,
+    }, {
       accessorKey: "CustomerID",
       header: "Customer ID",
     },
