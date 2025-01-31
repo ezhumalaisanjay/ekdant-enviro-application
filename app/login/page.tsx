@@ -11,6 +11,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-dropdown-menu";
 import { signUp, confirmSignUp, signIn } from "@/lib/cognito"; // Import sign-in function
+import Image from "next/image";
+import logo from "../../imges/ekdant-logo-icon.png"
 
 function Login() {
   const [signUpMode, setSignUpMode] = useState(false);
@@ -78,7 +80,11 @@ function Login() {
         // SIGN-IN FORM
         <Card className="md:w-[460px] p-10 border border-slate-400 border-opacity-25">
           <CardHeader className="pb-2">
-            <div className="flex flex-col justify-center text-center">
+            <div className="flex flex-col justify-center items-center">
+              <div className="flex p-3 border border-slate-400 border-opacity-25 rounded-lg item-center gap-2 justify-center">
+                <Image src={logo} alt="Logo" width={50} height={50}/>
+                <div className="text-xs text-green-600 font-semibold">Ekdant Enviro Services Ltd</div>
+              </div>
               <p className="text-lg font-semibold">Sign In</p>
             </div>
           </CardHeader>
@@ -117,6 +123,7 @@ function Login() {
             >
               {isLoading ? "Loading..." : "Log in"}
             </Button>
+            {/*
             <div className="text-center font-light text-sm mt-4">
               Don&rsquo;t have an account?{" "}
               <span
@@ -125,7 +132,7 @@ function Login() {
               >
                 Sign up
               </span>
-            </div>
+            </div> */}
           </CardContent>
         </Card>
       ) : (

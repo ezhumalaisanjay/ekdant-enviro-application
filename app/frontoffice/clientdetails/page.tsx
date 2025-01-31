@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/breadcrumb"
 import { Separator } from "@/components/ui/separator"
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { Frame, HeartHandshake, PieChart, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import ClientDetailsTable from "@/app/Table/ClientDetails";
@@ -20,6 +19,7 @@ import ClientDetailsTable from "@/app/Table/ClientDetails";
 export default function ClientDetails() {
   const [username, setUsername] = useState("");
   const [userEmail, setUserEmail] = useState("");
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   useEffect( () => {
       if (typeof window !== 'undefined') {
@@ -62,6 +62,10 @@ export default function ClientDetails() {
     ],
   }
 
+  const handleDrawer = () => {
+    setDrawerOpen(false);
+  }
+
   return (
     <>
       <SidebarProvider>
@@ -91,7 +95,7 @@ export default function ClientDetails() {
           <div>
             <div className="flex justify-between items-center m-3">
               <h1 className="font-semibold">Client Details</h1>
-              <Drawer>
+              <Drawer open={drawerOpen} onOpenChange={setDrawerOpen}>
                 <DrawerTrigger className="p-2 rounded-lg text-sm text-white font-semibold bg-blue-500 hover:bg-blue-400">
                   Add Client
                 </DrawerTrigger>
@@ -102,10 +106,10 @@ export default function ClientDetails() {
                       <DrawerDescription></DrawerDescription>
                     </div>
                     <DrawerClose>
-                      <Button variant="outline"><X /></Button>
+                      <X />
                     </DrawerClose>
                   </DrawerHeader>
-                  <CustomerDetailsForm />
+                  <CustomerDetailsForm drawerClose={handleDrawer}/>
                 </DrawerContent>
               </Drawer>
             </div>

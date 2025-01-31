@@ -19,8 +19,14 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart"
 
+interface ChartData {
+  status: string
+  tickets: number
+  fill: string
+}
+
 export function PieChartComponent() {
-  const [chartData, setChartData] = React.useState([])
+  const [chartData, setChartData] = React.useState<ChartData[]>([])
   //const [totalTickets, setTotalTickets] = React.useState(0)
   
   React.useEffect(() => {
@@ -105,11 +111,12 @@ const chartConfig = {
   }
 } satisfies ChartConfig
 
-/*
+
   const totalTickets = React.useMemo(() => {
-    return chartData.reduce((acc, curr) => acc + curr.tickets, 0)
-  }, [])
-*/
+    if (chartData.length === 0) return 0
+    return chartData.reduce((acc, curr) => acc + (curr.tickets || 0), 0)
+  }, [chartData])
+
 
   return (
     <Card className="flex flex-col w-[350px]">
@@ -149,14 +156,14 @@ const chartConfig = {
                           y={viewBox.cy}
                           className="fill-foreground text-3xl font-bold"
                         >
-                          
+                          {totalTickets.toLocaleString()}
                         </tspan>
                         <tspan
                           x={viewBox.cx}
                           y={(viewBox.cy || 0) + 24}
                           className="fill-muted-foreground"
                         >
-                          
+                          Tickets
                         </tspan>
                       </text>
                     )

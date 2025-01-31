@@ -186,6 +186,7 @@ const ServiceRequestTable = () => {
           className="p-0 m-0"
           variant="ghost"
           onClick={() => column.getToggleSortingHandler()}
+          
         >
           Service Type
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -287,9 +288,7 @@ const ServiceRequestTable = () => {
                         </DrawerDescription>
                       </div>
                       <DrawerClose>
-                        <Button variant={"outline"}>
                           <X />
-                        </Button>
                       </DrawerClose>
                     </DrawerHeader>
                     <MappedServiceRequestForm rowData={rowData} />

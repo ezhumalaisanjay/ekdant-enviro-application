@@ -28,7 +28,6 @@ interface DataItem {
   projects: Project[];
 }
 
-
 export function AppSidebar({ active, data }: { active: number; data: DataItem}) {
   return (
     <Sidebar collapsible="icon">

@@ -12,7 +12,7 @@ import { Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 
-function CustomerDetailsForm() {
+function CustomerDetailsForm({drawerClose}) {
   /*
   const [customerRows, setCustomerRows] = useState([{}]); // Initial state with one row
   const [addCustomerClick, setAddCustomerClick] = useState(false); */
@@ -66,7 +66,8 @@ function CustomerDetailsForm() {
     toast({
       title: "Client Data",
       description: "Client Data has been submitted Successfully",
-    })
+    });
+    drawerClose()
     location.reload();
   }
 

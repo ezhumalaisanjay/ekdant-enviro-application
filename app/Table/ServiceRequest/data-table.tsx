@@ -108,9 +108,9 @@ export function DataTable<TData, TValue>({
         <div className="flex w-full">
           <Input
             placeholder="Filter by Name..."
-            value={(table.getColumn("fullName")?.getFilterValue() as string) ?? ""}
+            value={(table.getColumn("companyName")?.getFilterValue() as string) ?? ""}
             onChange={(event) =>
-              table.getColumn("fullName")?.setFilterValue(event.target.value)
+              table.getColumn("companyName")?.setFilterValue(event.target.value)
             }
             className="max-w-sm ml-2"
           />

@@ -30,7 +30,8 @@ function MappedServiceRequestForm({ rowData }) {
   });
   
   const [formData, setFormData] = useState({
-    fullName: "",
+    visit_type: "",
+    companyName: "",
     contactNumber: "",
     email: "",
     address: "",
@@ -42,7 +43,10 @@ function MappedServiceRequestForm({ rowData }) {
     remarks: "",
     drawnBy: "",
     pickUp: "",
-    confirmation: false,
+    priority: "",
+    pickupDate: "",
+    ticket_status: "New",
+    category: "Ticket"
   });
 
   const serviceRequests = [
@@ -639,7 +643,24 @@ function MappedServiceRequestForm({ rowData }) {
           ...prevState,
           parameters: twentyNinethOptions,
         }))}
-      console.log(formData.parameters)
+        
+      const serviceTypes = [ 
+        { name: "Water: General Parameters", code: "W" }, 
+        { name: "Water Complete Analysis as per 10500: 2012", code: "W" }, 
+        { name: "Water - Construction Parameters", code: "W" }, 
+        { name: "Water - Microbiological Analysis", code: "W" }, 
+        { name: "Water –Complete Microbiological Analysis", code: "W" }, 
+        { name: "Food Microbiological Parameters", code: "FM" }, 
+        { name: "Food Chemical Parameters", code: "FC" }, 
+        { name: "Sludge Analysis Parameters", code: "SW" }, 
+        { name: "Soil Testing Parameters", code: "S" }, { name: "Oil - Diesel Testing Parameters", code: "MM" }, { name: "Oil - Nutrition Value + FSSAI Parameters", code: "MM" }, { name: "Coal Analysis Parameters", code: "MM" }, { name: "Effluent Water Analysis Parameters", code: "WW" }, { name: "Sewage Water Chemical Parameters", code: "WW" }, { name: "Ambient Air Quality Monitoring Parameters", code: "AS" }, { name: "DG Stack Emission Parameters", code: "AS" }, { name: "Ambient Noise Monitoring Parameters", code: "AS" }, { name: "DG Noise Monitoring Parameters", code: "AS" }, { name: "Lux Monitoring Parameters", code: "AS" }, { name: "Indoor Air Quality", code: "AS" }, { name: "Compressor Air Monitoring Parameters", code: "AS" }, { name: "Feldspar Analysis Parameter", code: "MM" }, { name: "Quartz Sample Analysis Parameters", code: "MM" }, { name: "Lime Stone Sample Analysis Parameters", code: "MM" }, { name: "Plate - Microbiological Analysis", code: "EM" }, { name: "Swab - Microbiological Analysis", code: "EM" }, { name: "Sewage Water Microbiological Parameters", code: "EM" }, { name: "Weather Monitoring Parameters", code: "EM" }, { name: "Oxygen Purity Parameters", code: "EM" } ];
+  
+  
+      serviceTypes.map((service) => {
+        if(service.name == serviceSelected) { 
+          console.log(service.code);
+        }
+      })
   }, [serviceSelected])
 
   const handleInputChange = (e) => {
@@ -647,9 +668,17 @@ function MappedServiceRequestForm({ rowData }) {
     setFormData({ ...formData, [name]: value });
   };
 
+  /*const handleSelectChangeName = (value) => {
+    setFormData({ ...formData, companyName: value})
+  }*/
+
   const handleSelectChangeService = (value) => {
     setFormData({ ...formData, serviceType: value})
     setServiceSelected(value);
+  }
+
+  const handleSelectChangeVisitType = (value) => {
+    setFormData({ ...formData, visit_type: value})
   }
 
   const handleSelectChangePickup = (value) => {
@@ -662,17 +691,25 @@ function MappedServiceRequestForm({ rowData }) {
   }
 
   const datePicker = (date) => {
-    const formattedDate = format(date, "MM/dd/yyyy");
+    const formattedDate = format(date, "yyyy-MM-dd");
     setFormData({...formData, preferredDate: formattedDate});
   }
 
   const serviceDatePicker = (date) => {
-    const formattedDate = format(date, "MM/dd/yyyy");
+    const formattedDate = format(date, "yyyy-MM-dd");
     setFormData({...formData, date: formattedDate});
   }
-
+/*
+  const pickupDatePicker = (date) => {
+    const formattedDate = format(date, "yyyy-MM-dd");
+    setFormData({...formData, pickupDate: formattedDate});
+  }*/
   const handleSelectChangeAllocate = (value) => {
     setFormData({...formData, allottedTo: value});
+  }
+
+  const handleSelectChangePriority = (value) => {
+    setFormData({...formData, priority: value});
   }
 
   const handleCheckboxChange = (e) => {
@@ -688,10 +725,6 @@ function MappedServiceRequestForm({ rowData }) {
         parameters: prevState.parameters.filter((param) => param !== value),
       }));
     }
-  };
-
-  const handleConfirmationChange = (e) => {
-    setFormData({ ...formData, confirmation: e.target.checked });
   };
 
   const handleSubmit = () => {
@@ -806,7 +839,7 @@ function MappedServiceRequestForm({ rowData }) {
                   name="visit_type"
                   render={() => 
                     <FormItem className="flex gap-2 items-center">
-                      <FormLabel className="text-nowrap">Visit Type</FormLabel>
+                      <FormLabel className="text-nowrap">Mode of Request</FormLabel>
                       <FormControl>
                         <Select 
                         defaultValue={rowData.visit_type}
@@ -1820,53 +1853,38 @@ function MappedServiceRequestForm({ rowData }) {
                   </FormItem>
                 }
                 />
+                
+                {/* Priority */}
+
+                <FormField 
+                  control={form.control}
+                  name="priority"
+                  render={() => 
+                    <FormItem className="flex gap-3 items-center mb-3">
+                      <FormLabel>Priority</FormLabel>
+                      <FormControl>
+                        <Select
+                        defaultValue={rowData.priority}
+                        onValueChange={handleSelectChangePriority}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select"/>
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="low">Low</SelectItem>
+                            <SelectItem value="medium">Medium</SelectItem>
+                            <SelectItem value="high">High</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  }
+                  />
               </CardContent>
             </Card>
           </div>
 
-          {/* Confirmation */}
-          <FormField 
-          control={form.control}
-          name="confirmation"
-          render={() => 
-            <FormItem className="flex gap-3 items-center mb-3">
-              <FormControl>
-                 <input type="checkbox" onChange={handleConfirmationChange} />    
-              </FormControl>
-              <FormLabel>I confirm the details are accurate and agree to the pricing terms.</FormLabel>
-              <FormMessage />
-            </FormItem>
-          }
-          />
-
-          {/* Priority */}
-
-          <FormField 
-          control={form.control}
-          name="priority"
-          render={() => 
-            <FormItem className="flex gap-3 items-center mb-3">
-              <FormLabel>Priority</FormLabel>
-              <FormControl>
-                <Select>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select"/>
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="low">Low</SelectItem>
-                    <SelectItem value="medium">Medium</SelectItem>
-                    <SelectItem value="high">High</SelectItem>
-                  </SelectContent>
-                </Select>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          }
-          />
-
-          {/* Submit */}
-          <Button type="submit" onClick={handleSubmit}>Submit</Button>
-          <Button variant="outline" type="reset">Reset</Button>
         </form>
       </Form>
     </div>

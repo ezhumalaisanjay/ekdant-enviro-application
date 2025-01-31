@@ -20,23 +20,19 @@ const formSchema = z.object({
   date: z.string().date()
 })
 
-function ServiceRequestForm() {
+function ServiceRequestForm({drawerClose}) {
   const { toast } = useToast();
   const [serviceSelected, setServiceSelected] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [pickUp, setPickUp] = useState("");
   const [apiCustomerData, setApiCustomerData] = useState([])
+  const [searchQuery, setSearchQuery] = useState('');
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       fullName: "",
     }
   });
-
-  useEffect(() => {
-
-  }, [serviceSelected])
-  
   const uniqueId = `EES/${Math.floor(Math.random() * 1000)}`
 
   const [formData, setFormData] = useState({
@@ -58,7 +54,6 @@ function ServiceRequestForm() {
     pickupDate: "",
     ticket_status: "New",
     category: "Ticket",
-    confirmation: false,
   });
 
   
@@ -96,6 +91,7 @@ function ServiceRequestForm() {
       }
     } 
     getRecords("Customer") 
+
   }, [])
 
   const serviceRequests = [
@@ -129,6 +125,10 @@ function ServiceRequestForm() {
     "Weather Monitoring Parameters",
     "Oxygen Purity Parameters" 
   ]
+
+  const filteredRequests = serviceRequests.filter(request => 
+    request.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const staffOptions1 = [
     "Elumalai",
@@ -716,6 +716,10 @@ function ServiceRequestForm() {
     setFormData({ ...formData, [name]: value });
   };
 
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
   const handleSelectChangeName = (value) => {
     setFormData({ ...formData, companyName: value})
   }
@@ -775,25 +779,22 @@ function ServiceRequestForm() {
     }
   };
 
-  const handleConfirmationChange = (e) => {
-    setFormData({ ...formData, confirmation: e.target.checked });
-  };
-
   const handleSubmit = async () => {
     setIsLoading(true);
     console.log("Form Data Submitted: ", formData);
-    
+  
     await createEESRecord(formData, formData.Sample_Reference);
     const inputElement = document.querySelectorAll("input");
     inputElement.forEach((input) => {
       input.value = ""
     })
+
+    setIsLoading(false);
+    drawerClose();
     toast({
       title: "Data",
       description: "Data has been submitted Successfully",
     })
-
-    setIsLoading(false);
     location.reload();
     // Add logic to send formData to the server or process it further
   };
@@ -884,7 +885,7 @@ function ServiceRequestForm() {
                   name="visit_type"
                   render={() => 
                     <FormItem className="flex gap-2 items-center">
-                      <FormLabel className="text-nowrap">Visit Type</FormLabel>
+                      <FormLabel className="text-nowrap">Mode of Request</FormLabel>
                       <FormControl>
                         <Select onValueChange={handleSelectChangeVisitType}>
                           <SelectTrigger>
@@ -924,8 +925,15 @@ function ServiceRequestForm() {
                         <SelectValue placeholder="Select"/>
                       </SelectTrigger>
                       <SelectContent>
+                        <Input
+                          type="text"
+                          value={searchQuery}
+                          onChange={handleSearchChange}
+                          placeholder="Search..."
+                          className="mb-2 placeholder:text-sm" // Optional styling, for margin at the bottom
+                        />
                         <SelectItem value="Select">Select</SelectItem>
-                        {serviceRequests.map((request, index) => <SelectItem value={request} key={index}>{request}</SelectItem>)}
+                        {filteredRequests.map((request, index) => <SelectItem value={request} key={index}>{request}</SelectItem>)}
                       </SelectContent>
                     </Select>
                   </FormControl>
@@ -1635,9 +1643,6 @@ function ServiceRequestForm() {
                         mode="single"
                         selected={field.value}
                         onSelect={field.onChange}
-                        disabled={(date) =>
-                          date > new Date() || date < new Date("1900-01-01")
-                        }
                         onDayClick={(e) => datePicker(e)}
                         initialFocus
                       />
@@ -1923,22 +1928,6 @@ function ServiceRequestForm() {
             </Card>
           </div>
 
-
-          {/* Confirmation */}
-          <FormField 
-          control={form.control}
-          name="confirmation"
-          render={() => 
-            <FormItem className="flex gap-3 items-center mb-3">
-              <FormControl>
-                 <input type="checkbox" onChange={handleConfirmationChange} />    
-              </FormControl>
-              <FormLabel>I confirm the details are accurate and agree to the pricing terms.</FormLabel>
-              <FormMessage />
-            </FormItem>
-          }
-          />
-
           {/* Submit */}
           <Button type="submit" onClick={handleSubmit}>
             {!isLoading ? "Submit" 
@@ -1951,9 +1940,6 @@ function ServiceRequestForm() {
     </div>
   )
 }
-
-
-
 
 
 

@@ -13,13 +13,13 @@ import {
 } from "@/components/ui/breadcrumb"
 import { Separator } from "@/components/ui/separator"
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { Frame, PieChart, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function ServiceRequest() {
   const [username, setUsername] = useState("");
   const [userEmail, setUserEmail] = useState("");
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   useEffect(() => {
       if (typeof window !== 'undefined') {
@@ -56,6 +56,10 @@ export default function ServiceRequest() {
     ],
   };
 
+  const handleDrawer = () => {
+    setDrawerOpen(false);
+  }
+
   return (
     <>
       <SidebarProvider>
@@ -81,7 +85,7 @@ export default function ServiceRequest() {
           <div>
             <div className="flex justify-between items-center m-3">
               <h1 className="font-semibold">Service Request</h1>
-              <Drawer>
+              <Drawer open={drawerOpen} onOpenChange={setDrawerOpen}>
                 <DrawerTrigger className="p-2 rounded-lg text-sm text-white font-semibold bg-blue-500 hover:bg-blue-400">
                   Add Service Request
                 </DrawerTrigger>
@@ -92,12 +96,10 @@ export default function ServiceRequest() {
                       <DrawerDescription></DrawerDescription>
                     </div>
                     <DrawerClose>
-                      <Button variant="outline">
                         <X />
-                      </Button>
                     </DrawerClose>
                   </DrawerHeader>
-                  <ServiceRequestForm />
+                  <ServiceRequestForm  drawerClose={handleDrawer}/>
                 </DrawerContent>
               </Drawer>
             </div>
