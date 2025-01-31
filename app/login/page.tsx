@@ -80,9 +80,9 @@ function Login() {
         // SIGN-IN FORM
         <Card className="md:w-[460px] p-10 border border-slate-400 border-opacity-25">
           <CardHeader className="pb-2">
-            <div className="flex flex-col justify-center items-center">
-              <div className="flex p-3 border border-slate-400 border-opacity-25 rounded-lg item-center gap-2 justify-center">
-                <Image src={logo} alt="Logo" width={50} height={50}/>
+            <div className="text-center">
+              <div className="flex flex-col justify-center items-center gap-3 p-3 border border-slate-400 border-opacity-25 rounded-lg">
+                <Image src={logo} className="items-center" alt="Logo" width={50} height={50}/>
                 <div className="text-xs text-green-600 font-semibold">Ekdant Enviro Services Ltd</div>
               </div>
               <p className="text-lg font-semibold">Sign In</p>
