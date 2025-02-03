@@ -16,7 +16,7 @@ import { FrontOfficeBigAreaChartComponent } from "@/app/Charts/FrontOffice/Front
 import { Frame, HeartHandshake, PieChart } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { FrontOfficeBigBarChartComponent } from "@/app/Charts/FrontOffice/FrontBigBarChart";
+//import { FrontOfficeBigBarChartComponent } from "@/app/Charts/FrontOffice/FrontBigBarChart";
 import { FrontOfficeBigLineChartComponent } from "@/app/Charts/FrontOffice/FrontBigLineChart";
 
 export default function FrontOfficeDashBoard() {
@@ -107,7 +107,6 @@ export default function FrontOfficeDashBoard() {
             </div> : 
             <div className="grid gap-3">
               <FrontOfficeBigAreaChartComponent />
-              <FrontOfficeBigBarChartComponent />
               <FrontOfficeBigLineChartComponent />
             </div>
             }
