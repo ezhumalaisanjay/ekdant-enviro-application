@@ -13,6 +13,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns"
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
+import { serviceRequests, staffOptions, parameterOptions, serviceTypes } from "../../src/serviceDatas"
 
 const formSchema = z.object({
   fullName: z.string(),
@@ -29,14 +30,7 @@ function ServiceRequestForm({drawerClose}) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCustomerName, setSelectedCustomerName] = useState("");
   const [mappedApiData, setMappedApiData] = useState(null);
-  const form = useForm({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      fullName: "",
-    }
-  });
   const uniqueId = `EES/${Math.floor(Math.random() * 1000)}`
-
   const [formData, setFormData] = useState({
     Sample_Reference: uniqueId,
     visit_type: "",
@@ -57,7 +51,12 @@ function ServiceRequestForm({drawerClose}) {
     ticket_status: "New",
     category: "Ticket",
   });
-
+  const form = useForm({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      fullName: "",
+    }
+  });
   
   useEffect(() => {
     const getRecords = async (category) => {
@@ -110,7 +109,6 @@ function ServiceRequestForm({drawerClose}) {
 
   }, [selectedCustomerName])
 
-
   useEffect(() => {
     const contactNumber = "contactNumber";
     const email = "email";
@@ -128,622 +126,163 @@ function ServiceRequestForm({drawerClose}) {
     getMappedData()
   }, [mappedApiData])
 
-  const serviceRequests = [
-    "Water: General Parameters",
-    "Water Complete Analysis as per 10500: 2012",
-    "Water - Construction Parameters",
-    "Water - Microbiological Analysis",
-    "Water –Complete Microbiological Analysis",
-    "Food Microbiological Parameters",
-    "Food Chemical Parameters",
-    "Sludge Analysis Parameters",
-    "Soil Testing Parameters",
-    "Oil - Diesel Testing Parameters",
-    "Oil - Nutrition Value + FSSAI Parameters",
-    "Coal Analysis Parameters",
-    "Effluent Water Analysis Parameters",
-    "Sewage Water Chemical Parameters",
-    "Ambient Air Quality Monitoring Parameters",
-    "DG Stack Emission Parameters",
-    "Ambient Noise Monitoring Parameters",
-    "DG Noise Monitoring Parameters",
-    "Lux Monitoring Parameters",
-    "Indoor Air Quality",
-    "Compressor Air Monitoring Parameters",
-    "Feldspar Analysis Parameter",
-    "Quartz Sample Analysis Parameters",
-    "Lime Stone Sample Analysis Parameters",
-    "Plate - Microbiological Analysis",
-    "Swab - Microbiological Analysis",
-    "Sewage Water Microbiological Parameters",
-    "Weather Monitoring Parameters",
-    "Oxygen Purity Parameters" 
-  ]
-
-  const filteredRequests = serviceRequests.filter(request => 
-    request.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
-  const staffOptions1 = [
-    "Elumalai",
-    "Hemavathy",
-    "Nalina",
-    "Sindhuja",
-    "Jeyarani",
-    "Nagalakshmi",
-  ];
-
-  const staffOptions2 = [
-    "Vinaya",
-    "Vinitha"
-  ]
-
-  const staffOptions3 = [
-    "Manimaran",
-    "Iliyas"
-  ]
-
-  const firstOptions = [
-    "Appearance",
-    "Colour (Hazen Unit)",
-    "Odour",
-    "Turbidity (NTU)",
-    "EC at 25°C (Micromhos/cm)",
-    "pH at 25°C",
-    "Total Suspended Solids",
-    "Total Dissolved Solids",
-    "Phenolphthalein Alkalinity as CaCO₃",
-    "Total Alkalinity as CaCO₃",
-    "Total Hardness as CaCO₃",
-    "Calcium Hardness as CaCO₃",
-    "Calcium as Ca",
-    "Magnesium Hardness as CaCO₃",
-    "Magnesium as Mg",
-    "Chlorides as Cl",
-    "Sulphates as SO₄",
-    "Iron (Total) as Fe",
-    "Silica (Reactive) as SiO2",
-    "Carbonate Hardness",
-    "Non-Carbonate Hardness",
-    "Free Residual Chlorine"
-  ];
-
-  const secondOptions = [
-    "pH value @ 25oC",
-    "Color ( Hazen Unit )",
-    "Odor",
-    "Taste",
-    "Turbidity (NTU)",
-    "Total Hardness as CaCO3 (mg/l)",
-    "Total Iron as Fe(mg/l)",
-    "Chlorides as Cl(mg/l)",
-    "Free residual chlorine (mg/l)",
-    "Total Dissolved Solids (mg/l)",
-    "Calcium as Ca (mg/l)",
-    "Magnesium as Mg (mg/l)",
-    "Copper as Cu (mg/l)",
-    "Manganese as Mn(mg/l)",
-    "Sulphates as SO4(mg/l)",
-    "Nitrate as No3 (mg/l)",
-    "Fluoride as F (mg/l)",
-    "Phenolic compounds (as C6H5OH) (mg/l)",
-    "Mercury as Hg (mg/l)",
-    "Cadmium as Cd (mg/l)",
-    "Selenium as Se (mg/l)",
-    "Arsenic as As (mg/l)",
-    "Cyanide as CN( mg/l)",
-    "Sulphide as H2S (mg/l)",
-    "Lead as Pb (mg/l)",
-    "Zinc as Zn (mg/l)",
-    "Anionic detergents (as MBAS)(mg/l)",
-    "Chromium as Cr6+( mg/l)",
-    "Polynuclear aromatic hydrocarbons (asPAH) (mg/l)",
-    "PolyChlorinated Biphenyls (mg/l)",
-    "Total Alkalinity as CaCO3(mg/l)",
-    "Aluminium as Al(mg/l)",
-    "Boron as B (mg/l)",
-    "Mineral oil (mg/l)",
-    "Barium as Ba (mg / l)",
-    "Ammonia as NH3(mg/l)",
-    "Silver as Ag(mg/l)",
-    "Molybdenum (mg/l)",
-    "Nickel as Ni (mg/l)",
-    "Chloramines as NH2Cl (mg/l)",
-    "Trihalomethane as CHX3 (mg/l)",
-    "Pesticides (µg/l)",
-    "Alachlor (µg/l)",
-    "Atrazine (µg/l)",
-    "Aldrin/Dieldrin (µg/l)",
-    "Alpha HCH (µg/l)",
-    "Beta HCH (µg/l)",
-    "Butachlor (µg/l)",
-    "Chlorpyriphos (µg/l)",
-    "Delta HCH (µg/l)",
-    "2,4-Dichlorophenoxyacetic acid (µg/l)",
-    "DDT(o,p and p, p-Isomers of DDT,DDE& DDD) (µg/l)",
-    "Endosulfan (Alpha, Beta, and sulphate)",
-    "Ethion (µg/l)",
-    "Gamma-HCH(Lindane) (µg/l)",
-    "Isoprotuoron (µg/l)",
-    "Malathion (µg/l)",
-    "Methyl Parathion(µg/l)",
-    "Monocrotophos (µg/l)",
-    "Phorate analogues (µg/l)",
-    "Alpha Emitter(Bq/L)",
-    "Beta Emitter(Bq/L)",
-  ]
-
-  const thirdOptions = [
-    "Organic Solids (mg/ l)",
-    "Inorganic Solids (mg/ l)",
-    "Sulfate as So3 (mg/ l)",
-    "Chloride as Cl (mg/ l)",
-    "Total Suspended Solids (mg/ l)",
-    "pH value @ 25oC",
-    "To neutralize 100 ml of water using Phenolphthalein indicator (ml)with 0.02N NaoH",
-    "To neutralize 100 ml of water Using Methyl Orange indicator(ml)with 0.02 N H2SO4",
-  ]
-
-  const fourthOptions = [
-    "Total Coliforms",
-    "E-Coli",
-  ]
-
-  const fifthOptions = [
-    "Total microbial count (cfu/ml) a. at 20 -22 C in 72 hours b. At 37 C in 24 hours.",
-    "Total yeast and mould count",
-    "E.coli",
-    "Enterobacteriaceae (Coliforms)",
-    "Faecal streptococci",
-    "S. aureus",
-    "Sulphite reducing anaerobes",
-    "Salmonella",
-    "Shigella",
-    "V. cholera",
-    "V. parahaemolyticus",
-    "Ps. aeruginosa"
-  ]
-
-  const sixthOptions = [
-    "Total Bacterial Count",
-    "Yeast & Mould",
-    "Total Coliform ",
-    "E. coli",
-    "Staphylococcus aureus",
-    "Salmonella Sp",
-  ]
-
-  const seventhOptions = [
-    "Moisture",
-    "Total Ash",
-    "Protein",
-    "Carbohydrate",
-    "Fat",
-    "Acid Insoluble Ash",
-    "Energy",
-    "Crude Fiber"
-  ]
-
-  const eighthOptions = [
-    "Moisture",
-    "Aluminium",
-    "Arsenic",
-    "Calcium",
-    "Chromium",
-    "Copper",
-    "Iron",
-    "Lead",
-    "Loss on Ignition",
-    "Magnesium",
-    "Manganese",
-    "Nickel",
-    "Oil & Grease",
-    "Phosphate",
-    "Potassium",
-    "Silica",
-    "Sodium",
-    "Sulphate",
-    "Zinc"
-  ]
-
-  const ninethOptions = [
-    "pH",
-    "EC",
-    "Moisture",
-    "Density",
-    "Color",
-    "Consistency",
-    "Structure",
-    "Texture",
-    "Loss On Ignition",
-    "Lime status ",
-    "Alkalinity",
-    "Sodium Absorption Ratio",
-    "Cation Exchange Ratio",
-    "Oil & Grease",
-    "Chlorides",
-    "Sulphates",
-    "Nitrates",
-    "Total Nitrogen",
-    "Total Phosphorous",
-    "Calcium",
-    "Magnesium",
-    "Sodium",
-    "Potassium",
-    "Iron",
-    "Organic Matter",
-    "Water Holding Capacity",
-    "Copper",
-    "Nickel",
-    "Chromium",
-    "Lead",
-    "Zinc",
-  ]
-
-  const tenthOptions =[
-    "Density",
-    "Viscosity@40oC",
-    "Total Acid Number",
-    "Water Content",
-    "Pour Point",
-    "Flash Point",
-    "Fire Point",
-    "Ash Content",
-    "GCV",
-    "Sulphur Content"
-  ]
-
-  const eleventhOptions = [
-    "Moisture",
-    "Total Ash",
-    "Protein",
-    "Carbohydrate",
-    "Total Fat",
-    "Fibre",
-    "Energy",
-    "Refractive Index at 40 deg.C",
-    "Saponification Value",
-    "Iodine Value (Wij’smethod)",
-    "Polenske Value",
-    "Acid Value",
-    "Unsaponifiable Matter",
-    "Test for Mineral Oil",
-    "Test For Argemone Oil",
-    "Test for Castor Oil",
-    "Test For Rancidity"
-  ]
-
-  const twelfthOptions = [
-    "Moisture",
-    "Volatile Matter (VM)",
-    "Ash",
-    "Fixed Carbon",
-    "Carbon",
-    "Hydrogen",
-    "Nitrogen",
-    "Sulphur",
-    "Oxygen"
-  ]
-
-  const thirteenthOptions = [
-    "pH at 25OC",
-    "Total Suspended Solids (TSS)",
-    "Total Dissolved Solids (TDS)",
-    "BOD 3 Days at 27° C",
-    "COD",
-    "Chlorides as Cl",
-    "Sulphates as SO4",
-    "Oil & Grease"
-  ]
-
-  const fourteenthOptions = [
-    "pH",
-    "Total Suspended Solids (TSS)",
-    "Total Dissolved Solids (TDS)",
-    "Chemical Oxygen Demand",
-    "Bio chemical Oxygen Demand",
-    "Total Nitrogen",
-    "Total Phosphorus",
-    "Oil & Grease"
-  ]
-
-  const fifteenthOptions = [
-    "Sulphur Dioxide (SO2)",
-    "Nitrogen Dioxide (NOx)",
-    "Particulate Matter (size less than 10µm)",
-    "Particulate Matter (size less than 2.5µm))",
-    "Ozone (O3)",
-    "Lead (Pb)",
-    "Carbon Monoxide (CO)",
-    "Ammonia (NH3)",
-    "Benzene (C6H6)",
-    "Benzo Pyrene ",
-    "Arsenic (As)",
-    "Nickel (Ni)"
-  ]
-
-  const sixteenthOptions = [
-    "Flue Gas Temperature",
-    "Flue Gas Pressure",
-    "Flue Gas Velocity",
-    "Volume of Gas Discharged",
-    "Particulate Matter (PM)",
-    "Sulphur- di- oxide (SO2)",
-    "Nitrogen oxides (NOx)",
-    "Carbon – di - oxide (CO2)",
-    "Carbon Monoxide (CO)",
-    "Oxygen (O2)"
-  ]
-
-  const seventeenthOptions = [
-    "Noise"
-  ]
-
-  const eighteenthOptions = [
-    "Before Acoustic",
-    "After Acoustic",
-    "Total Insertion Loss",
-  ]
-
-  const nineteenthOptions = [
-    "Illumination"
-  ]
-
-  const twenteenthOptions = [
-    "Air movements (At Workstation within occupied Zone)",
-    "Carbon dioxide in (ppm )",
-    "Carbon monoxide (ppm)",
-    "Oxides of nitrogen concentration -µg/m3",
-    "Oxygen in %",
-    "Relative Humidity in %",
-    "Respirable suspended particulate matter (RSPM) concentration (µg/m3)",
-    "Temperature in ˚C",
-    "Sulphur- di- oxide (SO2)",
-    "Oil Mist"
-  ]
-
-  const twentyFirstOptions = [
-    "Oxygen Concentration by Volume (dry Air)",
-    "Carbon Monoxide as CO",
-    "Carbon Di-Oxide as CO2",
-    "Water Vapour as H2O",
-    "Oil Components",
-    "Odor",
-    "Dust Concentration (Wet/dry)"
-  ]
-
-  const twentySecondOptions=[
-    "Silica as SiO2",
-    "Alumina as Al2O3",
-    "Iron as Fe2O3",
-    "Potassium as K2O",
-    "Sodium as Na2O",
-    "LOI",
-    "Calcium as CaO",
-    "Magnesium as MgO"
-  ]
-
-  const twentyThirdOptions = [
-    "Sillica as SIO2",
-    "Alumina as Al2O3",
-    "Iron as Fe2O3",
-    "Calcium as CaO",
-    "Magnesium as MgO",
-    "Loss On Ignition",
-    "Potassium as K2O",
-    "Sodium as Na2O",
-    "EC"
-  ]
-
-  const twentyFourthOptions = [
-    "Magnesium as MgCO3",
-    "Calcium as CaCO3",
-    "Alumina as Al2O3",
-    "Iron as Fe2O3",
-    "Sodium as Na2O",
-    "Potassium as K2O",
-    "Silica as SiO2",
-    "LOI"
-  ]
-
-  const twentyFifthOptions = [
-    "Bacterial count - 37°C for 48 hrs",
-    "Fungal Count -25°C for 5 Days"
-  ]
-
-  const twentySixthOptions = [
-    "Bacterial count - 37°C for 48 hrs",
-    "Fungal Count -25°C for 5 Days",
-    "Total Coliform",
-    "E. coli",
-    "Staphylococcus aureus"
-  ]
-
-  const twentySeventhOptions = [
-    "Total Platel count (cfu/ml)",
-    "Total Coliform",
-    "E.coli",
-    "Fecal Coliforms",
-    "Faecal streptococci"
-  ]
-
-  const twentyEighthOptions =[
-    "Micro Metrology",
-    "Wind direction",
-    "Wind Velocity",
-    "Temperature",
-    "Relative Humidity"
-  ]
-
-  const twentyNinethOptions = [
-    "Oxygen Purity ( O2)"
-  ]
-  
   useEffect(() => {
     if(serviceSelected === "Water: General Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: firstOptions,
+        parameters: parameterOptions.firstOptions,
       }))}
     else if(serviceSelected === "Water Complete Analysis as per 10500: 2012") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: secondOptions,
+        parameters: parameterOptions.secondOptions,
       }))}
     else if(serviceSelected === "Water - Construction Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: thirdOptions,
+        parameters: parameterOptions.thirdOptions,
       }))}
     else if(serviceSelected === "Water - Microbiological Analysis") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: fourthOptions,
+        parameters: parameterOptions.fourthOptions,
       }))}
     else if(serviceSelected === "Water –Complete Microbiological Analysis") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: fifthOptions,
+        parameters: parameterOptions.fifthOptions,
       }))}
     else if(serviceSelected === "Food Microbiological Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: sixthOptions,
+        parameters: parameterOptions.sixthOptions,
       }))}
     else if(serviceSelected === "Food Chemical Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: seventhOptions,
+        parameters: parameterOptions.seventhOptions,
       }))}
     else if(serviceSelected === "Sludge Analysis Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: eighthOptions,
+        parameters: parameterOptions.eighthOptions,
       }))}
     else if(serviceSelected === "Soil Testing Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: ninethOptions,
+        parameters: parameterOptions.ninethOptions,
       }))}
     else if(serviceSelected === "Oil - Diesel Testing Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: tenthOptions,
+        parameters: parameterOptions.tenthOptions,
       }))}
     else if(serviceSelected === "Oil - Nutrition Value + FSSAI Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: eleventhOptions,
+        parameters: parameterOptions.eleventhOptions,
       }))}
     else if(serviceSelected === "Coal Analysis Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: twelfthOptions,
+        parameters: parameterOptions.twelfthOptions,
       }))}
     else if(serviceSelected === "Effluent Water Analysis Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: thirteenthOptions,
+        parameters: parameterOptions.thirteenthOptions,
       }))}
     else if(serviceSelected === "Sewage Water Chemical Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: fourteenthOptions,
+        parameters: parameterOptions.fourteenthOptions,
       }))}
     else if(serviceSelected === "Ambient Air Quality Monitoring Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: fifteenthOptions,
+        parameters: parameterOptions.fifteenthOptions,
       }))}
     else if(serviceSelected === "DG Stack Emission Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: sixteenthOptions,
+        parameters: parameterOptions.sixteenthOptions,
       }))}
     else if(serviceSelected === "Ambient Noise Monitoring Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: seventeenthOptions,
+        parameters: parameterOptions.seventeenthOptions,
       }))}
     else if(serviceSelected === "DG Noise Monitoring Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: eighteenthOptions,
+        parameters: parameterOptions.eighteenthOptions,
       }))}
     else if(serviceSelected === "Lux Monitoring Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: nineteenthOptions,
+        parameters: parameterOptions.nineteenthOptions,
       }))}
     else if(serviceSelected === "Indoor Air Quality") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: twenteenthOptions,
+        parameters: parameterOptions.twenteenthOptions,
       }))}
     else if(serviceSelected === "Compressor Air Monitoring Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: twentyFirstOptions,
+        parameters: parameterOptions.twentyFirstOptions,
       }))}
     else if(serviceSelected === "Feldspar Analysis Parameter") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: twentySecondOptions,
+        parameters: parameterOptions.twentySecondOptions,
       }))}
     else if(serviceSelected === "Quartz Sample Analysis Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: twentyThirdOptions,
+        parameters: parameterOptions.twentyThirdOptions,
       }))}
     else if(serviceSelected === "Lime Stone Sample Analysis Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: twentyFourthOptions,
+        parameters: parameterOptions.twentyFourthOptions,
       }))}
     else if(serviceSelected === "Plate - Microbiological Analysis") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: twentyFifthOptions,
+        parameters: parameterOptions.twentyFifthOptions,
       }))}
     else if(serviceSelected === "Swab - Microbiological Analysis") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: twentySixthOptions,
+        parameters: parameterOptions.twentySixthOptions,
       }))}
     else if(serviceSelected === "Sewage Water Microbiological Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: twentySeventhOptions,
+        parameters: parameterOptions.twentySeventhOptions,
       }))}
     else if(serviceSelected === "Weather Monitoring Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: twentyEighthOptions,
+        parameters: parameterOptions.twentyEighthOptions,
       }))}
       else if(serviceSelected === "Oxygen Purity Parameters") {
         setFormData((prevState) => ({
           ...prevState,
-          parameters: twentyNinethOptions,
+          parameters: parameterOptions.twentyNinethOptions,
         }))}
-        
-      const serviceTypes = [ 
-        { name: "Water: General Parameters", code: "W" }, 
-        { name: "Water Complete Analysis as per 10500: 2012", code: "W" }, 
-        { name: "Water - Construction Parameters", code: "W" }, 
-        { name: "Water - Microbiological Analysis", code: "W" }, 
-        { name: "Water –Complete Microbiological Analysis", code: "W" }, 
-        { name: "Food Microbiological Parameters", code: "FM" }, 
-        { name: "Food Chemical Parameters", code: "FC" }, 
-        { name: "Sludge Analysis Parameters", code: "SW" }, 
-        { name: "Soil Testing Parameters", code: "S" }, { name: "Oil - Diesel Testing Parameters", code: "MM" }, { name: "Oil - Nutrition Value + FSSAI Parameters", code: "MM" }, { name: "Coal Analysis Parameters", code: "MM" }, { name: "Effluent Water Analysis Parameters", code: "WW" }, { name: "Sewage Water Chemical Parameters", code: "WW" }, { name: "Ambient Air Quality Monitoring Parameters", code: "AS" }, { name: "DG Stack Emission Parameters", code: "AS" }, { name: "Ambient Noise Monitoring Parameters", code: "AS" }, { name: "DG Noise Monitoring Parameters", code: "AS" }, { name: "Lux Monitoring Parameters", code: "AS" }, { name: "Indoor Air Quality", code: "AS" }, { name: "Compressor Air Monitoring Parameters", code: "AS" }, { name: "Feldspar Analysis Parameter", code: "MM" }, { name: "Quartz Sample Analysis Parameters", code: "MM" }, { name: "Lime Stone Sample Analysis Parameters", code: "MM" }, { name: "Plate - Microbiological Analysis", code: "EM" }, { name: "Swab - Microbiological Analysis", code: "EM" }, { name: "Sewage Water Microbiological Parameters", code: "EM" }, { name: "Weather Monitoring Parameters", code: "EM" }, { name: "Oxygen Purity Parameters", code: "EM" } ];
-  
   
       serviceTypes.map((service) => {
         if(service.name == serviceSelected) { 
           console.log(service.code);
         }
       })
-  }, [serviceSelected])
+  }, [serviceSelected]);
+
+  const filteredRequests = serviceRequests.filter(request => 
+    request.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -818,7 +357,7 @@ function ServiceRequestForm({drawerClose}) {
     setIsLoading(true);
     console.log("Form Data Submitted: ", formData);
   
-    //await createEESRecord(formData, formData.Sample_Reference);
+    await createEESRecord(formData, formData.Sample_Reference);
     const inputElement = document.querySelectorAll("input");
     inputElement.forEach((input) => {
       input.value = ""
@@ -830,10 +369,9 @@ function ServiceRequestForm({drawerClose}) {
       title: "Data",
       description: "Data has been submitted Successfully",
     })
-    //location.reload();
+    location.reload();
     // Add logic to send formData to the server or process it further
   };
-
 
   return(
     <div className="p-3 w-full h-[682px] overflow-y-auto">
@@ -988,7 +526,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  firstOptions.map( (options, index) => <FormField 
+                  parameterOptions.firstOptions.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -1012,7 +550,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  secondOptions.map( (options, index) => <FormField 
+                  parameterOptions.secondOptions.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -1036,7 +574,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  thirdOptions.map( (options, index) => <FormField 
+                  parameterOptions.thirdOptions.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -1059,7 +597,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  fourthOptions.map( (options, index) => <FormField 
+                  parameterOptions.fourthOptions.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -1082,7 +620,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  fifthOptions.map( (options, index) => <FormField 
+                  parameterOptions.fifthOptions.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -1105,7 +643,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  sixthOptions.map( (options, index) => <FormField 
+                  parameterOptions.sixthOptions.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -1128,7 +666,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  seventhOptions.map( (options, index) => <FormField 
+                  parameterOptions.seventhOptions.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -1151,7 +689,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  eighthOptions.map( (options, index) => <FormField 
+                  parameterOptions.eighthOptions.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -1175,7 +713,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  ninethOptions.map( (options, index) => <FormField 
+                  parameterOptions.ninethOptions.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -1198,7 +736,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  tenthOptions.map( (options, index) => <FormField 
+                  parameterOptions.tenthOptions.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -1222,7 +760,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  eleventhOptions.map( (options, index) => <FormField 
+                  parameterOptions.eleventhOptions.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -1246,7 +784,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  twelfthOptions.map( (options, index) => <FormField 
+                  parameterOptions.twelfthOptions.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -1269,7 +807,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  thirteenthOptions.map( (options, index) => <FormField 
+                  parameterOptions.thirteenthOptions.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -1292,7 +830,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  fourteenthOptions.map( (options, index) => <FormField 
+                  parameterOptions.fourteenthOptions.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -1315,7 +853,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  fifteenthOptions.map( (options, index) => <FormField 
+                  parameterOptions.fifteenthOptions.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -1338,7 +876,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  sixteenthOptions.map( (options, index) => <FormField 
+                  parameterOptions.sixteenthOptions.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -1361,7 +899,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  seventeenthOptions.map( (options, index) => <FormField 
+                  parameterOptions.seventeenthOptions.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -1384,7 +922,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  eighteenthOptions.map( (options, index) => <FormField 
+                  parameterOptions.eighteenthOptions.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -1407,7 +945,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  nineteenthOptions.map( (options, index) => <FormField 
+                  parameterOptions.nineteenthOptions.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -1430,7 +968,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  twenteenthOptions.map( (options, index) => <FormField 
+                  parameterOptions.twenteenthOptions.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -1453,7 +991,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  twentyFirstOptions.map( (options, index) => <FormField 
+                  parameterOptions.twentyFirstOptions.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -1476,7 +1014,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  twentySecondOptions.map( (options, index) => <FormField 
+                  parameterOptions.twentySecondOptions.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -1499,7 +1037,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  twentyThirdOptions.map( (options, index) => <FormField 
+                  parameterOptions.twentyThirdOptions.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -1522,7 +1060,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  twentyFourthOptions.map( (options, index) => <FormField 
+                  parameterOptions.twentyFourthOptions.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -1545,7 +1083,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  twentyFifthOptions.map( (options, index) => <FormField 
+                  parameterOptions.twentyFifthOptions.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -1568,7 +1106,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  twentySixthOptions.map( (options, index) => <FormField 
+                  parameterOptions.twentySixthOptions.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -1591,7 +1129,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  twentySeventhOptions.map( (options, index) => <FormField 
+                  parameterOptions.twentySeventhOptions.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -1614,7 +1152,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  twentyEighthOptions.map( (options, index) => <FormField 
+                  parameterOptions.twentyEighthOptions.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -1637,7 +1175,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  twentyNinethOptions.map( (options, index) => <FormField 
+                  parameterOptions.twentyNinethOptions.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -1722,7 +1260,7 @@ function ServiceRequestForm({drawerClose}) {
                         <>
                           <SelectItem value="Select">Select</SelectItem>
                           {
-                          staffOptions1.map((option, index) =>
+                          staffOptions.option1.map((option, index) =>
                           <SelectItem value={option} key={index}>{option}</SelectItem>)}
                         </> : 
                         serviceSelected == "Water - Microbiological Analysis" ||
@@ -1734,7 +1272,7 @@ function ServiceRequestForm({drawerClose}) {
                         <>
                           <SelectItem value="Select">Select</SelectItem>
                             {
-                            staffOptions2.map((option, index) =>
+                            staffOptions.option2.map((option, index) =>
                             <SelectItem value={option} key={index}>{option}</SelectItem>)}
                         </> : 
                         serviceSelected == "Ambient Air Quality Monitoring Parameters" ||
@@ -1749,7 +1287,7 @@ function ServiceRequestForm({drawerClose}) {
                         <>
                           <SelectItem value="Select">Select</SelectItem>
                           {
-                          staffOptions3.map((option, index) =>
+                          staffOptions.option3.map((option, index) =>
                             <SelectItem value={option} key={index}>{option}</SelectItem>)}
                         </> : <SelectItem value="Select">Select</SelectItem>}
                       </SelectContent>

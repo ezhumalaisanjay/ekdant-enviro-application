@@ -12,16 +12,27 @@ import Link from "next/link";
 import { AreaChartComponent } from "../../Charts/Admin/AreaChart";
 import { BarChartComponent } from "../../Charts/Admin/BarChart";
 import { PieChartComponent } from "../../Charts/Admin/PieChart";
-//import { BigAreaChartComponent } from "../../Charts/Admin/BigAreaChart";
 import { LineChartComponent } from "../../Charts/Admin/LineChart";
 import { LegendChartComponent } from "../../Charts/Admin/LegendChart"
 import { StepChartComponent } from "../../Charts/Admin/PieChartActive";
 import { Frame, PieChart } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { BigAreaChartComponent } from "@/app/Charts/Admin/BigAreaChart";
+import { BigBarChartComponent } from "@/app/Charts/Admin/BigBarChart";
+import { BigLineChartComponent } from "@/app/Charts/Admin/BigLineChart";
+import { Input } from "@/components/ui/input";
+
+interface DateRange {
+  startDate: Date | null;
+  endDate: Date | null;
+}
 
 export default function AdminDashBoard() {
   const [username, setUsername] = useState("");
   const [userEmail, setUserEmail] = useState("");
+  const [index, setIndex] = useState(0);
+  const [month, setMonth] = useState<string>('');
 
   useEffect( () => {
     if (typeof window !== 'undefined') {
@@ -31,6 +42,29 @@ export default function AdminDashBoard() {
       setUsername(userName);
     }
   }, [])
+
+  const handleMonthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedMonth = e.target.value; // e.g., '2025-02'
+
+     // Split the year and month
+    const [yearStr, monthStr] = selectedMonth.split('-');
+    
+    // Convert the year and month to numbers
+    const year = parseInt(yearStr, 10);
+    const month = parseInt(monthStr, 10);
+    
+    setMonth(selectedMonth);
+
+    // Create a date object for the start of the month (1st day)
+    const startOfMonth = new Date(year, month - 1, 1);
+
+    // Create a date object for the end of the month (last day)
+    const endOfMonth = new Date(year, month, 0);
+
+    // Log the start and end of the month
+    console.log('Start of month:', startOfMonth);
+    console.log('End of month:', endOfMonth);
+  };
 
   const data = {
     user: {
@@ -76,23 +110,51 @@ export default function AdminDashBoard() {
               </Breadcrumb>
             </div>
           </header>
+
+          <div className="flex items-center justify-center mb-3">
+            <Button 
+              variant="ghost" 
+              className={index === 0 ? "border-b border-blue-500 rounded-none font-semibold" : "" + "rounded-none"}
+              onClick={() => setIndex(0)}
+              >Weekly</Button>
+            <Button 
+              variant="ghost" 
+              className={index === 1 ? "border-b border-blue-500 rounded-none font-semibold" : "" + "rounded-none"}
+              onClick={() => setIndex(1)}
+              >Monthly</Button>
+          </div>
+          
           {/*main Content here */}
+          {index === 0 ?
           <div className="grid gap-3">
             <div className="flex flex-wrap justify-evenly gap-3">
               <AreaChartComponent />
               <BarChartComponent />
               <PieChartComponent />
             </div>
-            {/*
-            <div>
-              <BigAreaChartComponent />
-            </div>*/}
             <div className="flex flex-wrap justify-evenly gap-3">
               <LineChartComponent />
               <LegendChartComponent />
               <StepChartComponent />
             </div>
-          </div>
+          </div> :
+          <>
+            <div className="flex justify-end items-center m-2">
+              <div>
+                <Input
+                  type="month"
+                  value={month}
+                  onChange={handleMonthChange}
+                  id="month-picker"
+                />
+              </div>
+            </div>
+            <div className="grid gap-3">
+              <BigAreaChartComponent />
+              <BigBarChartComponent />
+              <BigLineChartComponent />
+            </div> 
+          </>}
         </div>
       </SidebarProvider>
     </>

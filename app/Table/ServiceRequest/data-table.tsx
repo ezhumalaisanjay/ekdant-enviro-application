@@ -81,6 +81,7 @@ export function DataTable<TData, TValue>({
       contactNumber: false,
       parameters: false,
       pickUp: false,
+      pickUpDate: false,
       pickupAddress: false,
       dropoffAddress: false,
     })

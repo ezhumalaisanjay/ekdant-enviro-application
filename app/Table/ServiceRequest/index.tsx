@@ -266,6 +266,9 @@ const ServiceRequestTable = () => {
     {
       accessorKey: "pickUp",
       header: "Pickup",
+    }, {
+      accessorKey: "pickUpDate",
+      header: "Pickup Date",
     },
     {
       accessorKey: "address",

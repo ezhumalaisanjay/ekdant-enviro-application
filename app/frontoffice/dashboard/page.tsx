@@ -12,13 +12,17 @@ import Link from "next/link";
 import { FrontOfficeBarChartComponent } from "../../Charts/FrontOffice/FrontBarChart";
 import { FrontOfficePieChartComponent } from "../../Charts/FrontOffice/FrontPieChart";
 import { FrontOfficeAreaChartComponent } from "../../Charts/FrontOffice/FrontAreaChart";
-//import { FrontOfficeBigAreaChartComponent } from "@/app/Charts/FrontOffice/FrontBigAreaChart";
+import { FrontOfficeBigAreaChartComponent } from "@/app/Charts/FrontOffice/FrontBigAreaChart";
 import { Frame, HeartHandshake, PieChart } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { FrontOfficeBigBarChartComponent } from "@/app/Charts/FrontOffice/FrontBigBarChart";
+import { FrontOfficeBigLineChartComponent } from "@/app/Charts/FrontOffice/FrontBigLineChart";
 
 export default function FrontOfficeDashBoard() {
   const [username, setUsername] = useState("");
   const [userEmail, setUserEmail] = useState("");
+  const [index, setIndex] = useState(0);
 
   useEffect( () => {
       if (typeof window !== 'undefined') {
@@ -67,7 +71,7 @@ export default function FrontOfficeDashBoard() {
         <AppSidebar active={0} data={data} />
         <div className="flex flex-col w-full p-3">
           <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
-            <div className="flex items-center gap-2 px-4">
+            <div className="flex items-center px-4">
               <SidebarTrigger className="-ml-1" />
               <Separator orientation="vertical" className="mr-2 h-4" />
               <Breadcrumb>
@@ -80,17 +84,33 @@ export default function FrontOfficeDashBoard() {
               </Breadcrumb>
             </div>
           </header>
+          <div className="flex items-center justify-center mb-3">
+            <Button 
+              variant="ghost" 
+              className={index === 0 ? "border-b border-blue-500 rounded-none font-semibold" : "" + "rounded-none"}
+              onClick={() => setIndex(0)}
+              >Weekly</Button>
+            <Button 
+              variant="ghost" 
+              className={index === 1 ? "border-b border-blue-500 rounded-none font-semibold" : "" + "rounded-none"}
+              onClick={() => setIndex(1)}
+              >Monthly</Button>
+          </div>
+
           {/*main Content here */}
           <div className="grid gap-3">
+            {index===0 ?
             <div className="flex flex-wrap justify-evenly gap-3">
               <FrontOfficeAreaChartComponent />
               <FrontOfficeBarChartComponent />
               <FrontOfficePieChartComponent />
-            </div>
-            {/*
-            <div>
+            </div> : 
+            <div className="grid gap-3">
               <FrontOfficeBigAreaChartComponent />
-            </div> */}
+              <FrontOfficeBigBarChartComponent />
+              <FrontOfficeBigLineChartComponent />
+            </div>
+            }
           </div>
         </div>
       </SidebarProvider>
