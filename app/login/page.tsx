@@ -13,6 +13,7 @@ import { Label } from "@radix-ui/react-dropdown-menu";
 import { signUp, confirmSignUp, signIn } from "@/lib/cognito"; // Import sign-in function
 import Image from "next/image";
 import logo from "../../imges/ekdant-logo-icon.png"
+import { Eye, EyeClosed, Loader } from "lucide-react";
 
 function Login() {
   const [signUpMode, setSignUpMode] = useState(false);
@@ -24,6 +25,11 @@ function Login() {
   const [confirmationCode, setConfirmationCode] = useState("");
   const [signUpSuccess, setSignUpSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState(""); // Store error messages
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setIsPasswordVisible(!isPasswordVisible);
+  };
 
   // Handle user sign-up
   const handleSignUp = async () => {
@@ -81,7 +87,7 @@ function Login() {
         <Card className="md:w-[460px] p-10 border border-slate-400 border-opacity-25">
           <CardHeader className="pb-2">
             <div className="text-center">
-              <div className="flex flex-col justify-center items-center gap-3 p-3 border border-slate-400 border-opacity-25 rounded-lg">
+              <div className="flex flex-col justify-center items-center gap-3 p-3">
                 <Image src={logo} className="items-center" alt="Logo" width={50} height={50}/>
                 <div className="text-xs text-green-600 font-semibold">Ekdant Enviro Services Ltd</div>
               </div>
@@ -89,40 +95,51 @@ function Login() {
             </div>
           </CardHeader>
           <CardDescription className="text-center">
-            Use your email and password to sign in
+            Use your username and password to sign in
           </CardDescription>
           <CardContent className="mt-8">
             <div className="flex flex-col gap-3">
               <div>
-                <Label>Email</Label>
+                <Label>Username/Email</Label>
                 <Input
-                  placeholder="Email"
+                  placeholder="username or Email"
                   className="p-5"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
-              <div>
+              <div className="relative">
                 <Label>Password</Label>
                 <Input
-                  type="password"
+                  type={isPasswordVisible ? "text" : "password"}
                   placeholder="Password"
                   className="p-5"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
+                <span
+                  className="absolute right-3 top-11 transform -translate-y-1/2 cursor-pointer"
+                  onClick={togglePasswordVisibility}
+                >
+                  {isPasswordVisible ? <Eye className="size-5" /> : <EyeClosed className="size-5"  />}
+                </span>
+              </div>
+              <div className="flex justify-end">
+                <a href="" className="text-sm text-blue-500">Forgot Password?</a>
               </div>
             </div>
             {errorMessage && (
               <p className="text-red-500 mt-2">{errorMessage}</p>
             )}
-            <Button
-              className="flex w-full mt-4"
-              onClick={handleSignIn}
-              disabled={isLoading}
-            >
-              {isLoading ? "Loading..." : "Log in"}
-            </Button>
+            <div className="w-full flex justify-center">
+              <Button
+                className="flex w-3/4 mt-8"
+                onClick={handleSignIn}
+                disabled={isLoading}
+              >
+                {isLoading ? <>  <Loader className="animate-spin" /> Logging in </> : "Log in"}
+              </Button>
+            </div>
             {/*
             <div className="text-center font-light text-sm mt-4">
               Don&rsquo;t have an account?{" "}

@@ -41,9 +41,9 @@ function ServiceRequestForm({drawerClose}) {
     Sample_Reference: uniqueId,
     visit_type: "",
     companyName: "",
-    contactNumber: mappedApiData?.Phone || "",
-    email: mappedApiData?.Email || "",
-    address: mappedApiData?.Address || "",
+    contactNumber: "",
+    email: "",
+    address: "",
     serviceType: "",
     parameters: [],
     preferredDate: "",
@@ -110,6 +110,23 @@ function ServiceRequestForm({drawerClose}) {
 
   }, [selectedCustomerName])
 
+
+  useEffect(() => {
+    const contactNumber = "contactNumber";
+    const email = "email";
+    const address = "address";
+
+    const getMappedData = () => {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [contactNumber]: mappedApiData?.Phone || "",
+        [email]: mappedApiData?.Email || "",
+        [address]: mappedApiData?.Address || "",
+      }));
+    };
+
+    getMappedData()
+  }, [mappedApiData])
 
   const serviceRequests = [
     "Water: General Parameters",
@@ -801,7 +818,7 @@ function ServiceRequestForm({drawerClose}) {
     setIsLoading(true);
     console.log("Form Data Submitted: ", formData);
   
-    await createEESRecord(formData, formData.Sample_Reference);
+    //await createEESRecord(formData, formData.Sample_Reference);
     const inputElement = document.querySelectorAll("input");
     inputElement.forEach((input) => {
       input.value = ""
@@ -813,7 +830,7 @@ function ServiceRequestForm({drawerClose}) {
       title: "Data",
       description: "Data has been submitted Successfully",
     })
-    location.reload();
+    //location.reload();
     // Add logic to send formData to the server or process it further
   };
 

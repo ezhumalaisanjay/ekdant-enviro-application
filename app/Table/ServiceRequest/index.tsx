@@ -48,6 +48,7 @@ interface Data {
 
 const ServiceRequestTable = () => {
   const [datas, setDatas] = useState<Data[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const getRecords = async (category: string) => {
@@ -79,6 +80,8 @@ const ServiceRequestTable = () => {
           console.error("Unknown error:", error);
           return { error: "An unknown error occurred" };
         }
+      } finally {
+        setIsLoading(false);
       }
     } 
     getRecords("Ticket") 
@@ -368,6 +371,7 @@ const ServiceRequestTable = () => {
       <DataTable
         columns={columns}
         data={datas}
+        isLoading={isLoading}
         exportExcel={exportToExcel}
         exportPDF={exportToPDF}
         exportCSV={exportToCSV}

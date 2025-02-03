@@ -38,6 +38,7 @@ import { Button } from "@/components/ui/button"
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  isLoading: boolean
   exportExcel?: () => void
   exportPDF?: () => void
   exportCSV?: () => void
@@ -51,6 +52,7 @@ export type PaginationState = {
 export function DataTable<TData, TValue>({
   columns,
   data,
+  isLoading,
   exportExcel,
   exportPDF,
   exportCSV,
@@ -187,7 +189,14 @@ export function DataTable<TData, TValue>({
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ? (
+            {isLoading ? (
+              <TableRow>
+                <TableCell colSpan={columns.length} className="h-24 text-center">
+                  Loading...
+                </TableCell>
+            </TableRow>
+            ) :
+            (table.getRowModel().rows?.length) ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
