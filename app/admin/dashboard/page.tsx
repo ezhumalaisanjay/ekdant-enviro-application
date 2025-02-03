@@ -23,11 +23,6 @@ import { BigBarChartComponent } from "@/app/Charts/Admin/BigBarChart";
 import { BigLineChartComponent } from "@/app/Charts/Admin/BigLineChart";
 import { Input } from "@/components/ui/input";
 
-interface DateRange {
-  startDate: Date | null;
-  endDate: Date | null;
-}
-
 export default function AdminDashBoard() {
   const [username, setUsername] = useState("");
   const [userEmail, setUserEmail] = useState("");

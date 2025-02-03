@@ -12,23 +12,23 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-dropdown-menu";
 import {
   signUp,
-  confirmSignUp,
   signIn,
   forgotPassword,
   resetPassword,
 } from "@/lib/cognito"; // Import Cognito functions
+//import { confirmSignUp } from "@/lib/cognito";
 import Image from "next/image";
 import logo from "../../imges/ekdant-logo-icon.png";
 import { Eye, EyeClosed, Loader } from "lucide-react";
 
 function Login() {
-  const [signUpMode, setSignUpMode] = useState(false);
+  const signUpMode = false;
   const [email, setEmail] = useState("");
   const [fullName, setFullName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [confirmationCode, setConfirmationCode] = useState("");
+  //const [confirmationCode, setConfirmationCode] = useState("");
   const [signUpSuccess, setSignUpSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -47,23 +47,32 @@ function Login() {
     try {
       await signUp(email, password, fullName, phoneNumber);
       setSignUpSuccess(true);
-    } catch (error) {
-      setErrorMessage(error.message || "Sign-up failed. Try again.");
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setErrorMessage(error.message || "Sign-up failed. Try again.");
+      } else {
+        setErrorMessage("Sign-up failed. Try again.");
+      }
     }
     setIsLoading(false);
   };
 
   // Handle confirmation code for sign-up
-  const handleConfirmCode = async () => {
+  
+  /* const handleConfirmCode = async () => {
     setIsLoading(true);
     setErrorMessage("");
     try {
       await confirmSignUp(fullName, confirmationCode);
-    } catch (error) {
-      setErrorMessage(error.message || "Confirmation failed.");
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setErrorMessage(error.message || "Confirmation failed.");
+      } else {
+        setErrorMessage("Confirmation failed.");
+      }
     }
     setIsLoading(false);
-  };
+  }; */
 
   // Handle sign-in
   const handleSignIn = async () => {
@@ -71,10 +80,12 @@ function Login() {
     setErrorMessage("");
     try {
       await signIn(email, password);
-    } catch (error) {
-      setErrorMessage(
-        error.message || "Sign-in failed. Check your credentials."
-      );
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setErrorMessage(error.message || "Sign-in failed. Check your credentials.");
+      } else {
+        setErrorMessage("Sign-in failed. Check your credentials.");
+      }
     }
     setIsLoading(false);
   };
@@ -86,8 +97,12 @@ function Login() {
     try {
       await forgotPassword(email); // Send reset code to email
       setForgotPasswordMode(true); // Switch to password reset mode
-    } catch (error) {
-      setErrorMessage(error.message || "Password reset failed.");
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setErrorMessage(error.message || "Password reset failed.");
+      } else {
+        setErrorMessage("Password reset failed.");
+      }
     }
     setIsLoading(false);
   };
@@ -99,8 +114,12 @@ function Login() {
     try {
       await resetPassword(email, resetConfirmationCode, newPassword); // Reset password with new password and reset code
       setForgotPasswordMode(false); // Exit reset password mode
-    } catch (error) {
-      setErrorMessage(error.message || "Password reset failed.");
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setErrorMessage(error.message || "Password reset failed.");
+      } else {
+        setErrorMessage("Password reset failed.");
+      }
     }
     setIsLoading(false);
   };
