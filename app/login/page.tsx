@@ -83,6 +83,7 @@ function Login() {
     } catch (error: unknown) {
       if (error instanceof Error) {
         setErrorMessage(error.message || "Sign-in failed. Check your credentials.");
+        console.log(error.message);
       } else {
         setErrorMessage("Sign-in failed. Check your credentials.");
       }

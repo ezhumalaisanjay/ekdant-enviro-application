@@ -95,7 +95,7 @@ export function BarChartComponent() {
   
 
   return (
-    <Card className="w-[350px]">
+    <Card className="w-full">
       <CardHeader>
         <CardTitle>Lab Status</CardTitle>
         <CardDescription>Sunday - Saturday</CardDescription>

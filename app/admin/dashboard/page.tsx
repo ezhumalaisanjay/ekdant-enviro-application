@@ -23,6 +23,9 @@ import { BigBarChartComponent } from "@/app/Charts/Admin/BigBarChart";
 import { BigLineChartComponent } from "@/app/Charts/Admin/BigLineChart";
 import { Input } from "@/components/ui/input";
 import { format } from "date-fns";
+import { RadialLineChartComponent } from "@/app/Charts/Admin/RadialLineChart";
+import { CustomBarChartComponent } from "@/app/Charts/Admin/CustomBarChart";
+import { CustomPieChartComponent } from "@/app/Charts/Admin/CustomPieChart";
 
 export default function AdminDashBoard() {
   const [username, setUsername] = useState("");
@@ -129,28 +132,33 @@ export default function AdminDashBoard() {
             </div>
           </header>
 
+          {/*main Content here */}
+          <div className="mb-4 flex lg:flex-nowrap flex-wrap gap-3">
+            <RadialLineChartComponent />
+            <CustomBarChartComponent />
+            <CustomPieChartComponent />
+          </div>
+
           <div className="flex items-center justify-center mb-3">
             <Button 
               variant="ghost" 
-              className={index === 0 ? "border-b border-blue-500 rounded-none font-semibold" : "" + "rounded-none"}
+              className={index === 0 ? "border-b border-green-500 rounded-none font-semibold bg-green-200" : "" + "rounded-none hover:bg-green-100"}
               onClick={() => setIndex(0)}
               >Weekly</Button>
             <Button 
               variant="ghost" 
-              className={index === 1 ? "border-b border-blue-500 rounded-none font-semibold" : "" + "rounded-none"}
+              className={index === 1 ? "border-b border-green-500 rounded-none font-semibold bg-green-200" : "" + "rounded-none hover:bg-green-100"}
               onClick={() => setIndex(1)}
               >Monthly</Button>
           </div>
-          
-          {/*main Content here */}
           {index === 0 ?
           <div className="grid gap-3">
-            <div className="flex flex-wrap justify-evenly gap-3">
+            <div className="flex lg:flex-nowrap flex-wrap justify-evenly gap-3">
               <AreaChartComponent />
               <BarChartComponent />
               <PieChartComponent />
             </div>
-            <div className="flex flex-wrap justify-evenly gap-3">
+            <div className="flex lg:flex-nowrap flex-wrap justify-evenly gap-3">
               <LineChartComponent />
               <LegendChartComponent />
               <StepChartComponent />

@@ -27,7 +27,6 @@ export function BigAreaChartComponent({startOfMonth, endOfMonth}: {startOfMonth:
       const getRecords = async (category: string, type: string) => {
         try {
           
-
           const response = await fetch("https://0znzn1z8z4.execute-api.ap-south-1.amazonaws.com/Dev/EES_dashboard_barchart", {
             method: "PUT",
             headers: {

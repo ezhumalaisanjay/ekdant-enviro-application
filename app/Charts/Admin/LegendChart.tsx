@@ -101,7 +101,7 @@ export function LegendChartComponent() {
     
   
   return (
-    <Card className="w-[350px]">
+    <Card className="w-full">
       <CardHeader>
         <CardTitle>Logistics Overview</CardTitle>
         <CardDescription>Sunday - Saturday</CardDescription>

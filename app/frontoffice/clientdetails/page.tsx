@@ -96,7 +96,7 @@ export default function ClientDetails() {
             <div className="flex justify-between items-center m-3">
               <h1 className="font-semibold">Client Details</h1>
               <Drawer open={drawerOpen} onOpenChange={setDrawerOpen}>
-                <DrawerTrigger className="p-2 rounded-lg text-sm text-white font-semibold bg-blue-500 hover:bg-blue-400">
+                <DrawerTrigger className="p-2 rounded-lg text-sm text-white font-semibold bg-green-500 hover:bg-green-400">
                   Add Client
                 </DrawerTrigger>
                 <DrawerContent>

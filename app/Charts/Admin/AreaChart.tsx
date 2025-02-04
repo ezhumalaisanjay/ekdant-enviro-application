@@ -98,7 +98,7 @@ export function AreaChartComponent() {
   } satisfies ChartConfig
   
   return (
-    <Card className="w-[350px]">
+    <Card className="w-full">
       <CardHeader>
         <CardTitle>Customer Visited Source</CardTitle>
         <CardDescription>

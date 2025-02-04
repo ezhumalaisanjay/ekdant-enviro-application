@@ -30,7 +30,9 @@ function ServiceRequestForm({drawerClose}) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCustomerName, setSelectedCustomerName] = useState("");
   const [mappedApiData, setMappedApiData] = useState(null);
-  const uniqueId = `EES/${Math.floor(Math.random() * 1000)}`
+  const uniqueId = `EES/${Math.floor(Math.random() * 1000)}`;
+  const today = new Date()
+  const formattedDate = format(today, "yyyy-MM-dd");
   const [formData, setFormData] = useState({
     Sample_Reference: uniqueId,
     visit_type: "",
@@ -42,12 +44,16 @@ function ServiceRequestForm({drawerClose}) {
     parameters: [],
     preferredDate: "",
     allottedTo: "",
-    date: "",
+    date: formattedDate,
     remarks: "",
     drawnBy: "",
     pickUp: "",
     priority: "",
     pickupDate: "",
+    Price: "",
+    GST : "",
+    Amount: "",
+    contactName: "",
     ticket_status: "New",
     category: "Ticket",
   });
@@ -130,155 +136,237 @@ function ServiceRequestForm({drawerClose}) {
     if(serviceSelected === "Water: General Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.firstOptions,
+        parameters: parameterOptions.firstOptions[0].parameter,
+        Price: parameterOptions.firstOptions[1].Price,
+        GST: parameterOptions.firstOptions[1].GST,
       }))}
     else if(serviceSelected === "Water Complete Analysis as per 10500: 2012") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.secondOptions,
+        parameters: parameterOptions.secondOptions[0].parameter,
+        Price: parameterOptions.secondOptions[1].Price,
+        GST: parameterOptions.secondOptions[1].GST,
       }))}
     else if(serviceSelected === "Water - Construction Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.thirdOptions,
+        parameters: parameterOptions.thirdOptions[0].parameter,
+        Price: parameterOptions.thirdOptions[1].Price,
+        GST: parameterOptions.thirdOptions[1].GST,
       }))}
     else if(serviceSelected === "Water - Microbiological Analysis") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.fourthOptions,
+        parameters: parameterOptions.fourthOptions[0].parameter,
+        Price: parameterOptions.fourthOptions[1].Price,
+        GST: parameterOptions.fourthOptions[1].GST,
       }))}
     else if(serviceSelected === "Water –Complete Microbiological Analysis") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.fifthOptions,
+        parameters: parameterOptions.fifthOptions[0].parameter,
+        Price: parameterOptions.fifthOptions[1].Price,
+        GST: parameterOptions.fifthOptions[1].GST,
       }))}
     else if(serviceSelected === "Food Microbiological Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.sixthOptions,
+        parameters: parameterOptions.sixthOptions[0].parameter,
+        Price: parameterOptions.sixthOptions[1].Price,
+        GST: parameterOptions.sixthOptions[1].GST,
       }))}
     else if(serviceSelected === "Food Chemical Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.seventhOptions,
+        parameters: parameterOptions.seventhOptions[0].parameter,
+        Price: parameterOptions.seventhOptions[1].Price,
+        GST: parameterOptions.seventhOptions[1].GST,
       }))}
     else if(serviceSelected === "Sludge Analysis Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.eighthOptions,
+        parameters: parameterOptions.eighthOptions[0].parameter,
+        Price: parameterOptions.eighthOptions[1].Price,
+        GST: parameterOptions.eighthOptions[1].GST,
       }))}
     else if(serviceSelected === "Soil Testing Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.ninethOptions,
+        parameters: parameterOptions.ninethOptions[0].parameter,
+        Price: parameterOptions.ninethOptions[1].Price,
+        GST: parameterOptions.ninethOptions[1].GST,
       }))}
     else if(serviceSelected === "Oil - Diesel Testing Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.tenthOptions,
+        parameters: parameterOptions.tenthOptions[0].parameter,
+        Price: parameterOptions.tenthOptions[1].Price,
+        GST: parameterOptions.tenthOptions[1].GST,
       }))}
     else if(serviceSelected === "Oil - Nutrition Value + FSSAI Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.eleventhOptions,
+        parameters: parameterOptions.eleventhOptions[0].parameter,
+        Price: parameterOptions.eleventhOptions[1].Price,
+        GST: parameterOptions.eleventhOptions[1].GST,
       }))}
     else if(serviceSelected === "Coal Analysis Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.twelfthOptions,
+        parameters: parameterOptions.twelfthOptions[0].parameter,
+        Price: parameterOptions.twelfthOptions[1].Price,
+        GST: parameterOptions.twelfthOptions[1].GST,
       }))}
     else if(serviceSelected === "Effluent Water Analysis Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.thirteenthOptions,
+        parameters: parameterOptions.thirteenthOptions[0].parameter,
+        Price: parameterOptions.thirteenthOptions[1].Price,
+        GST: parameterOptions.thirteenthOptions[1].GST,
       }))}
     else if(serviceSelected === "Sewage Water Chemical Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.fourteenthOptions,
+        parameters: parameterOptions.fourteenthOptions[0].parameter,
+        Price: parameterOptions.fourteenthOptions[1].Price,
+        GST: parameterOptions.fourteenthOptions[1].GST,
       }))}
     else if(serviceSelected === "Ambient Air Quality Monitoring Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.fifteenthOptions,
+        parameters: parameterOptions.fifteenthOptions[0].parameter,
+        Price: parameterOptions.fifteenthOptions[1].Price,
+        GST: parameterOptions.fifteenthOptions[1].GST,
       }))}
     else if(serviceSelected === "DG Stack Emission Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.sixteenthOptions,
+        parameters: parameterOptions.sixteenthOptions[0].parameter,
+        Price: parameterOptions.sixteenthOptions[1].Price,
+        GST: parameterOptions.sixteenthOptions[1].GST,
       }))}
     else if(serviceSelected === "Ambient Noise Monitoring Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.seventeenthOptions,
+        parameters: parameterOptions.seventeenthOptions[0].parameter,
+        Price: parameterOptions.seventeenthOptions[1].Price,
+        GST: parameterOptions.seventeenthOptions[1].GST,
       }))}
     else if(serviceSelected === "DG Noise Monitoring Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.eighteenthOptions,
+        parameters: parameterOptions.eighteenthOptions[0].parameter,
+        Price: parameterOptions.eighteenthOptions[1].Price,
+        GST: parameterOptions.eighteenthOptions[1].GST,
       }))}
     else if(serviceSelected === "Lux Monitoring Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.nineteenthOptions,
+        parameters: parameterOptions.nineteenthOptions[0].parameter,
+        Price: parameterOptions.nineteenthOptions[1].Price,
+        GST: parameterOptions.nineteenthOptions[1].GST,
       }))}
     else if(serviceSelected === "Indoor Air Quality") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.twenteenthOptions,
+        parameters: parameterOptions.twenteenthOptions[0].parameter,
+        Price: parameterOptions.twenteenthOptions[1].Price,
+        GST: parameterOptions.twenteenthOptions[1].GST,
       }))}
     else if(serviceSelected === "Compressor Air Monitoring Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.twentyFirstOptions,
+        parameters: parameterOptions.twentyFirstOptions[0].parameter,
+        Price: parameterOptions.twentyFirstOptions[1].Price,
+        GST: parameterOptions.twentyFirstOptions[1].GST,
       }))}
     else if(serviceSelected === "Feldspar Analysis Parameter") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.twentySecondOptions,
+        parameters: parameterOptions.twentySecondOptions[0].parameter,
+        Price: parameterOptions.twentySecondOptions[1].Price,
+        GST: parameterOptions.twentySecondOptions[1].GST,
       }))}
     else if(serviceSelected === "Quartz Sample Analysis Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.twentyThirdOptions,
+        parameters: parameterOptions.twentyThirdOptions[0].parameter,
+        Price: parameterOptions.twentyThirdOptions[1].Price,
+        GST: parameterOptions.twentyThirdOptions[1].GST,
       }))}
     else if(serviceSelected === "Lime Stone Sample Analysis Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.twentyFourthOptions,
+        parameters: parameterOptions.twentyFourthOptions[0].parameter,
+        Price: parameterOptions.twentyFourthOptions[1].Price,
+        GST: parameterOptions.twentyFourthOptions[1].GST,
       }))}
     else if(serviceSelected === "Plate - Microbiological Analysis") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.twentyFifthOptions,
+        parameters: parameterOptions.twentyFifthOptions[0].parameter,
+        Price: parameterOptions.twentyFifthOptions[1].Price,
+        GST: parameterOptions.twentyFifthOptions[1].GST,
       }))}
     else if(serviceSelected === "Swab - Microbiological Analysis") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.twentySixthOptions,
+        parameters: parameterOptions.twentySixthOptions[0].parameter,
+        Price: parameterOptions.twentySixthOptions[1].Price,
+        GST: parameterOptions.twentySixthOptions[1].GST,
       }))}
     else if(serviceSelected === "Sewage Water Microbiological Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.twentySeventhOptions,
+        parameters: parameterOptions.twentySeventhOptions[0].parameter,
+        Price: parameterOptions.twentySeventhOptions[1].Price,
+        GST: parameterOptions.twentySeventhOptions[1].GST,
       }))}
     else if(serviceSelected === "Weather Monitoring Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.twentyEighthOptions,
+        parameters: parameterOptions.twentyEighthOptions[0].parameter,
+        Price: parameterOptions.twentyEighthOptions[1].Price,
+        GST: parameterOptions.twentyEighthOptions[1].GST,
       }))}
       else if(serviceSelected === "Oxygen Purity Parameters") {
         setFormData((prevState) => ({
           ...prevState,
-          parameters: parameterOptions.twentyNinethOptions,
+          parameters: parameterOptions.twentyNinethOptions[0].parameter,
+          Price: parameterOptions.twentyNinethOptions[1].Price,
+          GST: parameterOptions.twentyNinethOptions[1].GST,
         }))}
   
       serviceTypes.map((service) => {
         if(service.name == serviceSelected) { 
           console.log(service.code);
         }
-      })
+      });
+
   }, [serviceSelected]);
+
+  useEffect(() => {
+    
+    const calculateTotal = (price, gstPercentage) => {
+      price = parseFloat(price);
+      gstPercentage = parseFloat(gstPercentage);
+
+      if (isNaN(price) || isNaN(gstPercentage) || price <= 0 || gstPercentage <= 0) {
+        console.log("Invalid input");
+        return 0;
+      }
+    
+      const gstAmount = (price * gstPercentage) / 100;
+      const totalAmount = price + gstAmount
+
+      setFormData((prevState) => ({
+        ...prevState,
+        Amount: totalAmount,
+      }));
+    }
+    
+    calculateTotal(formData.Price, formData.GST);
+  }, [formData.Price])
 
   const filteredRequests = serviceRequests.filter(request => 
     request.toLowerCase().includes(searchQuery.toLowerCase())
@@ -321,10 +409,12 @@ function ServiceRequestForm({drawerClose}) {
     setFormData({...formData, preferredDate: formattedDate});
   }
 
+  /*
   const serviceDatePicker = (date) => {
     const formattedDate = format(date, "yyyy-MM-dd");
     setFormData({...formData, date: formattedDate});
   }
+  */
 
   const pickupDatePicker = (date) => {
     const formattedDate = format(date, "yyyy-MM-dd");
@@ -458,6 +548,22 @@ function ServiceRequestForm({drawerClose}) {
                   />
                   <FormField 
                   control={form.control}
+                  name="contactName"
+                  render={() => 
+                    <FormItem className="flex gap-2 items-center">
+                      <FormLabel className="text-nowrap">Contact Name</FormLabel>
+                      <FormControl>
+                        <Input 
+                        name="contactName"
+                        onChange={handleInputChange}
+                        placeholder="Contact Name"/>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  }
+                  />
+                  <FormField 
+                  control={form.control}
                   name="visit_type"
                   render={() => 
                     <FormItem className="flex gap-2 items-center">
@@ -526,7 +632,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.firstOptions.map( (options, index) => <FormField 
+                  parameterOptions.firstOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -541,6 +647,56 @@ function ServiceRequestForm({drawerClose}) {
                   }
                   />) 
                 }
+                  </div>
+                  <div className="flex gap-3">
+                    <FormField 
+                      control={form.control}
+                      name="Price"
+                      render={() => 
+                        <FormItem className="w-full">
+                          <FormLabel>Price</FormLabel>
+                          <FormControl>
+                            <Input 
+                            name="Price"
+                            defaultValue={formData.Price}
+                            placeholder="Price"/>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      }
+                    />
+                    <FormField 
+                      control={form.control}
+                      name="GST"
+                      render={() => 
+                        <FormItem className="w-full">
+                          <FormLabel>GST</FormLabel>
+                          <FormControl>
+                            <Input 
+                            name="GST"
+                            defaultValue={formData.GST}
+                            placeholder="GST"/>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      }
+                    />
+                    <FormField 
+                      control={form.control}
+                      name="Amount"
+                      render={() => 
+                        <FormItem className="w-full">
+                          <FormLabel>Amount</FormLabel>
+                          <FormControl>
+                            <Input 
+                            name="Amount"
+                            defaultValue={formData.Amount}
+                            placeholder="Amount"/>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      }
+                    />
                 </div>
               </> : serviceSelected == "Water Complete Analysis as per 10500: 2012" ? 
               <>
@@ -550,7 +706,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.secondOptions.map( (options, index) => <FormField 
+                  parameterOptions.secondOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -565,6 +721,56 @@ function ServiceRequestForm({drawerClose}) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.secondOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.secondOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={formData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Water - Construction Parameters" ? 
               <>
@@ -574,7 +780,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.thirdOptions.map( (options, index) => <FormField 
+                  parameterOptions.thirdOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -589,6 +795,56 @@ function ServiceRequestForm({drawerClose}) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.thirdOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.thirdOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={formData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Water - Microbiological Analysis" ? 
               <>
@@ -597,7 +853,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.fourthOptions.map( (options, index) => <FormField 
+                  parameterOptions.fourthOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -612,6 +868,56 @@ function ServiceRequestForm({drawerClose}) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.fourthOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.fourthOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={formData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Water –Complete Microbiological Analysis" ? 
               <>
@@ -620,7 +926,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.fifthOptions.map( (options, index) => <FormField 
+                  parameterOptions.fifthOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -635,6 +941,56 @@ function ServiceRequestForm({drawerClose}) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.fifthOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.fifthOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={formData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Food Microbiological Parameters" ? 
               <>
@@ -643,7 +999,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.sixthOptions.map( (options, index) => <FormField 
+                  parameterOptions.sixthOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -658,6 +1014,56 @@ function ServiceRequestForm({drawerClose}) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.sixthOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.sixthOptions[0].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={formData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Food Chemical Parameters" ? 
               <>
@@ -666,7 +1072,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.seventhOptions.map( (options, index) => <FormField 
+                  parameterOptions.seventhOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -681,6 +1087,56 @@ function ServiceRequestForm({drawerClose}) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.seventhOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.seventhOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={formData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Sludge Analysis Parameters" ? 
               <>
@@ -689,7 +1145,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.eighthOptions.map( (options, index) => <FormField 
+                  parameterOptions.eighthOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -704,6 +1160,56 @@ function ServiceRequestForm({drawerClose}) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.eighthOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.eighthOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={formData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Soil Testing Parameters" ? 
               <>
@@ -713,7 +1219,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.ninethOptions.map( (options, index) => <FormField 
+                  parameterOptions.ninethOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -728,6 +1234,56 @@ function ServiceRequestForm({drawerClose}) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.ninethOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.ninethOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={formData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Oil - Diesel Testing Parameters" ? 
               <>
@@ -736,7 +1292,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.tenthOptions.map( (options, index) => <FormField 
+                  parameterOptions.tenthOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -751,6 +1307,56 @@ function ServiceRequestForm({drawerClose}) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.tenthOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.tenthOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={formData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Oil - Nutrition Value + FSSAI Parameters" ? 
               <>
@@ -760,7 +1366,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.eleventhOptions.map( (options, index) => <FormField 
+                  parameterOptions.eleventhOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -775,6 +1381,56 @@ function ServiceRequestForm({drawerClose}) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.eleventhOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.eleventhOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={formData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Coal Analysis Parameters" ? 
               <>
@@ -784,7 +1440,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.twelfthOptions.map( (options, index) => <FormField 
+                  parameterOptions.twelfthOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -799,6 +1455,56 @@ function ServiceRequestForm({drawerClose}) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.twelfthOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.twelfthOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={formData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Effluent Water Analysis Parameters" ? 
               <>
@@ -807,7 +1513,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.thirteenthOptions.map( (options, index) => <FormField 
+                  parameterOptions.thirteenthOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -822,6 +1528,56 @@ function ServiceRequestForm({drawerClose}) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.thirteenthOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.thirteenthOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={formData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Sewage Water Chemical Parameters" ? 
               <>
@@ -830,7 +1586,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.fourteenthOptions.map( (options, index) => <FormField 
+                  parameterOptions.fourteenthOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -845,6 +1601,56 @@ function ServiceRequestForm({drawerClose}) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.fourteenthOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.fourteenthOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={formData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Ambient Air Quality Monitoring Parameters" ? 
               <>
@@ -853,7 +1659,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.fifteenthOptions.map( (options, index) => <FormField 
+                  parameterOptions.fifteenthOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -868,6 +1674,56 @@ function ServiceRequestForm({drawerClose}) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.fifteenthOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.fifteenthOptions[0].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={formData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "DG Stack Emission Parameters" ? 
               <>
@@ -876,7 +1732,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.sixteenthOptions.map( (options, index) => <FormField 
+                  parameterOptions.sixteenthOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -891,6 +1747,56 @@ function ServiceRequestForm({drawerClose}) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.sixteenthOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.sixteenthOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={formData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Ambient Noise Monitoring Parameters" ? 
               <>
@@ -899,7 +1805,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.seventeenthOptions.map( (options, index) => <FormField 
+                  parameterOptions.seventeenthOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -914,6 +1820,56 @@ function ServiceRequestForm({drawerClose}) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.seventeenthOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.seventeenthOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={formData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "DG Noise Monitoring Parameters" ? 
               <>
@@ -922,7 +1878,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.eighteenthOptions.map( (options, index) => <FormField 
+                  parameterOptions.eighteenthOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -937,6 +1893,56 @@ function ServiceRequestForm({drawerClose}) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.eighteenthOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.eighteenthOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={formData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Lux Monitoring Parameters" ? 
               <>
@@ -945,7 +1951,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.nineteenthOptions.map( (options, index) => <FormField 
+                  parameterOptions.nineteenthOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -960,6 +1966,56 @@ function ServiceRequestForm({drawerClose}) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.nineteenthOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.nineteenthOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={formData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Indoor Air Quality" ? 
               <>
@@ -968,7 +2024,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.twenteenthOptions.map( (options, index) => <FormField 
+                  parameterOptions.twenteenthOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -983,6 +2039,56 @@ function ServiceRequestForm({drawerClose}) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.twenteenthOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.twenteenthOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={formData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Compressor Air Monitoring Parameters" ? 
               <>
@@ -991,7 +2097,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.twentyFirstOptions.map( (options, index) => <FormField 
+                  parameterOptions.twentyFirstOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -1006,6 +2112,56 @@ function ServiceRequestForm({drawerClose}) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.twentyFirstOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.twentyFirstOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={formData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Feldspar Analysis Parameter" ? 
               <>
@@ -1014,7 +2170,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.twentySecondOptions.map( (options, index) => <FormField 
+                  parameterOptions.twentySecondOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -1029,6 +2185,56 @@ function ServiceRequestForm({drawerClose}) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.twentySecondOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.twentySecondOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={formData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Quartz Sample Analysis Parameters" ? 
               <>
@@ -1037,7 +2243,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.twentyThirdOptions.map( (options, index) => <FormField 
+                  parameterOptions.twentyThirdOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -1052,6 +2258,56 @@ function ServiceRequestForm({drawerClose}) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.twentyThirdOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.twentyThirdOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={formData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Lime Stone Sample Analysis Parameters" ? 
               <>
@@ -1060,7 +2316,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.twentyFourthOptions.map( (options, index) => <FormField 
+                  parameterOptions.twentyFourthOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -1075,6 +2331,56 @@ function ServiceRequestForm({drawerClose}) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.twentyFourthOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.twentyFourthOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={formData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Plate - Microbiological Analysis" ? 
               <>
@@ -1083,7 +2389,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.twentyFifthOptions.map( (options, index) => <FormField 
+                  parameterOptions.twentyFifthOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -1098,6 +2404,56 @@ function ServiceRequestForm({drawerClose}) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.twentyFifthOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.twentyFifthOptions[0].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={formData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Swab - Microbiological Analysis" ? 
               <>
@@ -1106,7 +2462,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.twentySixthOptions.map( (options, index) => <FormField 
+                  parameterOptions.twentySixthOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -1121,6 +2477,56 @@ function ServiceRequestForm({drawerClose}) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.twentySixthOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.twentySixthOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={formData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Sewage Water Microbiological Parameters" ? 
               <>
@@ -1129,7 +2535,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.twentySeventhOptions.map( (options, index) => <FormField 
+                  parameterOptions.twentySeventhOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -1144,6 +2550,56 @@ function ServiceRequestForm({drawerClose}) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.twentySeventhOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.twentySeventhOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={formData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Weather Monitoring Parameters" ? 
               <>
@@ -1152,7 +2608,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.twentyEighthOptions.map( (options, index) => <FormField 
+                  parameterOptions.twentyEighthOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -1167,6 +2623,56 @@ function ServiceRequestForm({drawerClose}) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.twentyEighthOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.twentyEighthOptions[0].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={formData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Oxygen Purity Parameters" ? 
               <>
@@ -1175,7 +2681,7 @@ function ServiceRequestForm({drawerClose}) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.twentyNinethOptions.map( (options, index) => <FormField 
+                  parameterOptions.twentyNinethOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -1191,8 +2697,59 @@ function ServiceRequestForm({drawerClose}) {
                   />) 
                 }
                 </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.twentyNinethOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.twentyNinethOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={formData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                </div>
               </> : ""
               }
+
               <FormField 
               control={form.control}
               name="dateOfService"
@@ -1318,7 +2875,7 @@ function ServiceRequestForm({drawerClose}) {
                 </FormItem>
               }
               />
-              <FormField 
+              {/*<FormField 
               control={form.control}
               name="serviceDateEntry"
               render={({ field }) => 
@@ -1355,7 +2912,7 @@ function ServiceRequestForm({drawerClose}) {
                   <FormMessage />
                 </FormItem>
               }
-              />
+              />*/}
               </CardContent>
             </Card>
             
@@ -1516,8 +3073,6 @@ function ServiceRequestForm({drawerClose}) {
     </div>
   )
 }
-
-
 
 export async function createEESRecord(requestData, srn) {
   const apiUrl = "https://0znzn1z8z4.execute-api.ap-south-1.amazonaws.com/Dev/EES_Create_Record";

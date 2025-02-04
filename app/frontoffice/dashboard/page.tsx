@@ -87,12 +87,12 @@ export default function FrontOfficeDashBoard() {
           <div className="flex items-center justify-center mb-3">
             <Button 
               variant="ghost" 
-              className={index === 0 ? "border-b border-blue-500 rounded-none font-semibold" : "" + "rounded-none"}
+              className={index === 0 ? "border-b border-green-500 rounded-none font-semibold bg-green-200" : "" + "rounded-none hover:bg-green-100"}
               onClick={() => setIndex(0)}
               >Weekly</Button>
             <Button 
               variant="ghost" 
-              className={index === 1 ? "border-b border-blue-500 rounded-none font-semibold" : "" + "rounded-none"}
+              className={index === 1 ? "border-b border-green-500 rounded-none font-semibold bg-green-200" : "" + "rounded-none hover:bg-green-100"}
               onClick={() => setIndex(1)}
               >Monthly</Button>
           </div>

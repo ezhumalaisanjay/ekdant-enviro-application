@@ -119,7 +119,7 @@ const chartConfig = {
 
 
   return (
-    <Card className="flex flex-col w-[350px]">
+    <Card className="flex flex-col w-full">
       <CardHeader className="items-center pb-0">
         <CardTitle>Priorities of Tickets</CardTitle>
         <CardDescription>Weekly Overview </CardDescription>

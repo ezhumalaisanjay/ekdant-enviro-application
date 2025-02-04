@@ -64,7 +64,7 @@ export function DataTable<TData, TValue>({
   )
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
-    pageSize: 4,
+    pageSize: 10,
   })
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({
@@ -84,6 +84,10 @@ export function DataTable<TData, TValue>({
       pickUpDate: false,
       pickupAddress: false,
       dropoffAddress: false,
+      Price: true,
+      contactName: false,
+      Amount: true,
+      GST: false,
     })
 
   const table = useReactTable({

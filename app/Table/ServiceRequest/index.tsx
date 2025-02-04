@@ -193,7 +193,6 @@ const ServiceRequestTable: React.FC<ServiceRequestTableProps> = ({onTrigger}) =>
       header: "Ticket Status",
       cell: (({row}) => {
         const status = row.getValue("ticket_status")
-        console.log("Status of Ticket", status)
         if(status == "New") {
           return <Badge className="bg-green-500 hover:bg-green-400">New</Badge>
         }
@@ -304,6 +303,19 @@ const ServiceRequestTable: React.FC<ServiceRequestTableProps> = ({onTrigger}) =>
     {
       accessorKey: "address",
       header: "Drop-off Address",
+    },
+    {
+      accessorKey: "Price",
+      header: "Price",
+    }, {
+      accessorKey: "Amount",
+      header: "Amount",
+    }, {
+      accessorKey: "GST",
+      header: "GST",
+    }, {
+      accessorKey: "contactName",
+      header: "Contact Name",
     },
     {
       id: "modify",

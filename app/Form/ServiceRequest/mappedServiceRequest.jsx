@@ -12,7 +12,8 @@ import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns"
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { serviceRequests, staffOptions, parameterOptions, serviceTypes } from "@/app/src/serviceDatas";
+import { useToast } from "@/hooks/use-toast";
+import { serviceRequests, staffOptions, parameterOptions, serviceTypes } from "../../src/serviceDatas"
 
 const formSchema = z.object({
   fullName: z.string(),
@@ -20,17 +21,20 @@ const formSchema = z.object({
   date: z.string().date()
 })
 
-function MappedServiceRequestForm({ rowData }) {
+function MappedServiceRequestForm( {rowData} ) {
+  const { toast } = useToast();
   const [serviceSelected, setServiceSelected] = useState(rowData.serviceType);
+  //const [isLoading, setIsLoading] = useState(false);
   const [pickUp, setPickUp] = useState(rowData.pickUp);
-  const form = useForm({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      fullName: "",
-    }
-  });
-  
+  const [apiCustomerData, setApiCustomerData] = useState([])
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCustomerName, setSelectedCustomerName] = useState(rowData.companyName);
+  //const [mappedApiData, setMappedApiData] = useState(null);
+  const uniqueId = `EES/${Math.floor(Math.random() * 1000)}`;
+  const today = new Date()
+  const formattedDate = format(today, "yyyy-MM-dd");
   const [formData, setFormData] = useState({
+    Sample_Reference: uniqueId,
     visit_type: "",
     companyName: "",
     contactNumber: "",
@@ -40,178 +44,319 @@ function MappedServiceRequestForm({ rowData }) {
     parameters: [],
     preferredDate: "",
     allottedTo: "",
-    date: "",
+    date: formattedDate,
     remarks: "",
     drawnBy: "",
     pickUp: "",
     priority: "",
     pickupDate: "",
+    Price: "",
+    GST : "",
+    Amount: "",
+    contactName: "",
     ticket_status: "New",
-    category: "Ticket"
+    category: "Ticket",
   });
+
+  console.log(selectedCustomerName);
+  const form = useForm({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      fullName: "",
+    }
+  });
+
   
+  useEffect(() => {
+    const getRecords = async (category) => {
+      try {
+        const response = await fetch("https://0znzn1z8z4.execute-api.ap-south-1.amazonaws.com/Dev/EES_Get_all_record", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ category }),
+        });
+    
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+    
+        const result = await response.json();
+        console.log(JSON.parse(result.body)); // Return response directly
+
+        const responseData = JSON.parse(result.body);
+        setApiCustomerData(responseData)
+        console.log("Customer Data" ,responseData);
+
+      } catch (error) { 
+        if (error instanceof Error) {
+          console.error("Error fetching records:", error.message);
+          return { error: error.message };
+        } 
+        else {
+        console.error("Unknown error:", error);
+        return { error: "An unknown error occurred" };
+        }
+      }
+    } 
+    getRecords("Customer") 
+
+  }, [])
+
   useEffect(() => {
     if(serviceSelected === "Water: General Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.firstOptions,
+        parameters: parameterOptions.firstOptions[0].parameter,
+        Price: parameterOptions.firstOptions[1].Price,
+        GST: parameterOptions.firstOptions[1].GST,
       }))}
     else if(serviceSelected === "Water Complete Analysis as per 10500: 2012") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.secondOptions,
+        parameters: parameterOptions.secondOptions[0].parameter,
+        Price: parameterOptions.secondOptions[1].Price,
+        GST: parameterOptions.secondOptions[1].GST,
       }))}
     else if(serviceSelected === "Water - Construction Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.thirdOptions,
+        parameters: parameterOptions.thirdOptions[0].parameter,
+        Price: parameterOptions.thirdOptions[1].Price,
+        GST: parameterOptions.thirdOptions[1].GST,
       }))}
     else if(serviceSelected === "Water - Microbiological Analysis") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.fourthOptions,
+        parameters: parameterOptions.fourthOptions[0].parameter,
+        Price: parameterOptions.fourthOptions[1].Price,
+        GST: parameterOptions.fourthOptions[1].GST,
       }))}
     else if(serviceSelected === "Water –Complete Microbiological Analysis") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.fifthOptions,
+        parameters: parameterOptions.fifthOptions[0].parameter,
+        Price: parameterOptions.fifthOptions[1].Price,
+        GST: parameterOptions.fifthOptions[1].GST,
       }))}
     else if(serviceSelected === "Food Microbiological Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.sixthOptions,
+        parameters: parameterOptions.sixthOptions[0].parameter,
+        Price: parameterOptions.sixthOptions[1].Price,
+        GST: parameterOptions.sixthOptions[1].GST,
       }))}
     else if(serviceSelected === "Food Chemical Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.seventhOptions,
+        parameters: parameterOptions.seventhOptions[0].parameter,
+        Price: parameterOptions.seventhOptions[1].Price,
+        GST: parameterOptions.seventhOptions[1].GST,
       }))}
     else if(serviceSelected === "Sludge Analysis Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.eighthOptions,
+        parameters: parameterOptions.eighthOptions[0].parameter,
+        Price: parameterOptions.eighthOptions[1].Price,
+        GST: parameterOptions.eighthOptions[1].GST,
       }))}
     else if(serviceSelected === "Soil Testing Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.ninethOptions,
+        parameters: parameterOptions.ninethOptions[0].parameter,
+        Price: parameterOptions.ninethOptions[1].Price,
+        GST: parameterOptions.ninethOptions[1].GST,
       }))}
     else if(serviceSelected === "Oil - Diesel Testing Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.tenthOptions,
+        parameters: parameterOptions.tenthOptions[0].parameter,
+        Price: parameterOptions.tenthOptions[1].Price,
+        GST: parameterOptions.tenthOptions[1].GST,
       }))}
     else if(serviceSelected === "Oil - Nutrition Value + FSSAI Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.eleventhOptions,
+        parameters: parameterOptions.eleventhOptions[0].parameter,
+        Price: parameterOptions.eleventhOptions[1].Price,
+        GST: parameterOptions.eleventhOptions[1].GST,
       }))}
     else if(serviceSelected === "Coal Analysis Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.twelfthOptions,
+        parameters: parameterOptions.twelfthOptions[0].parameter,
+        Price: parameterOptions.twelfthOptions[1].Price,
+        GST: parameterOptions.twelfthOptions[1].GST,
       }))}
     else if(serviceSelected === "Effluent Water Analysis Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.thirteenthOptions,
+        parameters: parameterOptions.thirteenthOptions[0].parameter,
+        Price: parameterOptions.thirteenthOptions[1].Price,
+        GST: parameterOptions.thirteenthOptions[1].GST,
       }))}
     else if(serviceSelected === "Sewage Water Chemical Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.fourteenthOptions,
+        parameters: parameterOptions.fourteenthOptions[0].parameter,
+        Price: parameterOptions.fourteenthOptions[1].Price,
+        GST: parameterOptions.fourteenthOptions[1].GST,
       }))}
     else if(serviceSelected === "Ambient Air Quality Monitoring Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.fifteenthOptions,
+        parameters: parameterOptions.fifteenthOptions[0].parameter,
+        Price: parameterOptions.fifteenthOptions[1].Price,
+        GST: parameterOptions.fifteenthOptions[1].GST,
       }))}
     else if(serviceSelected === "DG Stack Emission Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.sixteenthOptions,
+        parameters: parameterOptions.sixteenthOptions[0].parameter,
+        Price: parameterOptions.sixteenthOptions[1].Price,
+        GST: parameterOptions.sixteenthOptions[1].GST,
       }))}
     else if(serviceSelected === "Ambient Noise Monitoring Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.seventeenthOptions,
+        parameters: parameterOptions.seventeenthOptions[0].parameter,
+        Price: parameterOptions.seventeenthOptions[1].Price,
+        GST: parameterOptions.seventeenthOptions[1].GST,
       }))}
     else if(serviceSelected === "DG Noise Monitoring Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.eighteenthOptions,
+        parameters: parameterOptions.eighteenthOptions[0].parameter,
+        Price: parameterOptions.eighteenthOptions[1].Price,
+        GST: parameterOptions.eighteenthOptions[1].GST,
       }))}
     else if(serviceSelected === "Lux Monitoring Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.nineteenthOptions,
+        parameters: parameterOptions.nineteenthOptions[0].parameter,
+        Price: parameterOptions.nineteenthOptions[1].Price,
+        GST: parameterOptions.nineteenthOptions[1].GST,
       }))}
     else if(serviceSelected === "Indoor Air Quality") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.twenteenthOptions,
+        parameters: parameterOptions.twenteenthOptions[0].parameter,
+        Price: parameterOptions.twenteenthOptions[1].Price,
+        GST: parameterOptions.twenteenthOptions[1].GST,
       }))}
     else if(serviceSelected === "Compressor Air Monitoring Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.twentyFirstOptions,
+        parameters: parameterOptions.twentyFirstOptions[0].parameter,
+        Price: parameterOptions.twentyFirstOptions[1].Price,
+        GST: parameterOptions.twentyFirstOptions[1].GST,
       }))}
     else if(serviceSelected === "Feldspar Analysis Parameter") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.twentySecondOptions,
+        parameters: parameterOptions.twentySecondOptions[0].parameter,
+        Price: parameterOptions.twentySecondOptions[1].Price,
+        GST: parameterOptions.twentySecondOptions[1].GST,
       }))}
     else if(serviceSelected === "Quartz Sample Analysis Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.twentyThirdOptions,
+        parameters: parameterOptions.twentyThirdOptions[0].parameter,
+        Price: parameterOptions.twentyThirdOptions[1].Price,
+        GST: parameterOptions.twentyThirdOptions[1].GST,
       }))}
     else if(serviceSelected === "Lime Stone Sample Analysis Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.twentyFourthOptions,
+        parameters: parameterOptions.twentyFourthOptions[0].parameter,
+        Price: parameterOptions.twentyFourthOptions[1].Price,
+        GST: parameterOptions.twentyFourthOptions[1].GST,
       }))}
     else if(serviceSelected === "Plate - Microbiological Analysis") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.twentyFifthOptions,
+        parameters: parameterOptions.twentyFifthOptions[0].parameter,
+        Price: parameterOptions.twentyFifthOptions[1].Price,
+        GST: parameterOptions.twentyFifthOptions[1].GST,
       }))}
     else if(serviceSelected === "Swab - Microbiological Analysis") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.twentySixthOptions,
+        parameters: parameterOptions.twentySixthOptions[0].parameter,
+        Price: parameterOptions.twentySixthOptions[1].Price,
+        GST: parameterOptions.twentySixthOptions[1].GST,
       }))}
     else if(serviceSelected === "Sewage Water Microbiological Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.twentySeventhOptions,
+        parameters: parameterOptions.twentySeventhOptions[0].parameter,
+        Price: parameterOptions.twentySeventhOptions[1].Price,
+        GST: parameterOptions.twentySeventhOptions[1].GST,
       }))}
     else if(serviceSelected === "Weather Monitoring Parameters") {
       setFormData((prevState) => ({
         ...prevState,
-        parameters: parameterOptions.twentyEighthOptions,
+        parameters: parameterOptions.twentyEighthOptions[0].parameter,
+        Price: parameterOptions.twentyEighthOptions[1].Price,
+        GST: parameterOptions.twentyEighthOptions[1].GST,
       }))}
       else if(serviceSelected === "Oxygen Purity Parameters") {
         setFormData((prevState) => ({
           ...prevState,
-          parameters: parameterOptions.twentyNinethOptions,
+          parameters: parameterOptions.twentyNinethOptions[0].parameter,
+          Price: parameterOptions.twentyNinethOptions[1].Price,
+          GST: parameterOptions.twentyNinethOptions[1].GST,
         }))}
   
       serviceTypes.map((service) => {
         if(service.name == serviceSelected) { 
           console.log(service.code);
         }
-      })
-  }, [serviceSelected])
+      });
+
+  }, [serviceSelected]);
+
+  useEffect(() => {
+    
+    const calculateTotal = (price, gstPercentage) => {
+      price = parseFloat(price);
+      gstPercentage = parseFloat(gstPercentage);
+
+      if (isNaN(price) || isNaN(gstPercentage) || price <= 0 || gstPercentage <= 0) {
+        console.log("Invalid input");
+        return 0;
+      }
+    
+      const gstAmount = (price * gstPercentage) / 100;
+      const totalAmount = price + gstAmount
+
+      setFormData((prevState) => ({
+        ...prevState,
+        Amount: totalAmount,
+      }));
+    }
+    
+    calculateTotal(formData.Price, formData.GST);
+  }, [formData.Price])
+
+  const filteredRequests = serviceRequests.filter(request => 
+    request.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  /*const handleSelectChangeName = (value) => {
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const handleSelectChangeName = (value) => {
     setFormData({ ...formData, companyName: value})
-  }*/
+    setSelectedCustomerName(value);
+  }
 
   const handleSelectChangeService = (value) => {
     setFormData({ ...formData, serviceType: value})
@@ -236,15 +381,17 @@ function MappedServiceRequestForm({ rowData }) {
     setFormData({...formData, preferredDate: formattedDate});
   }
 
+  /*
   const serviceDatePicker = (date) => {
     const formattedDate = format(date, "yyyy-MM-dd");
     setFormData({...formData, date: formattedDate});
   }
-/*
+  */
+
   const pickupDatePicker = (date) => {
     const formattedDate = format(date, "yyyy-MM-dd");
     setFormData({...formData, pickupDate: formattedDate});
-  }*/
+  }
   const handleSelectChangeAllocate = (value) => {
     setFormData({...formData, allottedTo: value});
   }
@@ -268,36 +415,51 @@ function MappedServiceRequestForm({ rowData }) {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    //setIsLoading(true);
     console.log("Form Data Submitted: ", formData);
+  
+    await createEESRecord(formData, formData.Sample_Reference);
     const inputElement = document.querySelectorAll("input");
     inputElement.forEach((input) => {
       input.value = ""
     })
+
+    //setIsLoading(false);
+    drawerClose();
+    toast({
+      title: "Data",
+      description: "Data has been submitted Successfully",
+    })
+    
     // Add logic to send formData to the server or process it further
   };
 
-
   return(
-    <div className="p-3 w-full h-[500px] overflow-y-auto">
+    <div className="p-3 w-full h-[682px] overflow-y-auto">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)}>
           <div className="grid gap-3">
             <Card>
               <CardHeader></CardHeader>
               <CardContent>
-                <FormField 
+              <FormField 
                   control={form.control}
-                  name="fullName"
+                  name="Sample_Reference"
                   render={() => 
-                    <FormItem className="flex items-center gap-3 mb-8">
-                      <FormLabel className="lg:text-nowrap font-semibold">Sample Reference Number :</FormLabel>
+                    <FormItem className="flex gap-3">
+                      <FormLabel className="text-nowrap">Sample Reference Number</FormLabel>
                       <FormControl>
-                        <Input type="text" defaultValue={rowData.Sample_Reference} readOnly/>
+                        <Input 
+                        name="contactNumber"
+                        defaultValue={rowData.Sample_Reference}
+                        onChange={handleInputChange}
+                        placeholder="Enter your Number"/>
                       </FormControl>
                       <FormMessage />
-                    </FormItem>} 
-                    />    
+                    </FormItem>
+                  }
+                  />
               </CardContent>
             </Card>
 
@@ -308,16 +470,23 @@ function MappedServiceRequestForm({ rowData }) {
                 <div className="grid lg:grid-cols-2 gap-3">
                   <FormField 
                   control={form.control}
-                  name="fullName"
+                  name="companyName"
                   render={() => 
                     <FormItem>
                       <FormLabel>Company Name</FormLabel>
                       <FormControl>
-                        <Input 
-                        name="fullName"
-                        defaultValue={rowData.companyName}
-                        onChange={handleInputChange}
-                        placeholder="Full Name"/>
+                        <Select 
+                        value={rowData.companyName}
+                        onValueChange={handleSelectChangeName}>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {apiCustomerData.map((data, index) => 
+                            <SelectItem value={data.company_name} key={index}>{data.company_name}</SelectItem>)
+                            }
+                          </SelectContent>
+                        </Select>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -328,7 +497,7 @@ function MappedServiceRequestForm({ rowData }) {
                   name="contactNumber"
                   render={() => 
                     <FormItem>
-                      <FormLabel>Contact Number</FormLabel>
+                      <FormLabel>Phone Number</FormLabel>
                       <FormControl>
                         <Input 
                         name="contactNumber"
@@ -345,7 +514,7 @@ function MappedServiceRequestForm({ rowData }) {
                   name="email"
                   render={() => 
                     <FormItem>
-                      <FormLabel>Email Address</FormLabel>
+                      <FormLabel>Email</FormLabel>
                       <FormControl>
                         <Input 
                         name="email"
@@ -374,7 +543,23 @@ function MappedServiceRequestForm({ rowData }) {
                     </FormItem>
                   }
                   />
-                  
+                  <FormField 
+                  control={form.control}
+                  name="contactName"
+                  render={() => 
+                    <FormItem className="flex gap-2 items-center">
+                      <FormLabel className="text-nowrap">Contact Name</FormLabel>
+                      <FormControl>
+                        <Input 
+                        name="contactName"
+                        defaultValue={rowData.contactName}
+                        onChange={handleInputChange}
+                        placeholder="Contact Name"/>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  }
+                  />
                   <FormField 
                   control={form.control}
                   name="visit_type"
@@ -383,7 +568,7 @@ function MappedServiceRequestForm({ rowData }) {
                       <FormLabel className="text-nowrap">Mode of Request</FormLabel>
                       <FormControl>
                         <Select 
-                        defaultValue={rowData.visit_type}
+                        value={rowData.visit_type}
                         onValueChange={handleSelectChangeVisitType}>
                           <SelectTrigger>
                             <SelectValue placeholder="Select" />
@@ -416,15 +601,22 @@ function MappedServiceRequestForm({ rowData }) {
                   <FormControl>
                     <Select
                     name="serviceType"
-                    defaultValue={rowData.serviceType}
+                    value={rowData.serviceType}
                     onValueChange={handleSelectChangeService}
                     >
                       <SelectTrigger>
                         <SelectValue placeholder="Select"/>
                       </SelectTrigger>
                       <SelectContent>
+                        <Input
+                          type="text"
+                          value={searchQuery}
+                          onChange={handleSearchChange}
+                          placeholder="Search..."
+                          className="mb-2 placeholder:text-sm" // Optional styling, for margin at the bottom
+                        />
                         <SelectItem value="Select">Select</SelectItem>
-                        {serviceRequests.map((request, index) => <SelectItem value={request} key={index}>{request}</SelectItem>)}
+                        {filteredRequests.map((request, index) => <SelectItem value={request} key={index}>{request}</SelectItem>)}
                       </SelectContent>
                     </Select>
                   </FormControl>
@@ -441,7 +633,7 @@ function MappedServiceRequestForm({ rowData }) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.firstOptions.map( (options, index) => <FormField 
+                  parameterOptions.firstOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -456,6 +648,56 @@ function MappedServiceRequestForm({ rowData }) {
                   }
                   />) 
                 }
+                  </div>
+                  <div className="flex gap-3">
+                    <FormField 
+                      control={form.control}
+                      name="Price"
+                      render={() => 
+                        <FormItem className="w-full">
+                          <FormLabel>Price</FormLabel>
+                          <FormControl>
+                            <Input 
+                            name="Price"
+                            defaultValue={formData.Price}
+                            placeholder="Price"/>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      }
+                    />
+                    <FormField 
+                      control={form.control}
+                      name="GST"
+                      render={() => 
+                        <FormItem className="w-full">
+                          <FormLabel>GST</FormLabel>
+                          <FormControl>
+                            <Input 
+                            name="GST"
+                            defaultValue={formData.GST}
+                            placeholder="GST"/>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      }
+                    />
+                    <FormField 
+                      control={form.control}
+                      name="Amount"
+                      render={() => 
+                        <FormItem className="w-full">
+                          <FormLabel>Amount</FormLabel>
+                          <FormControl>
+                            <Input 
+                            name="Amount"
+                            defaultValue={rowData.Amount}
+                            placeholder="Amount"/>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      }
+                    />
                 </div>
               </> : serviceSelected == "Water Complete Analysis as per 10500: 2012" ? 
               <>
@@ -465,7 +707,7 @@ function MappedServiceRequestForm({ rowData }) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.secondOptions.map( (options, index) => <FormField 
+                  parameterOptions.secondOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -480,6 +722,56 @@ function MappedServiceRequestForm({ rowData }) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.secondOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.secondOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={rowData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Water - Construction Parameters" ? 
               <>
@@ -489,7 +781,7 @@ function MappedServiceRequestForm({ rowData }) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.thirdOptions.map( (options, index) => <FormField 
+                  parameterOptions.thirdOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -504,6 +796,56 @@ function MappedServiceRequestForm({ rowData }) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.thirdOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.thirdOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={rowData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Water - Microbiological Analysis" ? 
               <>
@@ -512,7 +854,7 @@ function MappedServiceRequestForm({ rowData }) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.fourthOptions.map( (options, index) => <FormField 
+                  parameterOptions.fourthOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -527,6 +869,56 @@ function MappedServiceRequestForm({ rowData }) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.fourthOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.fourthOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={rowData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Water –Complete Microbiological Analysis" ? 
               <>
@@ -535,7 +927,7 @@ function MappedServiceRequestForm({ rowData }) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.fifthOptions.map( (options, index) => <FormField 
+                  parameterOptions.fifthOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -550,6 +942,56 @@ function MappedServiceRequestForm({ rowData }) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.fifthOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.fifthOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={rowData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Food Microbiological Parameters" ? 
               <>
@@ -558,7 +1000,7 @@ function MappedServiceRequestForm({ rowData }) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.sixthOptions.map( (options, index) => <FormField 
+                  parameterOptions.sixthOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -573,6 +1015,56 @@ function MappedServiceRequestForm({ rowData }) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.sixthOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.sixthOptions[0].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={rowData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Food Chemical Parameters" ? 
               <>
@@ -581,7 +1073,7 @@ function MappedServiceRequestForm({ rowData }) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.seventhOptions.map( (options, index) => <FormField 
+                  parameterOptions.seventhOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -596,6 +1088,56 @@ function MappedServiceRequestForm({ rowData }) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.seventhOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.seventhOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={rowData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Sludge Analysis Parameters" ? 
               <>
@@ -604,7 +1146,7 @@ function MappedServiceRequestForm({ rowData }) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.eighthOptions.map( (options, index) => <FormField 
+                  parameterOptions.eighthOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -619,6 +1161,56 @@ function MappedServiceRequestForm({ rowData }) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.eighthOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.eighthOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={rowData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Soil Testing Parameters" ? 
               <>
@@ -628,7 +1220,7 @@ function MappedServiceRequestForm({ rowData }) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.ninethOptions.map( (options, index) => <FormField 
+                  parameterOptions.ninethOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -643,6 +1235,56 @@ function MappedServiceRequestForm({ rowData }) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.ninethOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.ninethOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={rowData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Oil - Diesel Testing Parameters" ? 
               <>
@@ -651,7 +1293,7 @@ function MappedServiceRequestForm({ rowData }) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.tenthOptions.map( (options, index) => <FormField 
+                  parameterOptions.tenthOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -666,6 +1308,56 @@ function MappedServiceRequestForm({ rowData }) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.tenthOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.tenthOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={rowData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Oil - Nutrition Value + FSSAI Parameters" ? 
               <>
@@ -675,7 +1367,7 @@ function MappedServiceRequestForm({ rowData }) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.eleventhOptions.map( (options, index) => <FormField 
+                  parameterOptions.eleventhOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -690,6 +1382,56 @@ function MappedServiceRequestForm({ rowData }) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.eleventhOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.eleventhOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={rowData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Coal Analysis Parameters" ? 
               <>
@@ -699,7 +1441,7 @@ function MappedServiceRequestForm({ rowData }) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.twelfthOptions.map( (options, index) => <FormField 
+                  parameterOptions.twelfthOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -714,6 +1456,56 @@ function MappedServiceRequestForm({ rowData }) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.twelfthOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.twelfthOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={rowData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Effluent Water Analysis Parameters" ? 
               <>
@@ -722,7 +1514,7 @@ function MappedServiceRequestForm({ rowData }) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.thirteenthOptions.map( (options, index) => <FormField 
+                  parameterOptions.thirteenthOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -737,6 +1529,56 @@ function MappedServiceRequestForm({ rowData }) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.thirteenthOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.thirteenthOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={rowData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Sewage Water Chemical Parameters" ? 
               <>
@@ -745,7 +1587,7 @@ function MappedServiceRequestForm({ rowData }) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.fourteenthOptions.map( (options, index) => <FormField 
+                  parameterOptions.fourteenthOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -760,6 +1602,56 @@ function MappedServiceRequestForm({ rowData }) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.fourteenthOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.fourteenthOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={rowData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Ambient Air Quality Monitoring Parameters" ? 
               <>
@@ -768,7 +1660,7 @@ function MappedServiceRequestForm({ rowData }) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.fifteenthOptions.map( (options, index) => <FormField 
+                  parameterOptions.fifteenthOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -783,6 +1675,56 @@ function MappedServiceRequestForm({ rowData }) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.fifteenthOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.fifteenthOptions[0].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={rowData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "DG Stack Emission Parameters" ? 
               <>
@@ -791,7 +1733,7 @@ function MappedServiceRequestForm({ rowData }) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.sixteenthOptions.map( (options, index) => <FormField 
+                  parameterOptions.sixteenthOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -806,6 +1748,56 @@ function MappedServiceRequestForm({ rowData }) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.sixteenthOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.sixteenthOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={rowData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Ambient Noise Monitoring Parameters" ? 
               <>
@@ -814,7 +1806,7 @@ function MappedServiceRequestForm({ rowData }) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.seventeenthOptions.map( (options, index) => <FormField 
+                  parameterOptions.seventeenthOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -829,6 +1821,56 @@ function MappedServiceRequestForm({ rowData }) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.seventeenthOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.seventeenthOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={rowData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "DG Noise Monitoring Parameters" ? 
               <>
@@ -837,7 +1879,7 @@ function MappedServiceRequestForm({ rowData }) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.eighteenthOptions.map( (options, index) => <FormField 
+                  parameterOptions.eighteenthOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -852,6 +1894,56 @@ function MappedServiceRequestForm({ rowData }) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.eighteenthOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.eighteenthOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={rowData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Lux Monitoring Parameters" ? 
               <>
@@ -860,7 +1952,7 @@ function MappedServiceRequestForm({ rowData }) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.nineteenthOptions.map( (options, index) => <FormField 
+                  parameterOptions.nineteenthOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -875,6 +1967,56 @@ function MappedServiceRequestForm({ rowData }) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.nineteenthOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.nineteenthOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={rowData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Indoor Air Quality" ? 
               <>
@@ -883,7 +2025,7 @@ function MappedServiceRequestForm({ rowData }) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.twenteenthOptions.map( (options, index) => <FormField 
+                  parameterOptions.twenteenthOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -898,6 +2040,56 @@ function MappedServiceRequestForm({ rowData }) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.twenteenthOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.twenteenthOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={rowData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Compressor Air Monitoring Parameters" ? 
               <>
@@ -906,7 +2098,7 @@ function MappedServiceRequestForm({ rowData }) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.twentyFirstOptions.map( (options, index) => <FormField 
+                  parameterOptions.twentyFirstOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -921,6 +2113,56 @@ function MappedServiceRequestForm({ rowData }) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.twentyFirstOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.twentyFirstOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={rowData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Feldspar Analysis Parameter" ? 
               <>
@@ -929,7 +2171,7 @@ function MappedServiceRequestForm({ rowData }) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.twentySecondOptions.map( (options, index) => <FormField 
+                  parameterOptions.twentySecondOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -944,6 +2186,56 @@ function MappedServiceRequestForm({ rowData }) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.twentySecondOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.twentySecondOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={rowData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Quartz Sample Analysis Parameters" ? 
               <>
@@ -952,7 +2244,7 @@ function MappedServiceRequestForm({ rowData }) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.twentyThirdOptions.map( (options, index) => <FormField 
+                  parameterOptions.twentyThirdOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -967,6 +2259,56 @@ function MappedServiceRequestForm({ rowData }) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.twentyThirdOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.twentyThirdOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={rowData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Lime Stone Sample Analysis Parameters" ? 
               <>
@@ -975,7 +2317,7 @@ function MappedServiceRequestForm({ rowData }) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.twentyFourthOptions.map( (options, index) => <FormField 
+                  parameterOptions.twentyFourthOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -990,6 +2332,56 @@ function MappedServiceRequestForm({ rowData }) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.twentyFourthOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.twentyFourthOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={rowData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Plate - Microbiological Analysis" ? 
               <>
@@ -998,7 +2390,7 @@ function MappedServiceRequestForm({ rowData }) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.twentyFifthOptions.map( (options, index) => <FormField 
+                  parameterOptions.twentyFifthOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -1013,6 +2405,56 @@ function MappedServiceRequestForm({ rowData }) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.twentyFifthOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.twentyFifthOptions[0].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={rowData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Swab - Microbiological Analysis" ? 
               <>
@@ -1021,7 +2463,7 @@ function MappedServiceRequestForm({ rowData }) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.twentySixthOptions.map( (options, index) => <FormField 
+                  parameterOptions.twentySixthOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -1036,6 +2478,56 @@ function MappedServiceRequestForm({ rowData }) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.twentySixthOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.twentySixthOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={rowData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Sewage Water Microbiological Parameters" ? 
               <>
@@ -1044,7 +2536,7 @@ function MappedServiceRequestForm({ rowData }) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.twentySeventhOptions.map( (options, index) => <FormField 
+                  parameterOptions.twentySeventhOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -1059,6 +2551,56 @@ function MappedServiceRequestForm({ rowData }) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.twentySeventhOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.twentySeventhOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={rowData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Weather Monitoring Parameters" ? 
               <>
@@ -1067,7 +2609,7 @@ function MappedServiceRequestForm({ rowData }) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.twentyEighthOptions.map( (options, index) => <FormField 
+                  parameterOptions.twentyEighthOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -1082,6 +2624,56 @@ function MappedServiceRequestForm({ rowData }) {
                   }
                   />) 
                 }
+                </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.twentyEighthOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.twentyEighthOptions[0].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={rowData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
                 </div>
               </> : serviceSelected == "Oxygen Purity Parameters" ? 
               <>
@@ -1090,7 +2682,7 @@ function MappedServiceRequestForm({ rowData }) {
                 </div>
                 <div className="grid lg:grid-cols-2 gap-3 items-center">
                 {
-                  parameterOptions.twentyNinethOptions.map( (options, index) => <FormField 
+                  parameterOptions.twentyNinethOptions[0].parameter.map( (options, index) => <FormField 
                   control={form.control}
                   name="checkbox"
                   key={index}
@@ -1106,8 +2698,59 @@ function MappedServiceRequestForm({ rowData }) {
                   />) 
                 }
                 </div>
+                <div className="flex gap-3">
+                  <FormField 
+                    control={form.control}
+                    name="Price"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Price"
+                          defaultValue={parameterOptions.twentyNinethOptions[1].Price}
+                          placeholder="Price"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="GST"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>GST</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="GST"
+                          defaultValue={parameterOptions.twentyNinethOptions[1].GST}
+                          placeholder="GST"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                  <FormField 
+                    control={form.control}
+                    name="Amount"
+                    render={() => 
+                      <FormItem className="w-full">
+                        <FormLabel>Amount</FormLabel>
+                        <FormControl>
+                          <Input 
+                          name="Amount"
+                          defaultValue={rowData.Amount}
+                          placeholder="Amount"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    }
+                  />
+                </div>
               </> : ""
               }
+
               <FormField 
               control={form.control}
               name="dateOfService"
@@ -1134,9 +2777,6 @@ function MappedServiceRequestForm({ rowData }) {
                         mode="single"
                         selected={field.value}
                         onSelect={field.onChange}
-                        disabled={(date) =>
-                          date > new Date() || date < new Date("1900-01-01")
-                        }
                         onDayClick={(e) => datePicker(e)}
                         initialFocus
                       />
@@ -1224,10 +2864,10 @@ function MappedServiceRequestForm({ rowData }) {
                   <FormLabel className="lg:text-nowrap"> Drawn By </FormLabel>
                   <FormControl>
                     <Select
-                    defaultValue={rowData.drawnBy}
+                    value={rowData.drawnBy}
                     onValueChange={handleSelectChangeDrawn}>
                       <SelectTrigger>
-                        <SelectValue placeholder="EES"/>
+                        <SelectValue placeholder="Select"/>
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="EES">EES</SelectItem>
@@ -1238,7 +2878,7 @@ function MappedServiceRequestForm({ rowData }) {
                 </FormItem>
               }
               />
-              <FormField 
+              {/*<FormField 
               control={form.control}
               name="serviceDateEntry"
               render={({ field }) => 
@@ -1250,7 +2890,7 @@ function MappedServiceRequestForm({ rowData }) {
                         <Button 
                           variant={"outline"}
                           className={"w-full flex pl-3 text-left font-normal" + !field.value && "text-muted-foreground"}>
-                          {rowData.date ? rowData.date : field.value ? (
+                          {field.value ? (
                             format(field.value, "PPP")
                           ) : (
                             <span>Service date</span>
@@ -1275,7 +2915,7 @@ function MappedServiceRequestForm({ rowData }) {
                   <FormMessage />
                 </FormItem>
               }
-              />
+              />*/}
               </CardContent>
             </Card>
             
@@ -1291,8 +2931,8 @@ function MappedServiceRequestForm({ rowData }) {
                 <FormItem className="flex gap-3 items-center mb-3">
                   <FormLabel className="text-nowrap">Pickup required?</FormLabel>
                   <FormControl>
-                    <Select 
-                    defaultValue={rowData.pickUp}
+                    <Select
+                    value={rowData.pickUp}
                     onValueChange={handleSelectChangePickup}>
                       <SelectTrigger>
                         <SelectValue placeholder="Select" />
@@ -1315,7 +2955,9 @@ function MappedServiceRequestForm({ rowData }) {
                   <FormItem className="flex gap-3 items-center mb-3">
                     <FormLabel className="text-nowrap">Pickup Address</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter pickup address.." defaultValue={rowData.address} className="h-24"/>
+                      <Input 
+                      defaultValue={rowData.address}
+                      placeholder="Enter pickup address.." className="h-24"/>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -1329,7 +2971,9 @@ function MappedServiceRequestForm({ rowData }) {
                 <FormItem className="flex gap-3 items-center mb-3">
                   <FormLabel className="text-nowrap">Drop-off Address</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter drop-off address.." defaultValue={rowData.address} className="h-24"/>
+                    <Input 
+                    defaultValue={rowData.address}
+                    placeholder="Enter drop-off address.." className="h-24"/>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -1362,6 +3006,7 @@ function MappedServiceRequestForm({ rowData }) {
                             mode="single"
                             selected={field.value}
                             onSelect={field.onChange}
+                            onDayClick={(e) => pickupDatePicker(e)}
                             initialFocus
                           />
                         </PopoverContent>
@@ -1387,6 +3032,7 @@ function MappedServiceRequestForm({ rowData }) {
                     <FormControl>
                       <Input 
                       name="remarks"
+                      defaultValue={rowData.remarks}
                       onChange={handleInputChange}
                       placeholder="type here.." className="h-24"/>
                     </FormControl>
@@ -1394,7 +3040,7 @@ function MappedServiceRequestForm({ rowData }) {
                   </FormItem>
                 }
                 />
-                
+
                 {/* Priority */}
 
                 <FormField 
@@ -1404,8 +3050,8 @@ function MappedServiceRequestForm({ rowData }) {
                     <FormItem className="flex gap-3 items-center mb-3">
                       <FormLabel>Priority</FormLabel>
                       <FormControl>
-                        <Select
-                        defaultValue={rowData.priority}
+                        <Select 
+                        value={rowData.priority}
                         onValueChange={handleSelectChangePriority}
                         >
                           <SelectTrigger>
@@ -1426,10 +3072,44 @@ function MappedServiceRequestForm({ rowData }) {
             </Card>
           </div>
 
+          {/* Submit
+
+          <Button type="submit" onClick={handleSubmit}>
+            {!isLoading ? "Submit" 
+              : <> <Loader2 className="animate-spin" /> Submit </>
+            }
+          </Button>
+          <Button variant="outline" type="reset">Reset</Button>  */}
         </form>
       </Form>
     </div>
   )
+}
+
+export async function createEESRecord(requestData, srn) {
+  const apiUrl = "https://0znzn1z8z4.execute-api.ap-south-1.amazonaws.com/Dev/EES_Create_Record";
+  requestData["Type"] = "Ticket";
+  requestData["TicketID"] = srn;
+  try {
+    const response = await fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestData),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const responseData = await response.json();
+    console.log("Response:", responseData);
+    return responseData;
+  } catch (error) {
+    console.error("Error:", error);
+    return null;
+  }
 }
 
 export default MappedServiceRequestForm

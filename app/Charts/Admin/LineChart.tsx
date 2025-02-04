@@ -41,7 +41,7 @@ export function LineChartComponent() {
   } satisfies ChartConfig
   
   return (
-    <Card className="w-[350px]">
+    <Card className="w-full">
       <CardHeader>
         <CardTitle>Feedbacks and Ratings</CardTitle>
         <CardDescription>July - Dec 2024</CardDescription>
