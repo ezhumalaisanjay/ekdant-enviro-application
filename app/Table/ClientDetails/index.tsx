@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 //import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import * as XLSX from "xlsx";
 import jsPDF from "jspdf";
@@ -27,6 +27,10 @@ declare module "jspdf" {
   }
 }
 
+interface ClientDetailsTableProps {
+  onTrigger: () => void; // Function signature for the delete function
+}
+
 interface Data {
   CustomerID: string,
   company_name: string,
@@ -35,8 +39,7 @@ interface Data {
   Phone: string
 }
 
-
-const ClientDetailsTable = () => {
+const ClientDetailsTable: React.FC<ClientDetailsTableProps> = ({onTrigger}) => {
   const [datas, setDatas] = useState<Data[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -75,7 +78,7 @@ const ClientDetailsTable = () => {
       }
     } 
     getRecords("Customer") 
-  }, [])
+  }, [onTrigger])
 
   const { toast } = useToast();
 

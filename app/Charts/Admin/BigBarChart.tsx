@@ -37,7 +37,7 @@ type ChartDataItem = {
   Report_Generated: number;
 };
 
-export function BigBarChartComponent() {
+export function BigBarChartComponent({startOfMonth, endOfMonth}: {startOfMonth: Date; endOfMonth:Date}) {
   const [activeChart, setActiveChart] = React.useState<keyof typeof chartConfig>("Testing_in_Progress")
   const [chartData, setChartData] = React.useState<ChartDataItem[]>([])
 
@@ -45,20 +45,6 @@ export function BigBarChartComponent() {
       
         const getRecords = async (category: string, type: string) => {
           try {
-      
-            const today = new Date();
-            // Get the previous month
-            const prevMonth = today.getMonth() - 1;
-            const prevYear = prevMonth < 0 ? today.getFullYear() - 1 : today.getFullYear();
-            const prevMonthDate = new Date(prevYear, prevMonth, 1); // Set to the 1st day of the previous month
-
-            // Get the start of the previous month (1st day)
-            const startOfMonth = new Date(prevMonthDate);
-
-            // Get the end of the previous month (last day)
-            const endOfMonth = new Date(prevYear, prevMonth + 1, 0); // 0th day of the next month gives the last day of the current month
-        
-        
             // Format dates as YYYY-MM-DD
             const formatDate = (date: Date) => date.toISOString().split("T")[0];
         
@@ -100,7 +86,7 @@ export function BigBarChartComponent() {
         // Example calls:
         getRecords("barchartlab", "barchartlab"); // Fetch data for piechart with last 7 days
       
-      }, [])
+      }, [startOfMonth, endOfMonth])
 
   const total = React.useMemo(() => {
     return {

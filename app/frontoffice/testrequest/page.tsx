@@ -110,7 +110,7 @@ export default function ServiceRequest() {
               </Drawer>
             </div>
             <div className="min-w-full overflow-x-auto">
-              <ServiceRequestTable />
+              <ServiceRequestTable onTrigger={handleDrawer}/>
             </div>
           </div>
         </div>

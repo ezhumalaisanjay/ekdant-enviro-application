@@ -12,7 +12,7 @@ import {
 import MappedServiceRequestForm from "../../Form/ServiceRequest/mappedServiceRequest";
 import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import * as XLSX from "xlsx";
 import jsPDF from "jspdf";
@@ -27,6 +27,10 @@ declare module "jspdf" {
   interface jsPDF {
     autoTable: autoTable; 
   }
+}
+
+interface ServiceRequestTableProps {
+  onTrigger: () => void; // Function signature for the delete function
 }
 
 interface Data {
@@ -47,7 +51,7 @@ interface Data {
   dropoffAddress: string;
 }
 
-const ServiceRequestTable = () => {
+const ServiceRequestTable: React.FC<ServiceRequestTableProps> = ({onTrigger}) => {
   const [datas, setDatas] = useState<Data[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -86,7 +90,7 @@ const ServiceRequestTable = () => {
       }
     } 
     getRecords("Ticket") 
-  }, [])
+  }, [onTrigger])
 
   const { toast } = useToast();
 

@@ -22,12 +22,28 @@ import { BigAreaChartComponent } from "@/app/Charts/Admin/BigAreaChart";
 import { BigBarChartComponent } from "@/app/Charts/Admin/BigBarChart";
 import { BigLineChartComponent } from "@/app/Charts/Admin/BigLineChart";
 import { Input } from "@/components/ui/input";
+import { format } from "date-fns";
 
 export default function AdminDashBoard() {
   const [username, setUsername] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [index, setIndex] = useState(0);
   const [month, setMonth] = useState<string>("2025-01");
+
+  const today = new Date();
+  // Get the previous month
+  const prevMonth = today.getMonth() - 1;
+  const prevYear = prevMonth < 0 ? today.getFullYear() - 1 : today.getFullYear();
+  const prevMonthDate = new Date(prevYear, prevMonth, 1); // Set to the 1st day of the previous month
+
+  // Get the start of the previous month (1st day)
+  const PrevStartOfMonth = new Date(prevMonthDate);
+
+  // Get the end of the previous month (last day)
+  const PrevEndOfMonth = new Date(prevYear, prevMonth + 1, 0);
+
+  const [startOfMonth, setStartOfMonth] = useState<Date>(PrevStartOfMonth);
+  const [endOfMonth, setEndOfMonth] = useState<Date>(PrevEndOfMonth);
 
   useEffect( () => {
     if (typeof window !== 'undefined') {
@@ -55,10 +71,13 @@ export default function AdminDashBoard() {
 
     // Create a date object for the end of the month (last day)
     const endOfMonth = new Date(year, month, 0);
-
+    
     // Log the start and end of the month
-    console.log('Start of month:', startOfMonth);
-    console.log('End of month:', endOfMonth);
+    console.log('Start of month:', format(startOfMonth, "yyyy-MM-dd"));
+    console.log('End of month:', format(endOfMonth, "yyyy-MM-dd"));
+
+    setStartOfMonth(startOfMonth);
+    setEndOfMonth(endOfMonth)
   };
 
   const data = {
@@ -145,9 +164,9 @@ export default function AdminDashBoard() {
               </div>
             </div>
             <div className="grid gap-3">
-              <BigAreaChartComponent />
-              <BigBarChartComponent />
-              <BigLineChartComponent />
+              <BigAreaChartComponent startOfMonth={startOfMonth} endOfMonth={endOfMonth} />
+              <BigBarChartComponent startOfMonth={startOfMonth} endOfMonth={endOfMonth} />
+              <BigLineChartComponent startOfMonth={startOfMonth} endOfMonth={endOfMonth} />
             </div> 
           </>}
         </div>

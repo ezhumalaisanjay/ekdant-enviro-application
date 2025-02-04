@@ -369,7 +369,7 @@ function ServiceRequestForm({drawerClose}) {
       title: "Data",
       description: "Data has been submitted Successfully",
     })
-    location.reload();
+    
     // Add logic to send formData to the server or process it further
   };
 

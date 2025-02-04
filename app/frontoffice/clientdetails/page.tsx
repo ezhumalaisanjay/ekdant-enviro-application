@@ -114,7 +114,7 @@ export default function ClientDetails() {
               </Drawer>
             </div>
             <div className="min-w-full overflow-x-auto">
-              <ClientDetailsTable />
+              <ClientDetailsTable onTrigger={handleDrawer}/>
             </div>
           </div>
           </div>

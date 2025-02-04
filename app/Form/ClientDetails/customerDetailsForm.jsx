@@ -68,7 +68,6 @@ function CustomerDetailsForm({drawerClose}) {
       description: "Client Data has been submitted Successfully",
     });
     drawerClose()
-    location.reload();
   }
 
   return(
