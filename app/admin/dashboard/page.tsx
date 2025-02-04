@@ -42,8 +42,10 @@ export default function AdminDashBoard() {
   // Get the end of the previous month (last day)
   const PrevEndOfMonth = new Date(prevYear, prevMonth + 1, 0);
 
-  const [startOfMonth, setStartOfMonth] = useState<Date>(PrevStartOfMonth);
-  const [endOfMonth, setEndOfMonth] = useState<Date>(PrevEndOfMonth);
+  const formattedPrevStartOfMonth = format(PrevStartOfMonth, "yyyy-MM-dd")
+  const formattedPrevEndOfMonth = format(PrevEndOfMonth, "yyyy-MM-dd")
+  const [startOfMonth, setStartOfMonth] = useState<string>(formattedPrevStartOfMonth);
+  const [endOfMonth, setEndOfMonth] = useState<string>(formattedPrevEndOfMonth);
 
   useEffect( () => {
     if (typeof window !== 'undefined') {
@@ -75,9 +77,11 @@ export default function AdminDashBoard() {
     // Log the start and end of the month
     console.log('Start of month:', format(startOfMonth, "yyyy-MM-dd"));
     console.log('End of month:', format(endOfMonth, "yyyy-MM-dd"));
+    const formattedStartDate = format(startOfMonth, "yyyy-MM-dd");
+    const formattedEndDate = format(endOfMonth, "yyyy-MM-dd")
 
-    setStartOfMonth(startOfMonth);
-    setEndOfMonth(endOfMonth)
+    setStartOfMonth(formattedStartDate);
+    setEndOfMonth(formattedEndDate)
   };
 
   const data = {

@@ -19,16 +19,15 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart"
 
-export function BigAreaChartComponent({startOfMonth, endOfMonth}: {startOfMonth: Date; endOfMonth:Date}) {
+export function BigAreaChartComponent({startOfMonth, endOfMonth}: {startOfMonth: string; endOfMonth:string}) {
   const [chartData, setChartData] = React.useState([])
 
    React.useEffect(() => {
     
       const getRecords = async (category: string, type: string) => {
         try {
-          // Format dates as YYYY-MM-DD
-          const formatDate = (date: Date) => date.toISOString().split("T")[0];
-      
+          
+
           const response = await fetch("https://0znzn1z8z4.execute-api.ap-south-1.amazonaws.com/Dev/EES_dashboard_barchart", {
             method: "PUT",
             headers: {
@@ -37,8 +36,8 @@ export function BigAreaChartComponent({startOfMonth, endOfMonth}: {startOfMonth:
             body: JSON.stringify({ 
               category, 
               type, 
-              start_date: formatDate(startOfMonth),
-              end_date: formatDate(endOfMonth) 
+              start_date: startOfMonth,
+              end_date: endOfMonth 
             }),
           });
       

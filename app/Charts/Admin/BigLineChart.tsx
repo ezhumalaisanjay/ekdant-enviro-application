@@ -42,7 +42,7 @@ type ChartDataItem = {
   Sample_Received: number;
 };
 
-export function BigLineChartComponent({startOfMonth, endOfMonth}: {startOfMonth: Date; endOfMonth:Date}) {
+export function BigLineChartComponent({startOfMonth, endOfMonth}: {startOfMonth: string; endOfMonth:string}) {
   const [activeChart, setActiveChart] = React.useState<keyof typeof chartConfig>("In_Transit")
   const [chartData, setChartData] = React.useState<ChartDataItem[]>([]);
 
@@ -50,9 +50,6 @@ export function BigLineChartComponent({startOfMonth, endOfMonth}: {startOfMonth:
       
         const getRecords = async (category: string, type: string) => {
           try {
-        
-            // Format dates as YYYY-MM-DD
-            const formatDate = (date: Date) => date.toISOString().split("T")[0];
         
             const response = await fetch("https://0znzn1z8z4.execute-api.ap-south-1.amazonaws.com/Dev/EES_dashboard_barchart", {
               method: "PUT",
@@ -62,8 +59,8 @@ export function BigLineChartComponent({startOfMonth, endOfMonth}: {startOfMonth:
               body: JSON.stringify({ 
                 category, 
                 type, 
-                start_date: formatDate(startOfMonth),
-                end_date: formatDate(endOfMonth) 
+                start_date: startOfMonth,
+                end_date: endOfMonth 
               }),
             });
         
