@@ -191,22 +191,22 @@ const ServiceRequestTable = () => {
         const status = row.getValue("ticket_status")
         console.log("Status of Ticket", status)
         if(status == "New") {
-          return <Badge className="bg-green-500">New</Badge>
+          return <Badge className="bg-green-500 hover:bg-green-400">New</Badge>
         }
         else if(status == "In_Transit") {
-          return <Badge className="bg-orange-500 text-nowrap">In Transit</Badge>
+          return <Badge className="bg-orange-500 text-nowrap hover:bg-orange-400">In Transit</Badge>
         }
         else if(status == "Sample_Received") {
-          return <Badge className="bg-blue-500 text-nowrap">Sample Received</Badge>
+          return <Badge className="bg-blue-500 text-nowrap hover:bg-blue-400">Sample Received</Badge>
         } 
         else if(status == "Delivered_to_Lab") {
-          return <Badge className="bg-yellow-500 text-nowrap">Delivered to Lab</Badge>
+          return <Badge className="bg-yellow-500 hover:bg-yellow-400 text-nowrap">Delivered to Lab</Badge>
         }
         else if(status == "Testing_in_Progress") {
-          return <Badge className="bg-red-500 text-nowrap">Testing in Progress</Badge> 
+          return <Badge className="bg-red-500 text-nowrap hover:bg-red-400">Testing in Progress</Badge> 
         }
         else {
-          return <Badge className="bg-green-700 text-nowrap">Report Generated</Badge>
+          return <Badge className="bg-green-700 text-nowrap hover:bg-green-600">Report Generated</Badge>
         }
       })
     },
