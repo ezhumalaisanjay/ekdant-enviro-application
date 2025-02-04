@@ -27,7 +27,7 @@ export default function AdminDashBoard() {
   const [username, setUsername] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [index, setIndex] = useState(0);
-  const [month, setMonth] = useState<string>('');
+  const [month, setMonth] = useState<string>("2025-01");
 
   useEffect( () => {
     if (typeof window !== 'undefined') {

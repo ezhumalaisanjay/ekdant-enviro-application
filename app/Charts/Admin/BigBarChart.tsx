@@ -22,10 +22,10 @@ const chartConfig = {
     label: "Page Views",
   },
   Testing_in_Progress: {
-    label: "Testing",
+    label: "Testing in Progress",
     color: "hsl(var(--chart-1))",
   },
-  Reports_Generated: {
+  Report_Generated: {
     label: "Reports Generated",
     color: "hsl(var(--chart-2))",
   },
@@ -34,7 +34,7 @@ const chartConfig = {
 type ChartDataItem = {
   date: string; // or Date, depending on how your data is structured
   Testing_in_Progress: number;
-  Reports_Generated: number;
+  Report_Generated: number;
 };
 
 export function BigBarChartComponent() {
@@ -105,7 +105,7 @@ export function BigBarChartComponent() {
   const total = React.useMemo(() => {
     return {
       Testing_in_Progress: chartData.reduce((acc, curr) => acc + (curr.Testing_in_Progress || 0), 0),
-      Reports_Generated: chartData.reduce((acc, curr) => acc + (curr.Reports_Generated || 0), 0),
+      Report_Generated: chartData.reduce((acc, curr) => acc + (curr.Report_Generated || 0), 0),
     };
   }, [chartData]);  // Recalculate total whenever chartData changes
 
@@ -119,7 +119,7 @@ export function BigBarChartComponent() {
           </CardDescription>
         </div>
         <div className="flex">
-          {["Testing_in_Progress", "Reports_Generated"].map((key) => {
+          {["Testing_in_Progress", "Report_Generated"].map((key) => {
             const chart = key as keyof typeof chartConfig
             return (
               <button
@@ -128,7 +128,7 @@ export function BigBarChartComponent() {
                 className="relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-left even:border-l data-[active=true]:bg-muted/50 sm:border-l sm:border-t-0 sm:px-8 sm:py-6"
                 onClick={() => setActiveChart(chart)}
               >
-                <span className="text-xs text-muted-foreground">
+                <span className="text-xs text-nowrap text-muted-foreground">
                   {chartConfig[chart].label}
                 </span>
                 <span className="text-lg font-bold leading-none sm:text-3xl">

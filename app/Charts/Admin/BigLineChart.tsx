@@ -29,12 +29,17 @@ const chartConfig = {
     label: "Delivered to Lab",
     color: "hsl(var(--chart-2))",
   },
+  Sample_Received: {
+    label: "Sample Received",
+    color: "hsl(var(--chart-3))",
+  },
 } satisfies ChartConfig
 
 type ChartDataItem = {
   date: string; // or Date, depending on how your data is structured
   In_Transit: number;
   Delivered_to_Lab: number;
+  Sample_Received: number;
 };
 
 export function BigLineChartComponent() {
@@ -106,6 +111,7 @@ export function BigLineChartComponent() {
     () => ({
       In_Transit: chartData.reduce((acc, curr) => acc + (curr.In_Transit || 0), 0),
       Delivered_to_Lab: chartData.reduce((acc, curr) => acc + (curr.Delivered_to_Lab || 0), 0),
+      Sample_Received: chartData.reduce((acc, curr) => acc + (curr.Sample_Received || 0), 0),
     }),
     [chartData]
   )
@@ -120,7 +126,7 @@ export function BigLineChartComponent() {
           </CardDescription>
         </div>
         <div className="flex">
-          {["In_Transit", "Delivered_to_Lab"].map((key) => {
+          {["In_Transit", "Sample_Received", "Delivered_to_Lab"].map((key) => {
             const chart = key as keyof typeof chartConfig
             return (
               <button

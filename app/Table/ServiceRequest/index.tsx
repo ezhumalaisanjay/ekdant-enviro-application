@@ -21,6 +21,7 @@ import Papa from "papaparse";
 import { ColumnDef } from '@tanstack/react-table';
 import { autoTable } from "jspdf-autotable";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Badge } from "@/components/ui/badge";
 
 declare module "jspdf" {
   interface jsPDF {
@@ -186,6 +187,28 @@ const ServiceRequestTable = () => {
     },{
       accessorKey: "ticket_status",
       header: "Ticket Status",
+      cell: (({row}) => {
+        const status = row.getValue("ticket_status")
+        console.log("Status of Ticket", status)
+        if(status == "New") {
+          return <Badge className="bg-green-500">New</Badge>
+        }
+        else if(status == "In_Transit") {
+          return <Badge className="bg-orange-500 text-nowrap">In Transit</Badge>
+        }
+        else if(status == "Sample_Received") {
+          return <Badge className="bg-blue-500 text-nowrap">Sample Received</Badge>
+        } 
+        else if(status == "Delivered_to_Lab") {
+          return <Badge className="bg-yellow-500 text-nowrap">Delivered to Lab</Badge>
+        }
+        else if(status == "Testing_in_Progress") {
+          return <Badge className="bg-red-500 text-nowrap">Testing in Progress</Badge> 
+        }
+        else {
+          return <Badge className="bg-green-700 text-nowrap">Report Generated</Badge>
+        }
+      })
     },
     {
       accessorKey: "companyName",
