@@ -1,7 +1,6 @@
 "use client"
 
 import * as React from "react"
-import { TrendingUp } from "lucide-react"
 import { Label, Pie, PieChart } from "recharts"
 
 import {
@@ -69,7 +68,7 @@ export function FrontOfficePieChartComponent() {
   
       const result = await response.json(); // Parse JSON once
       const responseData = result.pieChartPriorityData;
-      console.log("Response PieChartPriority Data:", result);
+      console.log("Response Priority & Total Tickets Data:", result);
   
       setChartData(responseData);
       return responseData; // Return parsed result
@@ -176,9 +175,6 @@ const chartConfig = {
         </ChartContainer>
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm">
-        <div className="flex items-center gap-2 font-medium leading-none">
-          Trending up by 5.2% <TrendingUp className="h-4 w-4" />
-        </div>
         <div className="leading-none text-muted-foreground">
           Showing total tickets created.
         </div>

@@ -65,7 +65,7 @@ export function BigBarChartComponent({startOfMonth, endOfMonth}: {startOfMonth: 
         
             const result = await response.json(); // Parse JSON once
             const responseData = result.barchartlabData
-            console.log("Response Big BarChartLab Data:", result);
+            console.log("Response Big Lab Status Data:", result);
         
             setChartData(responseData)
             return responseData; // Return parsed result
@@ -99,7 +99,7 @@ export function BigBarChartComponent({startOfMonth, endOfMonth}: {startOfMonth: 
         <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
           <CardTitle>Lab Status</CardTitle>
           <CardDescription>
-            Showing Last Month Overview
+            Showing monthly lab overview
           </CardDescription>
         </div>
         <div className="flex">

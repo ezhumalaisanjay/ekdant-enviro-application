@@ -96,10 +96,10 @@ const ClientDetailsTable: React.FC<ClientDetailsTableProps> = ({onTrigger}) => {
       head: [
         [
           "Customer ID",
-          "Company Name",
-          "Customer Address",
+          "Customer Name",
+          "Address",
           "Email",
-          "Contact",
+          "Contact Number",
         ],
       ],
       body: tableData,

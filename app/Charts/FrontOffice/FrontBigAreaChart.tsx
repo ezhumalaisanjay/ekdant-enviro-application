@@ -18,6 +18,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
+import { format } from "date-fns"
 
 export function FrontOfficeBigAreaChartComponent() {
   const [chartData, setChartData] = React.useState([])
@@ -26,7 +27,7 @@ export function FrontOfficeBigAreaChartComponent() {
     
       const getRecords = async (category: string, type: string) => {
         try {
-    
+
           const today = new Date();
           // Get the previous month
           const prevMonth = today.getMonth() - 1;
@@ -39,9 +40,6 @@ export function FrontOfficeBigAreaChartComponent() {
           // Get the end of the previous month (last day)
           const endOfMonth = new Date(prevYear, prevMonth + 1, 0); // 0th day of the next month gives the last day of the current month
       
-          // Format dates as YYYY-MM-DD
-          const formatDate = (date: Date) => date.toISOString().split("T")[0];
-      
           const response = await fetch("https://0znzn1z8z4.execute-api.ap-south-1.amazonaws.com/Dev/EES_dashboard_barchart", {
             method: "PUT",
             headers: {
@@ -50,8 +48,8 @@ export function FrontOfficeBigAreaChartComponent() {
             body: JSON.stringify({ 
               category, 
               type, 
-              start_date: formatDate(startOfMonth),
-              end_date: formatDate(endOfMonth) 
+              start_date: format(startOfMonth, "yyyy-MM-dd"),
+              end_date: format(endOfMonth, "yyyy-MM-dd") 
             }),
           });
       
@@ -61,7 +59,7 @@ export function FrontOfficeBigAreaChartComponent() {
       
           const result = await response.json(); // Parse JSON once
           const responseData = result.areaChartData
-          console.log("Response Big Area Chart Data:", result);
+          console.log("Response Big Customer Visited Data:", result);
       
           setChartData(responseData)
           return responseData; // Return parsed result

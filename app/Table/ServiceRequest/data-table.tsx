@@ -84,7 +84,7 @@ export function DataTable<TData, TValue>({
       pickUpDate: false,
       pickupAddress: false,
       dropoffAddress: false,
-      Price: true,
+      Price: false,
       contactName: false,
       Amount: true,
       GST: false,
@@ -114,7 +114,7 @@ export function DataTable<TData, TValue>({
       <div className="flex justify-between items-center p-2">
         <div className="flex w-full">
           <Input
-            placeholder="Filter by Name..."
+            placeholder="Filter by Customer Name..."
             value={(table.getColumn("companyName")?.getFilterValue() as string) ?? ""}
             onChange={(event) =>
               table.getColumn("companyName")?.setFilterValue(event.target.value)

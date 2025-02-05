@@ -1,6 +1,5 @@
 "use client"
 
-import { TrendingUp } from "lucide-react"
 import { Bar, BarChart, XAxis, YAxis } from "recharts"
 
 import {
@@ -32,19 +31,19 @@ const chartConfig = {
     color: "hsl(var(--chart-2))",
   },
   Sample_Received: {
-    label: "Sample Received",
+    label: "Received",
     color: "hsl(var(--chart-3))",
   },
   Delivered_to_Lab: {
-    label: "Delivered to Lab",
+    label: "Delivered",
     color: "hsl(var(--chart-4))",
   },
   Testing_in_Progress: {
-    label: "Testing in Progress",
+    label: "Testing",
     color: "hsl(var(--chart-5))",
   },
   Report_Generated: {
-    label: "Report Generated",
+    label: "Generated",
     color: "hsl(var(--chart-6))",
   },
 } satisfies ChartConfig
@@ -74,7 +73,7 @@ export function CustomBarChartComponent() {
     
         const result = await response.json(); // Parse JSON once
         const responseData = result.piecharttotalData
-        console.log("Response CustomBarChart Data:", result);
+        console.log("Response Overall Total Ticket Status Data:", result);
     
         setChartData(responseData)
         return responseData; // Return parsed result
@@ -131,11 +130,8 @@ export function CustomBarChartComponent() {
         </ChartContainer>
       </CardContent>
       <CardFooter className="flex-col items-start gap-2 text-sm">
-        <div className="flex gap-2 font-medium leading-none">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-        </div>
-        <div className="leading-none text-muted-foreground">
-          Showing total visitors for the last 6 months
+        <div className="text-muted-foreground">
+          New, In-transit, Delivered to lab, Sample received, Testing in progress, Reports generated
         </div>
       </CardFooter>
     </Card>

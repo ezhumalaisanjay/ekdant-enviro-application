@@ -1,6 +1,5 @@
 "use client"
 
-import { TrendingUp } from "lucide-react"
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
 import {
   Card,
@@ -17,6 +16,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart"
 import { useEffect, useState } from "react"
+import { format } from "date-fns"
 
 export function FrontOfficeBarChartComponent() {
   const [chartData, setChartData] = useState([])
@@ -35,9 +35,6 @@ export function FrontOfficeBarChartComponent() {
           // Get the end of the week (Saturday as the last day of the week)
           const endOfWeek = new Date(startOfWeek);
           endOfWeek.setDate(startOfWeek.getDate() + 6); // Add 6 days to get the Saturday
-
-          // Format dates as YYYY-MM-DD
-          const formatDate = (date: Date) => date.toISOString().split("T")[0];
       
           const response = await fetch("https://0znzn1z8z4.execute-api.ap-south-1.amazonaws.com/Dev/EES_dashboard_barchart", {
             method: "PUT",
@@ -47,8 +44,8 @@ export function FrontOfficeBarChartComponent() {
             body: JSON.stringify({ 
               category, 
               type, 
-              start_date: formatDate(startOfWeek),
-              end_date: formatDate(endOfWeek) 
+              start_date: format(startOfWeek, "yyyy-MM-dd"),
+              end_date: format(endOfWeek, "yyyy-MM-dd") 
             }),
           });
       
@@ -58,7 +55,7 @@ export function FrontOfficeBarChartComponent() {
       
           const result = await response.json(); // Parse JSON once
           const responseData = result.barchartData;
-          console.log("Response Data:", result);
+          console.log("Response Pickup Data:", result);
       
           setChartData(responseData)
           return responseData; // Return parsed result
@@ -74,8 +71,6 @@ export function FrontOfficeBarChartComponent() {
         }
       };
       
-      // Example calls:
-      getRecords("piechart", "piechart"); // Fetch data for piechart with last 7 days
       getRecords("barchart", "barchart"); // Fetch data for barchart with last 7 days
       
     }, []) 
@@ -119,10 +114,7 @@ export function FrontOfficeBarChartComponent() {
         </ChartContainer>
       </CardContent>
       <CardFooter className="flex-col items-start gap-2 text-sm">
-        <div className="flex gap-2 font-medium leading-none">
-          Trending up by 5.2% this Week <TrendingUp className="h-4 w-4" />
-        </div>
-        <div className="leading-none text-muted-foreground">
+        <div className="text-muted-foreground">
           Showing total pickup and drop-off samples for the week
         </div>
       </CardFooter>

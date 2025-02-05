@@ -1,6 +1,5 @@
 "use client"
 
-import { TrendingUp } from "lucide-react"
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts"
 
 import {
@@ -18,6 +17,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart"
 import { useEffect, useState } from "react"
+import { format } from "date-fns"
 
 export function FrontOfficeAreaChartComponent() {
   const [chartData, setChartData] = useState([])
@@ -38,10 +38,6 @@ export function FrontOfficeAreaChartComponent() {
       const endOfWeek = new Date(startOfWeek);
       endOfWeek.setDate(startOfWeek.getDate() + 6); // Add 6 days to get the Saturday
 
-  
-      // Format dates as YYYY-MM-DD
-      const formatDate = (date:Date) => date.toISOString().split("T")[0];
-  
       const response = await fetch("https://0znzn1z8z4.execute-api.ap-south-1.amazonaws.com/Dev/EES_dashboard_barchart", {
         method: "PUT",
         headers: {
@@ -50,8 +46,8 @@ export function FrontOfficeAreaChartComponent() {
         body: JSON.stringify({ 
           category, 
           type, 
-          start_date: formatDate(startOfWeek),
-          end_date: formatDate(endOfWeek) 
+          start_date: format(startOfWeek, "yyyy-MM-dd"),
+          end_date: format(endOfWeek, "yyyy-MM-dd") 
         }),
       });
   
@@ -61,7 +57,7 @@ export function FrontOfficeAreaChartComponent() {
   
       const result = await response.json(); // Parse JSON once
       const responseData = result.areaChartData
-      console.log("Response Area Data:", result);
+      console.log("Response Customer Visited Data:", result);
   
       setChartData(responseData)
       return responseData; // Return parsed result
@@ -157,9 +153,6 @@ export function FrontOfficeAreaChartComponent() {
       <CardFooter>
         <div className="flex w-full items-start gap-2 text-sm">
           <div className="grid gap-2">
-            <div className="flex items-center gap-2 font-medium leading-none">
-              Trending up by 5.2% this Week <TrendingUp className="h-4 w-4" />
-            </div>
             <div className="flex items-center gap-2 leading-none text-muted-foreground">
               This Week (Sunday - Saturday)
             </div>

@@ -46,7 +46,7 @@ export function BigAreaChartComponent({startOfMonth, endOfMonth}: {startOfMonth:
       
           const result = await response.json(); // Parse JSON once
           const responseData = result.areaChartData
-          console.log("Response Big Area Chart Data:", result);
+          console.log("Response Big Customer Visited Data:", result);
       
           setChartData(responseData)
           return responseData; // Return parsed result
@@ -91,7 +91,7 @@ export function BigAreaChartComponent({startOfMonth, endOfMonth}: {startOfMonth:
         <div className="grid flex-1 gap-1 text-center sm:text-left">
           <CardTitle>Customer Visited Source</CardTitle>
           <CardDescription>
-          Showing total customers visited source for the last month
+          Showing monthly customers visited source
           </CardDescription>
         </div>
       </CardHeader>

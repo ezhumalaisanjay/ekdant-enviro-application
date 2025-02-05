@@ -1,6 +1,5 @@
 "use client"
 
-import { TrendingUp } from "lucide-react"
 import { LabelList, Pie, PieChart } from "recharts"
 
 import {
@@ -67,7 +66,7 @@ export function CustomPieChartComponent() {
         const result = await response.json(); // Parse JSON once
         const responseData = result.pieChartPriorityData;
 
-        console.log("Response CustomPieChart Data:", result);
+        console.log("Response Custom Tickets Priority Data:", result);
     
         setChartData(responseData)
         return responseData; // Return parsed result
@@ -118,11 +117,8 @@ export function CustomPieChartComponent() {
         </ChartContainer>
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm">
-        <div className="flex items-center gap-2 font-medium leading-none">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-        </div>
         <div className="leading-none text-muted-foreground">
-          Showing total visitors for the last 6 months
+          Low, Medium, High
         </div>
       </CardFooter>
     </Card>

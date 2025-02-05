@@ -1,6 +1,5 @@
 "use client"
 
-import { TrendingUp } from "lucide-react"
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts"
 
 import {
@@ -61,7 +60,7 @@ export function AreaChartComponent() {
     
         const result = await response.json(); // Parse JSON once
         const responseData = result.areaChartData
-        console.log("Response Area Data:", result);
+        console.log("Response Customer Visited Data:", result);
     
         setChartData(responseData)
         return responseData; // Return parsed result
@@ -157,9 +156,6 @@ export function AreaChartComponent() {
       <CardFooter>
         <div className="flex w-full items-start gap-2 text-sm">
           <div className="grid gap-2">
-            <div className="flex items-center gap-2 font-medium leading-none">
-              Trending up by 5.2% this Week <TrendingUp className="h-4 w-4" />
-            </div>
             <div className="flex items-center gap-2 leading-none text-muted-foreground">
               This Week (Sunday - Saturday)
             </div>

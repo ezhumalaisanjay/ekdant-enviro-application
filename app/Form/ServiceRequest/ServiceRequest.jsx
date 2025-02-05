@@ -647,56 +647,6 @@ function ServiceRequestForm({drawerClose}) {
                   }
                   />) 
                 }
-                  </div>
-                  <div className="flex gap-3">
-                    <FormField 
-                      control={form.control}
-                      name="Price"
-                      render={() => 
-                        <FormItem className="w-full">
-                          <FormLabel>Price</FormLabel>
-                          <FormControl>
-                            <Input 
-                            name="Price"
-                            defaultValue={formData.Price}
-                            placeholder="Price"/>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      }
-                    />
-                    <FormField 
-                      control={form.control}
-                      name="GST"
-                      render={() => 
-                        <FormItem className="w-full">
-                          <FormLabel>GST</FormLabel>
-                          <FormControl>
-                            <Input 
-                            name="GST"
-                            defaultValue={formData.GST}
-                            placeholder="GST"/>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      }
-                    />
-                    <FormField 
-                      control={form.control}
-                      name="Amount"
-                      render={() => 
-                        <FormItem className="w-full">
-                          <FormLabel>Amount</FormLabel>
-                          <FormControl>
-                            <Input 
-                            name="Amount"
-                            defaultValue={formData.Amount}
-                            placeholder="Amount"/>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      }
-                    />
                 </div>
               </> : serviceSelected == "Water Complete Analysis as per 10500: 2012" ? 
               <>
@@ -722,56 +672,6 @@ function ServiceRequestForm({drawerClose}) {
                   />) 
                 }
                 </div>
-                <div className="flex gap-3">
-                  <FormField 
-                    control={form.control}
-                    name="Price"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Price</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Price"
-                          defaultValue={parameterOptions.secondOptions[1].Price}
-                          placeholder="Price"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="GST"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>GST</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="GST"
-                          defaultValue={parameterOptions.secondOptions[1].GST}
-                          placeholder="GST"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="Amount"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Amount</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Amount"
-                          defaultValue={formData.Amount}
-                          placeholder="Amount"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                </div>
               </> : serviceSelected == "Water - Construction Parameters" ? 
               <>
                 <div className="flex mt-3 mb-3 gap-3">
@@ -796,56 +696,6 @@ function ServiceRequestForm({drawerClose}) {
                   />) 
                 }
                 </div>
-                <div className="flex gap-3">
-                  <FormField 
-                    control={form.control}
-                    name="Price"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Price</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Price"
-                          defaultValue={parameterOptions.thirdOptions[1].Price}
-                          placeholder="Price"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="GST"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>GST</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="GST"
-                          defaultValue={parameterOptions.thirdOptions[1].GST}
-                          placeholder="GST"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="Amount"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Amount</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Amount"
-                          defaultValue={formData.Amount}
-                          placeholder="Amount"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                </div>
               </> : serviceSelected == "Water - Microbiological Analysis" ? 
               <>
                 <div className="flex mt-3 mb-3 gap-3">
@@ -868,56 +718,6 @@ function ServiceRequestForm({drawerClose}) {
                   }
                   />) 
                 }
-                </div>
-                <div className="flex gap-3">
-                  <FormField 
-                    control={form.control}
-                    name="Price"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Price</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Price"
-                          defaultValue={parameterOptions.fourthOptions[1].Price}
-                          placeholder="Price"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="GST"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>GST</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="GST"
-                          defaultValue={parameterOptions.fourthOptions[1].GST}
-                          placeholder="GST"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="Amount"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Amount</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Amount"
-                          defaultValue={formData.Amount}
-                          placeholder="Amount"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
                 </div>
               </> : serviceSelected == "Water –Complete Microbiological Analysis" ? 
               <>
@@ -942,56 +742,6 @@ function ServiceRequestForm({drawerClose}) {
                   />) 
                 }
                 </div>
-                <div className="flex gap-3">
-                  <FormField 
-                    control={form.control}
-                    name="Price"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Price</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Price"
-                          defaultValue={parameterOptions.fifthOptions[1].Price}
-                          placeholder="Price"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="GST"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>GST</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="GST"
-                          defaultValue={parameterOptions.fifthOptions[1].GST}
-                          placeholder="GST"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="Amount"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Amount</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Amount"
-                          defaultValue={formData.Amount}
-                          placeholder="Amount"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                </div>
               </> : serviceSelected == "Food Microbiological Parameters" ? 
               <>
                 <div className="flex mt-3 mb-3 gap-3">
@@ -1014,56 +764,6 @@ function ServiceRequestForm({drawerClose}) {
                   }
                   />) 
                 }
-                </div>
-                <div className="flex gap-3">
-                  <FormField 
-                    control={form.control}
-                    name="Price"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Price</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Price"
-                          defaultValue={parameterOptions.sixthOptions[1].Price}
-                          placeholder="Price"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="GST"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>GST</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="GST"
-                          defaultValue={parameterOptions.sixthOptions[0].GST}
-                          placeholder="GST"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="Amount"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Amount</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Amount"
-                          defaultValue={formData.Amount}
-                          placeholder="Amount"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
                 </div>
               </> : serviceSelected == "Food Chemical Parameters" ? 
               <>
@@ -1088,56 +788,6 @@ function ServiceRequestForm({drawerClose}) {
                   />) 
                 }
                 </div>
-                <div className="flex gap-3">
-                  <FormField 
-                    control={form.control}
-                    name="Price"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Price</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Price"
-                          defaultValue={parameterOptions.seventhOptions[1].Price}
-                          placeholder="Price"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="GST"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>GST</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="GST"
-                          defaultValue={parameterOptions.seventhOptions[1].GST}
-                          placeholder="GST"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="Amount"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Amount</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Amount"
-                          defaultValue={formData.Amount}
-                          placeholder="Amount"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                </div>
               </> : serviceSelected == "Sludge Analysis Parameters" ? 
               <>
                 <div className="flex mt-3 mb-3 gap-3">
@@ -1160,56 +810,6 @@ function ServiceRequestForm({drawerClose}) {
                   }
                   />) 
                 }
-                </div>
-                <div className="flex gap-3">
-                  <FormField 
-                    control={form.control}
-                    name="Price"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Price</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Price"
-                          defaultValue={parameterOptions.eighthOptions[1].Price}
-                          placeholder="Price"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="GST"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>GST</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="GST"
-                          defaultValue={parameterOptions.eighthOptions[1].GST}
-                          placeholder="GST"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="Amount"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Amount</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Amount"
-                          defaultValue={formData.Amount}
-                          placeholder="Amount"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
                 </div>
               </> : serviceSelected == "Soil Testing Parameters" ? 
               <>
@@ -1235,56 +835,6 @@ function ServiceRequestForm({drawerClose}) {
                   />) 
                 }
                 </div>
-                <div className="flex gap-3">
-                  <FormField 
-                    control={form.control}
-                    name="Price"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Price</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Price"
-                          defaultValue={parameterOptions.ninethOptions[1].Price}
-                          placeholder="Price"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="GST"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>GST</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="GST"
-                          defaultValue={parameterOptions.ninethOptions[1].GST}
-                          placeholder="GST"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="Amount"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Amount</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Amount"
-                          defaultValue={formData.Amount}
-                          placeholder="Amount"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                </div>
               </> : serviceSelected == "Oil - Diesel Testing Parameters" ? 
               <>
                 <div className="flex mt-3 mb-3 gap-3">
@@ -1307,56 +857,6 @@ function ServiceRequestForm({drawerClose}) {
                   }
                   />) 
                 }
-                </div>
-                <div className="flex gap-3">
-                  <FormField 
-                    control={form.control}
-                    name="Price"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Price</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Price"
-                          defaultValue={parameterOptions.tenthOptions[1].Price}
-                          placeholder="Price"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="GST"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>GST</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="GST"
-                          defaultValue={parameterOptions.tenthOptions[1].GST}
-                          placeholder="GST"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="Amount"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Amount</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Amount"
-                          defaultValue={formData.Amount}
-                          placeholder="Amount"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
                 </div>
               </> : serviceSelected == "Oil - Nutrition Value + FSSAI Parameters" ? 
               <>
@@ -1382,56 +882,6 @@ function ServiceRequestForm({drawerClose}) {
                   />) 
                 }
                 </div>
-                <div className="flex gap-3">
-                  <FormField 
-                    control={form.control}
-                    name="Price"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Price</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Price"
-                          defaultValue={parameterOptions.eleventhOptions[1].Price}
-                          placeholder="Price"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="GST"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>GST</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="GST"
-                          defaultValue={parameterOptions.eleventhOptions[1].GST}
-                          placeholder="GST"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="Amount"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Amount</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Amount"
-                          defaultValue={formData.Amount}
-                          placeholder="Amount"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                </div>
               </> : serviceSelected == "Coal Analysis Parameters" ? 
               <>
                 <div className="flex mt-3 mb-3 gap-3">
@@ -1456,56 +906,6 @@ function ServiceRequestForm({drawerClose}) {
                   />) 
                 }
                 </div>
-                <div className="flex gap-3">
-                  <FormField 
-                    control={form.control}
-                    name="Price"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Price</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Price"
-                          defaultValue={parameterOptions.twelfthOptions[1].Price}
-                          placeholder="Price"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="GST"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>GST</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="GST"
-                          defaultValue={parameterOptions.twelfthOptions[1].GST}
-                          placeholder="GST"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="Amount"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Amount</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Amount"
-                          defaultValue={formData.Amount}
-                          placeholder="Amount"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                </div>
               </> : serviceSelected == "Effluent Water Analysis Parameters" ? 
               <>
                 <div className="flex mt-3 mb-3 gap-3">
@@ -1528,56 +928,6 @@ function ServiceRequestForm({drawerClose}) {
                   }
                   />) 
                 }
-                </div>
-                <div className="flex gap-3">
-                  <FormField 
-                    control={form.control}
-                    name="Price"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Price</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Price"
-                          defaultValue={parameterOptions.thirteenthOptions[1].Price}
-                          placeholder="Price"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="GST"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>GST</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="GST"
-                          defaultValue={parameterOptions.thirteenthOptions[1].GST}
-                          placeholder="GST"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="Amount"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Amount</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Amount"
-                          defaultValue={formData.Amount}
-                          placeholder="Amount"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
                 </div>
               </> : serviceSelected == "Sewage Water Chemical Parameters" ? 
               <>
@@ -1602,56 +952,6 @@ function ServiceRequestForm({drawerClose}) {
                   />) 
                 }
                 </div>
-                <div className="flex gap-3">
-                  <FormField 
-                    control={form.control}
-                    name="Price"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Price</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Price"
-                          defaultValue={parameterOptions.fourteenthOptions[1].Price}
-                          placeholder="Price"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="GST"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>GST</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="GST"
-                          defaultValue={parameterOptions.fourteenthOptions[1].GST}
-                          placeholder="GST"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="Amount"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Amount</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Amount"
-                          defaultValue={formData.Amount}
-                          placeholder="Amount"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                </div>
               </> : serviceSelected == "Ambient Air Quality Monitoring Parameters" ? 
               <>
                 <div className="flex mt-3 mb-3 gap-3">
@@ -1674,56 +974,6 @@ function ServiceRequestForm({drawerClose}) {
                   }
                   />) 
                 }
-                </div>
-                <div className="flex gap-3">
-                  <FormField 
-                    control={form.control}
-                    name="Price"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Price</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Price"
-                          defaultValue={parameterOptions.fifteenthOptions[1].Price}
-                          placeholder="Price"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="GST"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>GST</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="GST"
-                          defaultValue={parameterOptions.fifteenthOptions[0].GST}
-                          placeholder="GST"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="Amount"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Amount</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Amount"
-                          defaultValue={formData.Amount}
-                          placeholder="Amount"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
                 </div>
               </> : serviceSelected == "DG Stack Emission Parameters" ? 
               <>
@@ -1748,56 +998,6 @@ function ServiceRequestForm({drawerClose}) {
                   />) 
                 }
                 </div>
-                <div className="flex gap-3">
-                  <FormField 
-                    control={form.control}
-                    name="Price"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Price</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Price"
-                          defaultValue={parameterOptions.sixteenthOptions[1].Price}
-                          placeholder="Price"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="GST"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>GST</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="GST"
-                          defaultValue={parameterOptions.sixteenthOptions[1].GST}
-                          placeholder="GST"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="Amount"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Amount</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Amount"
-                          defaultValue={formData.Amount}
-                          placeholder="Amount"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                </div>
               </> : serviceSelected == "Ambient Noise Monitoring Parameters" ? 
               <>
                 <div className="flex mt-3 mb-3 gap-3">
@@ -1820,56 +1020,6 @@ function ServiceRequestForm({drawerClose}) {
                   }
                   />) 
                 }
-                </div>
-                <div className="flex gap-3">
-                  <FormField 
-                    control={form.control}
-                    name="Price"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Price</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Price"
-                          defaultValue={parameterOptions.seventeenthOptions[1].Price}
-                          placeholder="Price"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="GST"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>GST</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="GST"
-                          defaultValue={parameterOptions.seventeenthOptions[1].GST}
-                          placeholder="GST"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="Amount"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Amount</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Amount"
-                          defaultValue={formData.Amount}
-                          placeholder="Amount"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
                 </div>
               </> : serviceSelected == "DG Noise Monitoring Parameters" ? 
               <>
@@ -1894,56 +1044,6 @@ function ServiceRequestForm({drawerClose}) {
                   />) 
                 }
                 </div>
-                <div className="flex gap-3">
-                  <FormField 
-                    control={form.control}
-                    name="Price"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Price</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Price"
-                          defaultValue={parameterOptions.eighteenthOptions[1].Price}
-                          placeholder="Price"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="GST"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>GST</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="GST"
-                          defaultValue={parameterOptions.eighteenthOptions[1].GST}
-                          placeholder="GST"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="Amount"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Amount</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Amount"
-                          defaultValue={formData.Amount}
-                          placeholder="Amount"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                </div>
               </> : serviceSelected == "Lux Monitoring Parameters" ? 
               <>
                 <div className="flex mt-3 mb-3 gap-3">
@@ -1966,56 +1066,6 @@ function ServiceRequestForm({drawerClose}) {
                   }
                   />) 
                 }
-                </div>
-                <div className="flex gap-3">
-                  <FormField 
-                    control={form.control}
-                    name="Price"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Price</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Price"
-                          defaultValue={parameterOptions.nineteenthOptions[1].Price}
-                          placeholder="Price"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="GST"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>GST</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="GST"
-                          defaultValue={parameterOptions.nineteenthOptions[1].GST}
-                          placeholder="GST"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="Amount"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Amount</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Amount"
-                          defaultValue={formData.Amount}
-                          placeholder="Amount"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
                 </div>
               </> : serviceSelected == "Indoor Air Quality" ? 
               <>
@@ -2040,56 +1090,6 @@ function ServiceRequestForm({drawerClose}) {
                   />) 
                 }
                 </div>
-                <div className="flex gap-3">
-                  <FormField 
-                    control={form.control}
-                    name="Price"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Price</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Price"
-                          defaultValue={parameterOptions.twenteenthOptions[1].Price}
-                          placeholder="Price"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="GST"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>GST</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="GST"
-                          defaultValue={parameterOptions.twenteenthOptions[1].GST}
-                          placeholder="GST"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="Amount"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Amount</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Amount"
-                          defaultValue={formData.Amount}
-                          placeholder="Amount"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                </div>
               </> : serviceSelected == "Compressor Air Monitoring Parameters" ? 
               <>
                 <div className="flex mt-3 mb-3 gap-3">
@@ -2112,56 +1112,6 @@ function ServiceRequestForm({drawerClose}) {
                   }
                   />) 
                 }
-                </div>
-                <div className="flex gap-3">
-                  <FormField 
-                    control={form.control}
-                    name="Price"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Price</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Price"
-                          defaultValue={parameterOptions.twentyFirstOptions[1].Price}
-                          placeholder="Price"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="GST"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>GST</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="GST"
-                          defaultValue={parameterOptions.twentyFirstOptions[1].GST}
-                          placeholder="GST"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="Amount"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Amount</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Amount"
-                          defaultValue={formData.Amount}
-                          placeholder="Amount"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
                 </div>
               </> : serviceSelected == "Feldspar Analysis Parameter" ? 
               <>
@@ -2186,56 +1136,6 @@ function ServiceRequestForm({drawerClose}) {
                   />) 
                 }
                 </div>
-                <div className="flex gap-3">
-                  <FormField 
-                    control={form.control}
-                    name="Price"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Price</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Price"
-                          defaultValue={parameterOptions.twentySecondOptions[1].Price}
-                          placeholder="Price"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="GST"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>GST</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="GST"
-                          defaultValue={parameterOptions.twentySecondOptions[1].GST}
-                          placeholder="GST"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="Amount"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Amount</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Amount"
-                          defaultValue={formData.Amount}
-                          placeholder="Amount"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                </div>
               </> : serviceSelected == "Quartz Sample Analysis Parameters" ? 
               <>
                 <div className="flex mt-3 mb-3 gap-3">
@@ -2258,56 +1158,6 @@ function ServiceRequestForm({drawerClose}) {
                   }
                   />) 
                 }
-                </div>
-                <div className="flex gap-3">
-                  <FormField 
-                    control={form.control}
-                    name="Price"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Price</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Price"
-                          defaultValue={parameterOptions.twentyThirdOptions[1].Price}
-                          placeholder="Price"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="GST"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>GST</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="GST"
-                          defaultValue={parameterOptions.twentyThirdOptions[1].GST}
-                          placeholder="GST"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="Amount"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Amount</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Amount"
-                          defaultValue={formData.Amount}
-                          placeholder="Amount"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
                 </div>
               </> : serviceSelected == "Lime Stone Sample Analysis Parameters" ? 
               <>
@@ -2332,56 +1182,6 @@ function ServiceRequestForm({drawerClose}) {
                   />) 
                 }
                 </div>
-                <div className="flex gap-3">
-                  <FormField 
-                    control={form.control}
-                    name="Price"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Price</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Price"
-                          defaultValue={parameterOptions.twentyFourthOptions[1].Price}
-                          placeholder="Price"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="GST"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>GST</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="GST"
-                          defaultValue={parameterOptions.twentyFourthOptions[1].GST}
-                          placeholder="GST"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="Amount"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Amount</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Amount"
-                          defaultValue={formData.Amount}
-                          placeholder="Amount"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                </div>
               </> : serviceSelected == "Plate - Microbiological Analysis" ? 
               <>
                 <div className="flex mt-3 mb-3 gap-3">
@@ -2404,56 +1204,6 @@ function ServiceRequestForm({drawerClose}) {
                   }
                   />) 
                 }
-                </div>
-                <div className="flex gap-3">
-                  <FormField 
-                    control={form.control}
-                    name="Price"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Price</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Price"
-                          defaultValue={parameterOptions.twentyFifthOptions[1].Price}
-                          placeholder="Price"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="GST"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>GST</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="GST"
-                          defaultValue={parameterOptions.twentyFifthOptions[0].GST}
-                          placeholder="GST"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="Amount"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Amount</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Amount"
-                          defaultValue={formData.Amount}
-                          placeholder="Amount"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
                 </div>
               </> : serviceSelected == "Swab - Microbiological Analysis" ? 
               <>
@@ -2478,56 +1228,6 @@ function ServiceRequestForm({drawerClose}) {
                   />) 
                 }
                 </div>
-                <div className="flex gap-3">
-                  <FormField 
-                    control={form.control}
-                    name="Price"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Price</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Price"
-                          defaultValue={parameterOptions.twentySixthOptions[1].Price}
-                          placeholder="Price"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="GST"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>GST</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="GST"
-                          defaultValue={parameterOptions.twentySixthOptions[1].GST}
-                          placeholder="GST"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="Amount"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Amount</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Amount"
-                          defaultValue={formData.Amount}
-                          placeholder="Amount"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                </div>
               </> : serviceSelected == "Sewage Water Microbiological Parameters" ? 
               <>
                 <div className="flex mt-3 mb-3 gap-3">
@@ -2550,56 +1250,6 @@ function ServiceRequestForm({drawerClose}) {
                   }
                   />) 
                 }
-                </div>
-                <div className="flex gap-3">
-                  <FormField 
-                    control={form.control}
-                    name="Price"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Price</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Price"
-                          defaultValue={parameterOptions.twentySeventhOptions[1].Price}
-                          placeholder="Price"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="GST"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>GST</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="GST"
-                          defaultValue={parameterOptions.twentySeventhOptions[1].GST}
-                          placeholder="GST"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="Amount"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Amount</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Amount"
-                          defaultValue={formData.Amount}
-                          placeholder="Amount"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
                 </div>
               </> : serviceSelected == "Weather Monitoring Parameters" ? 
               <>
@@ -2624,56 +1274,6 @@ function ServiceRequestForm({drawerClose}) {
                   />) 
                 }
                 </div>
-                <div className="flex gap-3">
-                  <FormField 
-                    control={form.control}
-                    name="Price"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Price</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Price"
-                          defaultValue={parameterOptions.twentyEighthOptions[1].Price}
-                          placeholder="Price"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="GST"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>GST</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="GST"
-                          defaultValue={parameterOptions.twentyEighthOptions[0].GST}
-                          placeholder="GST"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="Amount"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Amount</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Amount"
-                          defaultValue={formData.Amount}
-                          placeholder="Amount"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                </div>
               </> : serviceSelected == "Oxygen Purity Parameters" ? 
               <>
                 <div className="flex mt-3 mb-3 gap-3">
@@ -2697,58 +1297,60 @@ function ServiceRequestForm({drawerClose}) {
                   />) 
                 }
                 </div>
-                <div className="flex gap-3">
-                  <FormField 
-                    control={form.control}
-                    name="Price"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Price</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Price"
-                          defaultValue={parameterOptions.twentyNinethOptions[1].Price}
-                          placeholder="Price"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="GST"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>GST</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="GST"
-                          defaultValue={parameterOptions.twentyNinethOptions[1].GST}
-                          placeholder="GST"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                  <FormField 
-                    control={form.control}
-                    name="Amount"
-                    render={() => 
-                      <FormItem className="w-full">
-                        <FormLabel>Amount</FormLabel>
-                        <FormControl>
-                          <Input 
-                          name="Amount"
-                          defaultValue={formData.Amount}
-                          placeholder="Amount"/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    }
-                  />
-                </div>
               </> : ""
               }
+              
+              <div className="flex gap-3">
+                <FormField 
+                  control={form.control}
+                  name="Price"
+                  render={() => 
+                    <FormItem className="w-full flex items-center gap-2">
+                      <FormLabel>Price</FormLabel>
+                      <FormControl>
+                        <Input 
+                        name="Price"
+                        defaultValue={formData.Price}
+                        placeholder="Price"/>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  }
+                />
+                <FormField 
+                  control={form.control}
+                  name="GST"
+                  render={() => 
+                    <FormItem className="w-full flex items-center gap-2">
+                      <FormLabel>GST</FormLabel>
+                      <FormControl>
+                        <Input 
+                        name="GST"
+                        defaultValue={formData.GST}
+                        placeholder="GST"/>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  }
+                />
+                <div className="flex items-center font-semibold"> = </div>
+                <FormField 
+                  control={form.control}
+                  name="Amount"
+                  render={() => 
+                    <FormItem className="w-full flex items-center gap-2">
+                      <FormLabel>Amount</FormLabel>
+                      <FormControl>
+                        <Input 
+                        name="Amount"
+                        defaultValue={formData.Amount}
+                        placeholder="Amount"/>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  }
+                />
+              </div>
 
               <FormField 
               control={form.control}

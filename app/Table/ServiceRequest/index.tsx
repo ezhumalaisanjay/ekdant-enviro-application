@@ -35,20 +35,27 @@ interface ServiceRequestTableProps {
 
 interface Data {
   Sample_Reference: string;
-  ticket_status: string;
-  fullName: string;
+  visit_type: string;
+  companyName: string;
+  contactNumber: string;
+  email: string;
   address: string;
   serviceType: string;
-  date: string;
-  allottedTo: string;
-  drawnBy: string;
-  email: string;
-  preferredDate: string;
-  contactNumber: string;
   parameters: string;
+  preferredDate: string;
+  allottedTo: string;
+  date: string;
+  remarks: string;
+  drawnBy: string;
   pickUp: string;
-  pickupAddress: string;
-  dropoffAddress: string;
+  priority: string;
+  pickupDate: string;
+  Price: string;
+  GST : string;
+  Amount: string;
+  contactName: string;
+  ticket_status: string;
+  category: string;
 }
 
 const ServiceRequestTable: React.FC<ServiceRequestTableProps> = ({onTrigger}) => {
@@ -98,31 +105,41 @@ const ServiceRequestTable: React.FC<ServiceRequestTableProps> = ({onTrigger}) =>
     const doc = new jsPDF();
     const tableData = datas.map((data) => [
       data.Sample_Reference,
-      data.fullName,
-      data.address,
+      data.ticket_status,
+      data.companyName,
       data.serviceType,
       data.date,
       data.allottedTo,
       data.drawnBy,
-      data.email,
-      data.preferredDate,
+      data.Price,
+      data.Amount,
+      data.visit_type,
       data.contactNumber,
+      data.email,
+      data.address,
       data.parameters,
+      data.preferredDate,
+      data.remarks,
       data.pickUp,
-      data.pickupAddress,
-      data.dropoffAddress,
+      data.priority,
+      data.pickupDate,
+      data.GST,
+      data.contactName,
+      data.category,
     ]);
 
     doc.autoTable({
       head: [
         [
           "SRN",
-          "Full Name",
-          "Address",
+          "Ticket Status",
+          "Customer Name",
           "Service Type",
           "Date",
           "Allotted To",
           "Drawn By",
+          "Price",
+          "Total Amount By GSD%"
         ],
       ],
       body: tableData,
@@ -139,20 +156,28 @@ const ServiceRequestTable: React.FC<ServiceRequestTableProps> = ({onTrigger}) =>
 
   const exportToCSV = () => {
     const csvData = datas.map((row) => ({
-      srn: row.Sample_Reference,
-      fullName: row.fullName,
-      address: row.address,
-      serviceType: row.serviceType,
-      date: row.date,
-      allottedTo: row.allottedTo,
-      drawnBy: row.drawnBy,
-      email: row.email,
-      preferredDate: row.preferredDate,
-      contact: row.contactNumber,
-      parameters: row.parameters,
-      pickup: row.pickUp,
-      pickupAddress: row.pickupAddress,
-      dropoffAddress: row.dropoffAddress,
+      Sample_Reference : row.Sample_Reference,
+      ticket_status :row.ticket_status,
+      companyName : row.companyName,
+      serviceType : row.serviceType,
+      date : row.date,
+      allottedTo : row.allottedTo,
+      drawnBy : row.drawnBy,
+      Price : row.Price,
+      Amount : row.Amount,
+      visit_type : row.visit_type,
+      contactNumber : row.contactNumber,
+      email : row.email,
+      address : row.address,
+      parameters : row.parameters,
+      preferredDate : row.preferredDate,
+      remarks : row.remarks,
+      pickUp : row.pickUp,
+      priority : row.priority,
+      pickupDate : row.pickupDate,
+      GST : row.GST,
+      contactName : row.contactName,
+      category : row.category,
     }));
 
     const csv = Papa.unparse(csvData);
@@ -188,30 +213,6 @@ const ServiceRequestTable: React.FC<ServiceRequestTableProps> = ({onTrigger}) =>
     }, {
       accessorKey: "Sample_Reference",
       header: "SRN",
-    },{
-      accessorKey: "ticket_status",
-      header: "Ticket Status",
-      cell: (({row}) => {
-        const status = row.getValue("ticket_status")
-        if(status == "New") {
-          return <Badge className="bg-green-500 hover:bg-green-400">New</Badge>
-        }
-        else if(status == "In_Transit") {
-          return <Badge className="bg-orange-500 text-nowrap hover:bg-orange-400">In Transit</Badge>
-        }
-        else if(status == "Sample_Received") {
-          return <Badge className="bg-blue-500 text-nowrap hover:bg-blue-400">Sample Received</Badge>
-        } 
-        else if(status == "Delivered_to_Lab") {
-          return <Badge className="bg-yellow-500 hover:bg-yellow-400 text-nowrap">Delivered to Lab</Badge>
-        }
-        else if(status == "Testing_in_Progress") {
-          return <Badge className="bg-red-500 text-nowrap hover:bg-red-400">Testing in Progress</Badge> 
-        }
-        else {
-          return <Badge className="bg-green-700 text-nowrap hover:bg-green-600">Report Generated</Badge>
-        }
-      })
     },
     {
       accessorKey: "companyName",
@@ -255,6 +256,13 @@ const ServiceRequestTable: React.FC<ServiceRequestTableProps> = ({onTrigger}) =>
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       ),
+      cell: ({ row }) => {
+        const selectedDate = row.getValue("date");
+        if (typeof selectedDate === "string") {
+          return <div className="text-nowrap">{selectedDate}</div>;
+        }
+        return <div className="text-nowrap">Invalid date</div>; 
+      }
     },
     {
       accessorKey: "allottedTo",
@@ -310,7 +318,43 @@ const ServiceRequestTable: React.FC<ServiceRequestTableProps> = ({onTrigger}) =>
     }, {
       accessorKey: "Amount",
       header: "Amount",
-    }, {
+      cell: ({ row }) => {
+        const amount = parseFloat(row.getValue("Amount"))
+
+        const formatted = new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "USD",
+        }).format(amount)
+
+        return <div>{formatted}</div>
+      }
+    },
+    {
+      accessorKey: "ticket_status",
+      header: "Ticket Status",
+      cell: (({row}) => {
+        const status = row.getValue("ticket_status")
+        if(status == "New") {
+          return <div className="flex justify-center"> <Badge className="bg-green-500 hover:bg-green-400">New</Badge></div>
+        }
+        else if(status == "In_Transit") {
+          return <div className="flex justify-center"> <Badge className="bg-orange-500 text-nowrap text-center hover:bg-orange-400">In Transit</Badge></div>
+        }
+        else if(status == "Sample_Received") {
+          return <div className="flex justify-center"> <Badge className="bg-blue-500 text-nowrap hover:bg-blue-400">Sample Received</Badge></div>
+        } 
+        else if(status == "Delivered_to_Lab") {
+          return <div className="flex justify-center"> <Badge className="bg-yellow-500 hover:bg-yellow-400 text-nowrap">Delivered to Lab</Badge></div>
+        }
+        else if(status == "Testing_in_Progress") {
+          return <div className="flex justify-center"> <Badge className="bg-red-500 text-nowrap hover:bg-red-400">Testing in Progress</Badge></div> 
+        }
+        else {
+          return <div className="flex justify-center"> <Badge className="bg-green-700 text-nowrap hover:bg-green-600">Report Generated</Badge> </div>
+        }
+      })
+    },
+    {
       accessorKey: "GST",
       header: "GST",
     }, {

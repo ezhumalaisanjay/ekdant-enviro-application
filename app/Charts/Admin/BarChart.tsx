@@ -1,6 +1,5 @@
 "use client"
 
-import { TrendingUp } from "lucide-react"
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
 
 import {
@@ -61,7 +60,7 @@ export function BarChartComponent() {
       
           const result = await response.json(); // Parse JSON once
           const responseData = result.barchartlabData
-          console.log("Response BarChartLab Data:", result);
+          console.log("Response Lab Status Data:", result);
       
           setChartData(responseData);
           return responseData; // Return parsed result
@@ -121,10 +120,7 @@ export function BarChartComponent() {
         </ChartContainer>
       </CardContent>
       <CardFooter className="flex-col items-start gap-2 text-sm">
-        <div className="flex gap-2 font-medium leading-none">
-          Trending up by 5.2% this Week <TrendingUp className="h-4 w-4" />
-        </div>
-        <div className="leading-none text-muted-foreground">
+        <div className="text-muted-foreground">
           Showing total pending and completed requests for the week
         </div>
       </CardFooter>

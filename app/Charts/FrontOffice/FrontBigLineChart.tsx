@@ -16,6 +16,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
+import { format } from "date-fns"
 
 const chartConfig = {
   views: {
@@ -63,10 +64,6 @@ export function FrontOfficeBigLineChartComponent() {
             // Get the end of the previous month (last day)
             const endOfMonth = new Date(prevYear, prevMonth + 1, 0); // 0th day of the next month gives the last day of the current month
         
-        
-            // Format dates as YYYY-MM-DD
-            const formatDate = (date: Date) => date.toISOString().split("T")[0];
-        
             const response = await fetch("https://0znzn1z8z4.execute-api.ap-south-1.amazonaws.com/Dev/EES_dashboard_barchart", {
               method: "PUT",
               headers: {
@@ -75,8 +72,8 @@ export function FrontOfficeBigLineChartComponent() {
               body: JSON.stringify({ 
                 category, 
                 type, 
-                start_date: formatDate(startOfMonth),
-                end_date: formatDate(endOfMonth) 
+                start_date: format(startOfMonth, "yyyy-MM-dd"),
+                end_date: format(endOfMonth, "yyyy-MM-dd") 
               }),
             });
         
@@ -86,7 +83,7 @@ export function FrontOfficeBigLineChartComponent() {
         
             const result = await response.json(); // Parse JSON once
             const responseData = result.barchartlogisticData;     
-            console.log("Response Big BarChartLogistics Data:", result);
+            console.log("Response Big Logistics Data:", result);
         
             setChartData(responseData)
             return responseData; // Return parsed result
