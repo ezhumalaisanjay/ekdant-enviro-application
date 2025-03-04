@@ -13,13 +13,7 @@ import { Calendar } from "@/components/ui/calendar"
 import { format } from "date-fns"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { useToast } from "@/hooks/use-toast"
-import {
-  serviceRequests,
-  staffOptions,
-  parameterOptions,
-  serviceTypes,
-  extraIndividualParameters,
-} from "../../src/serviceDatas"
+import { serviceRequests, staffOptions, parameterOptions, serviceTypes } from "../../src/serviceDatas"
 import { Textarea } from "@/components/ui/textarea"
 import { Checkbox } from "@/components/ui/checkbox"
 
@@ -496,16 +490,56 @@ function ServiceRequestForm({ drawerClose }) {
 
   const handleExtraParameterChange = (e) => {
     const { value, checked } = e.target
+
+    // Define price mapping for extra parameters
+    const priceMapping = {
+      "Total microbial count (cfu/ml) a. at 20 -22 C in 72 hours b. At 37 C in 24 hours.": { price: 500, gst: 18 },
+      "Total yeast and mould count": { price: 500, gst: 18 },
+      "E.coli": { price: 500, gst: 18 },
+      "F.coliforms": { price: 500, gst: 18 },
+      "Enterobacteriaceae (Coliforms)": { price: 500, gst: 18 },
+      "Faecal streptococci": { price: 650, gst: 18 },
+      "S. aureus": { price: 650, gst: 18 },
+      "Sulphite reducing anaerobes": { price: 650, gst: 18 },
+      Salmonella: { price: 650, gst: 18 },
+      Shigella: { price: 650, gst: 18 },
+      "V. cholera": { price: 650, gst: 18 },
+      "V. parahaemolyticus": { price: 650, gst: 18 },
+      "Ps. aeruginosa": { price: 650, gst: 18 },
+      Turbidity: { price: 250, gst: 18 },
+      pH: { price: 100, gst: 18 },
+      "Total Hardness as CaCO3": { price: 250, gst: 18 },
+    }
+
+    // Update the extraIndividualParameters array
     if (checked) {
       setFormData((prevState) => ({
         ...prevState,
         extraIndividualParameters: [...prevState.extraIndividualParameters, value],
       }))
+
+      // Add the price of the selected parameter
+      if (priceMapping[value]) {
+        const additionalPrice = priceMapping[value].price
+        setFormData((prevState) => ({
+          ...prevState,
+          Price: (Number.parseFloat(prevState.Price) + additionalPrice).toString(),
+        }))
+      }
     } else {
       setFormData((prevState) => ({
         ...prevState,
         extraIndividualParameters: prevState.extraIndividualParameters.filter((param) => param !== value),
       }))
+
+      // Subtract the price of the deselected parameter
+      if (priceMapping[value]) {
+        const subtractPrice = priceMapping[value].price
+        setFormData((prevState) => ({
+          ...prevState,
+          Price: (Number.parseFloat(prevState.Price) - subtractPrice).toString(),
+        }))
+      }
     }
   }
 
@@ -1670,15 +1704,15 @@ function ServiceRequestForm({ drawerClose }) {
                   />
                 </div>
 
-                <div className="flex gap-3">
+                <div className="flex gap-3 items-center mt-4">
                   <FormField
                     control={form.control}
                     name="Price"
                     render={() => (
                       <FormItem className="w-full flex items-center gap-2">
-                        <FormLabel>Price</FormLabel>
+                        <FormLabel className="min-w-16">Price</FormLabel>
                         <FormControl>
-                          <Input name="Price" defaultValue={formData.Price} placeholder="Price" />
+                          <Input name="Price" value={formData.Price} onChange={handleInputChange} placeholder="Price" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -1689,9 +1723,9 @@ function ServiceRequestForm({ drawerClose }) {
                     name="GST"
                     render={() => (
                       <FormItem className="w-full flex items-center gap-2">
-                        <FormLabel>GST</FormLabel>
+                        <FormLabel className="min-w-16">GST</FormLabel>
                         <FormControl>
-                          <Input name="GST" defaultValue={formData.GST} placeholder="GST" />
+                          <Input name="GST" value={formData.GST} onChange={handleInputChange} placeholder="GST" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -1703,9 +1737,9 @@ function ServiceRequestForm({ drawerClose }) {
                     name="Amount"
                     render={() => (
                       <FormItem className="w-full flex items-center gap-2">
-                        <FormLabel>Amount</FormLabel>
+                        <FormLabel className="min-w-16">Amount</FormLabel>
                         <FormControl>
-                          <Input name="Amount" defaultValue={formData.Amount} placeholder="Amount" />
+                          <Input name="Amount" value={formData.Amount} readOnly placeholder="Amount" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -1892,30 +1926,287 @@ function ServiceRequestForm({ drawerClose }) {
                   render={() => (
                     <FormItem>
                       <FormLabel>Extra Individual Parameters</FormLabel>
-                      <div className="grid lg:grid-cols-2 gap-3">
-                        {extraIndividualParameters.map((param, index) => (
-                          <div key={index} className="flex items-center space-x-2">
-                            <Checkbox
-                              id={`extra-param-${index}`}
-                              value={param.parameter}
-                              onCheckedChange={(checked) =>
-                                handleExtraParameterChange({ target: { value: param.parameter, checked } })
-                              }
-                            />
-                            <label
-                              htmlFor={`extra-param-${index}`}
-                              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                            >
-                              {param.parameter} - ₹{param.price} + {param.gst}% GST
-                            </label>
-                          </div>
-                        ))}
+                      <div className="grid lg:grid-cols-2 gap-3 mt-2">
+                        <div className="flex items-center space-x-2">
+                          <Checkbox
+                            id="total-microbial"
+                            value="Total microbial count (cfu/ml) a. at 20 -22 C in 72 hours b. At 37 C in 24 hours."
+                            onCheckedChange={(checked) =>
+                              handleExtraParameterChange({
+                                target: {
+                                  value:
+                                    "Total microbial count (cfu/ml) a. at 20 -22 C in 72 hours b. At 37 C in 24 hours.",
+                                  checked,
+                                },
+                              })
+                            }
+                            defaultChecked
+                          />
+                          <label htmlFor="total-microbial" className="text-sm font-medium leading-none">
+                            Total microbial count (cfu/ml) a. at 20 -22 C in 72 hours b. At 37 C in 24 hours. - ₹500 +
+                            18% GST
+                          </label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <Checkbox
+                            id="total-yeast"
+                            value="Total yeast and mould count"
+                            onCheckedChange={(checked) =>
+                              handleExtraParameterChange({
+                                target: {
+                                  value: "Total yeast and mould count",
+                                  checked,
+                                },
+                              })
+                            }
+                          />
+                          <label htmlFor="total-yeast" className="text-sm font-medium leading-none">
+                            Total yeast and mould count - ₹500 + 18% GST
+                          </label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <Checkbox
+                            id="e-coli"
+                            value="E.coli"
+                            onCheckedChange={(checked) =>
+                              handleExtraParameterChange({
+                                target: {
+                                  value: "E.coli",
+                                  checked,
+                                },
+                              })
+                            }
+                            defaultChecked
+                          />
+                          <label htmlFor="e-coli" className="text-sm font-medium leading-none">
+                            E.coli - ₹500 + 18% GST
+                          </label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <Checkbox
+                            id="f-coliforms"
+                            value="F.coliforms"
+                            onCheckedChange={(checked) =>
+                              handleExtraParameterChange({
+                                target: {
+                                  value: "F.coliforms",
+                                  checked,
+                                },
+                              })
+                            }
+                          />
+                          <label htmlFor="f-coliforms" className="text-sm font-medium leading-none">
+                            F.coliforms - ₹500 + 18% GST
+                          </label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <Checkbox
+                            id="enterobacteriaceae"
+                            value="Enterobacteriaceae (Coliforms)"
+                            onCheckedChange={(checked) =>
+                              handleExtraParameterChange({
+                                target: {
+                                  value: "Enterobacteriaceae (Coliforms)",
+                                  checked,
+                                },
+                              })
+                            }
+                          />
+                          <label htmlFor="enterobacteriaceae" className="text-sm font-medium leading-none">
+                            Enterobacteriaceae (Coliforms) - ₹500 + 18% GST
+                          </label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <Checkbox
+                            id="faecal-streptococci"
+                            value="Faecal streptococci"
+                            onCheckedChange={(checked) =>
+                              handleExtraParameterChange({
+                                target: {
+                                  value: "Faecal streptococci",
+                                  checked,
+                                },
+                              })
+                            }
+                          />
+                          <label htmlFor="faecal-streptococci" className="text-sm font-medium leading-none">
+                            Faecal streptococci - ₹650 + 18% GST
+                          </label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <Checkbox
+                            id="s-aureus"
+                            value="S. aureus"
+                            onCheckedChange={(checked) =>
+                              handleExtraParameterChange({
+                                target: {
+                                  value: "S. aureus",
+                                  checked,
+                                },
+                              })
+                            }
+                          />
+                          <label htmlFor="s-aureus" className="text-sm font-medium leading-none">
+                            S. aureus - ₹650 + 18% GST
+                          </label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <Checkbox
+                            id="sulphite-reducing"
+                            value="Sulphite reducing anaerobes"
+                            onCheckedChange={(checked) =>
+                              handleExtraParameterChange({
+                                target: {
+                                  value: "Sulphite reducing anaerobes",
+                                  checked,
+                                },
+                              })
+                            }
+                          />
+                          <label htmlFor="sulphite-reducing" className="text-sm font-medium leading-none">
+                            Sulphite reducing anaerobes - ₹650 + 18% GST
+                          </label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <Checkbox
+                            id="salmonella"
+                            value="Salmonella"
+                            onCheckedChange={(checked) =>
+                              handleExtraParameterChange({
+                                target: {
+                                  value: "Salmonella",
+                                  checked,
+                                },
+                              })
+                            }
+                          />
+                          <label htmlFor="salmonella" className="text-sm font-medium leading-none">
+                            Salmonella - ₹650 + 18% GST
+                          </label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <Checkbox
+                            id="shigella"
+                            value="Shigella"
+                            onCheckedChange={(checked) =>
+                              handleExtraParameterChange({
+                                target: {
+                                  value: "Shigella",
+                                  checked,
+                                },
+                              })
+                            }
+                          />
+                          <label htmlFor="shigella" className="text-sm font-medium leading-none">
+                            Shigella - ₹650 + 18% GST
+                          </label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <Checkbox
+                            id="v-cholera"
+                            value="V. cholera"
+                            onCheckedChange={(checked) =>
+                              handleExtraParameterChange({
+                                target: {
+                                  value: "V. cholera",
+                                  checked,
+                                },
+                              })
+                            }
+                          />
+                          <label htmlFor="v-cholera" className="text-sm font-medium leading-none">
+                            V. cholera - ₹650 + 18% GST
+                          </label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <Checkbox
+                            id="v-parahaemolyticus"
+                            value="V. parahaemolyticus"
+                            onCheckedChange={(checked) =>
+                              handleExtraParameterChange({
+                                target: {
+                                  value: "V. parahaemolyticus",
+                                  checked,
+                                },
+                              })
+                            }
+                          />
+                          <label htmlFor="v-parahaemolyticus" className="text-sm font-medium leading-none">
+                            V. parahaemolyticus - ₹650 + 18% GST
+                          </label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <Checkbox
+                            id="ps-aeruginosa"
+                            value="Ps. aeruginosa"
+                            onCheckedChange={(checked) =>
+                              handleExtraParameterChange({
+                                target: {
+                                  value: "Ps. aeruginosa",
+                                  checked,
+                                },
+                              })
+                            }
+                          />
+                          <label htmlFor="ps-aeruginosa" className="text-sm font-medium leading-none">
+                            Ps. aeruginosa - ₹650 + 18% GST
+                          </label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <Checkbox
+                            id="turbidity"
+                            value="Turbidity"
+                            onCheckedChange={(checked) =>
+                              handleExtraParameterChange({
+                                target: {
+                                  value: "Turbidity",
+                                  checked,
+                                },
+                              })
+                            }
+                          />
+                          <label htmlFor="turbidity" className="text-sm font-medium leading-none">
+                            Turbidity - ₹250 + 18% GST
+                          </label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <Checkbox
+                            id="ph"
+                            value="pH"
+                            onCheckedChange={(checked) =>
+                              handleExtraParameterChange({
+                                target: {
+                                  value: "pH",
+                                  checked,
+                                },
+                              })
+                            }
+                          />
+                          <label htmlFor="ph" className="text-sm font-medium leading-none">
+                            pH - ₹100 + 18% GST
+                          </label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <Checkbox
+                            id="total-hardness"
+                            value="Total Hardness as CaCO3"
+                            onCheckedChange={(checked) =>
+                              handleExtraParameterChange({
+                                target: {
+                                  value: "Total Hardness as CaCO3",
+                                  checked,
+                                },
+                              })
+                            }
+                          />
+                          <label htmlFor="total-hardness" className="text-sm font-medium leading-none">
+                            Total Hardness as CaCO3 - ₹250 + 18% GST
+                          </label>
+                        </div>
                       </div>
                     </FormItem>
                   )}
                 />
-
-                
               </CardContent>
             </Card>
 
