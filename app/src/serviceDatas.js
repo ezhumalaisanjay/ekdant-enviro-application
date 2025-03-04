@@ -1,6 +1,8 @@
 
 export const serviceRequests = [
   "Water: General Parameters",
+  "Water: General Parameters & Microbiology",
+  "DM Water Analysis",
   "Water Complete Analysis as per 10500: 2012",
   "Water - Construction Parameters",
   "Water - Microbiological Analysis",
@@ -31,40 +33,43 @@ export const serviceRequests = [
   "Oxygen Purity Parameters" 
 ];
 
-export const serviceTypes = [ 
-  { name: "Water: General Parameters", code: "W" }, 
-  { name: "Water Complete Analysis as per 10500: 2012", code: "W" }, 
-  { name: "Water - Construction Parameters", code: "W" }, 
-  { name: "Water - Microbiological Analysis", code: "W" }, 
-  { name: "Water –Complete Microbiological Analysis", code: "W" }, 
-  { name: "Food Microbiological Parameters", code: "FM" }, 
-  { name: "Food Chemical Parameters", code: "FC" }, 
-  { name: "Sludge Analysis Parameters", code: "SW" }, 
-  { name: "Soil Testing Parameters", code: "S" }, 
-  { name: "Oil - Diesel Testing Parameters", code: "MM" }, 
-  { name: "Oil - Nutrition Value + FSSAI Parameters", code: "MM" }, 
-  { name: "Coal Analysis Parameters", code: "MM" }, 
-  { name: "Effluent Water Analysis Parameters", code: "WW" }, 
-  { name: "Sewage Water Chemical Parameters", code: "WW" }, 
-  { name: "Ambient Air Quality Monitoring Parameters", code: "AS" }, 
-  { name: "DG Stack Emission Parameters", code: "AS" }, 
-  { name: "Ambient Noise Monitoring Parameters", code: "AS" }, 
-  { name: "DG Noise Monitoring Parameters", code: "AS" }, 
-  { name: "Lux Monitoring Parameters", code: "AS" }, 
-  { name: "Indoor Air Quality", code: "AS" }, 
-  { name: "Compressor Air Monitoring Parameters", code: "AS" }, 
-  { name: "Feldspar Analysis Parameter", code: "MM" }, 
-  { name: "Quartz Sample Analysis Parameters", code: "MM" }, 
-  { name: "Lime Stone Sample Analysis Parameters", code: "MM" }, 
-  { name: "Plate - Microbiological Analysis", code: "EM" }, 
-  { name: "Swab - Microbiological Analysis", code: "EM" }, 
-  { name: "Sewage Water Microbiological Parameters", code: "EM" }, 
-  { name: "Weather Monitoring Parameters", code: "EM" }, 
-  { name: "Oxygen Purity Parameters", code: "EM" } ];
+export const serviceTypes = [
+  { name: "Water: General Parameters", code: "W" },
+  { name: "Water: General Parameters & Microbiology", code: "WM" },
+  { name: "DM Water Analysis", code: "DW" },
+  { name: "Water Complete Analysis as per 10500: 2012", code: "W" },
+  { name: "Water - Construction Parameters", code: "W" },
+  { name: "Water - Microbiological Analysis", code: "W" },
+  { name: "Water –Complete Microbiological Analysis", code: "W" },
+  { name: "Food Microbiological Parameters", code: "FM" },
+  { name: "Food Chemical Parameters", code: "FC" },
+  { name: "Sludge Analysis Parameters", code: "SW" },
+  { name: "Soil Testing Parameters", code: "S" },
+  { name: "Oil - Diesel Testing Parameters", code: "MM" },
+  { name: "Oil - Nutrition Value + FSSAI Parameters", code: "MM" },
+  { name: "Coal Analysis Parameters", code: "MM" },
+  { name: "Effluent Water Analysis Parameters", code: "WW" },
+  { name: "Sewage Water Chemical Parameters", code: "WW" },
+  { name: "Ambient Air Quality Monitoring Parameters", code: "AS" },
+  { name: "DG Stack Emission Parameters", code: "AS" },
+  { name: "Ambient Noise Monitoring Parameters", code: "AS" },
+  { name: "DG Noise Monitoring Parameters", code: "AS" },
+  { name: "Lux Monitoring Parameters", code: "AS" },
+  { name: "Indoor Air Quality", code: "AS" },
+  { name: "Compressor Air Monitoring Parameters", code: "AS" },
+  { name: "Feldspar Analysis Parameter", code: "MM" },
+  { name: "Quartz Sample Analysis Parameters", code: "MM" },
+  { name: "Lime Stone Sample Analysis Parameters", code: "MM" },
+  { name: "Plate - Microbiological Analysis", code: "EM" },
+  { name: "Swab - Microbiological Analysis", code: "EM" },
+  { name: "Sewage Water Microbiological Parameters", code: "EM" },
+  { name: "Weather Monitoring Parameters", code: "EM" },
+  { name: "Oxygen Purity Parameters", code: "EM" },
+];
 
 
 export const staffOptions = {
-  option1 : [
+  option1: [
     "Elumalai",
     "Hemavathy",
     "Nalina",
@@ -72,15 +77,28 @@ export const staffOptions = {
     "Jeyarani",
     "Nagalakshmi",
   ],
-  option2 : [
+
+  option2: ["Vinaya", "Vinitha"],
+  option3: ["Manimaran", "Govarthan", "Ramkumar"],
+  option4: [
+    "Elumalai",
+    "Hemavathy",
+    "Nalina",
+    "Sindhuja",
+    "Jeyarani",
+    "Nagalakshmi",
     "Vinaya",
-    "Vinitha"
+    "Vinitha",
   ],
-  option3 : [
-    "Manimaran",
-    "Iliyas"
+  option5: [
+    "Elumalai",
+    "Hemavathy",
+    "Nalina",
+    "Sindhuja",
+    "Jeyarani"
+    
   ],
-}
+};
 export const parameterOptions = {
   firstOptions: [
     {
@@ -111,6 +129,58 @@ export const parameterOptions = {
     },
     {
       Price: 950,
+      GST: "18%",
+    },
+  ],
+  firstonOptions: [
+    {
+      parameter: [
+        "Appearance",
+        "Colour (Hazen Unit)",
+        "Odour",
+        "Turbidity (NTU)",
+        "EC at 25°C (Micromhos/cm)",
+        "pH at 25°C",
+        "Total Suspended Solids",
+        "Total Dissolved Solids",
+        "Phenolphthalein Alkalinity as CaCO₃",
+        "Total Alkalinity as CaCO₃",
+        "Total Hardness as CaCO₃",
+        "Calcium Hardness as CaCO₃",
+        "Calcium as Ca",
+        "Magnesium Hardness as CaCO₃",
+        "Magnesium as Mg",
+        "Chlorides as Cl",
+        "Sulphates as SO₄",
+        "Iron (Total) as Fe",
+        "Silica (Reactive) as SiO2",
+        "Carbonate Hardness",
+        "Non-Carbonate Hardness",
+        "Free Residual Chlorine",
+        "Total Coliforms",
+        "E-Coli",
+      ],
+    },
+    {
+      Price: 1950,
+      GST: "18%",
+    },
+  ],
+  firstondsOptions: [
+    {
+      parameter: [
+        "Specific Conductivity",
+        "pH Value",
+        "Total Solids",
+        "Silica",
+        "Colour Retention",
+        "TBC",
+        "TOC",
+        
+      ],
+    },
+    {
+      Price: 1950,
       GST: "18%",
     },
   ],
@@ -669,3 +739,49 @@ export const parameterOptions = {
     },
   ],
 };
+
+export const extraIndividualParameters = [
+  {
+    parameter:
+      "Total microbial count (cfu/ml) a. at 20 -22 C in 72 hours b. At 37 C in 24 hours.",
+    price: "500",
+    gst: "18",
+  },
+  { parameter: "Total yeast and mould count", price: "500", gst: "18" },
+  { parameter: "E.coli", price: "500", gst: "18" },
+  { parameter: "F.coliforms", price: "500", gst: "18" },
+  { parameter: "Enterobacteriaceae (Coliforms)", price: "500", gst: "18" },
+  { parameter: "Faecal streptococci", price: "650", gst: "18" },
+  { parameter: "S. aureus", price: "650", gst: "18" },
+  { parameter: "Sulphite reducing anaerobes", price: "650", gst: "18" },
+  { parameter: "Salmonella", price: "650", gst: "18" },
+  { parameter: "Shigella", price: "650", gst: "18" },
+  { parameter: "V. cholera", price: "650", gst: "18" },
+  { parameter: "V. parahaemolyticus", price: "650", gst: "18" },
+  { parameter: "Ps. aeruginosa", price: "650", gst: "18" },
+  { parameter: "Turbidity", price: "250", gst: "18" },
+  { parameter: "pH", price: "100", gst: "18" },
+  { parameter: "Total Hardness as Caco3", price: "250", gst: "18" },
+  { parameter: "Iron ( Total) as Fe", price: "300", gst: "18" },
+  { parameter: "Silica ( Reactive) as SiO2", price: "250", gst: "18" },
+  { parameter: "Total Suspended Solids (TSS)", price: "400", gst: "18" },
+  { parameter: "Total Dissolved Solids (TDS)", price: "400", gst: "18" },
+  { parameter: "Chemical Oxygen Demand", price: "400", gst: "18" },
+  { parameter: "Bio chemical Oxygen Demand", price: "400", gst: "18" },
+  { parameter: "Oil & Grease", price: "400", gst: "18" },
+  { parameter: "Total Nitrogen", price: "400", gst: "18" },
+  { parameter: "Total Phosphorus", price: "400", gst: "18" },
+  { parameter: "Chlorides as Cl", price: "400", gst: "18" },
+  { parameter: "Nitrate as No3", price: "400", gst: "18" },
+  { parameter: "Mercury as Hg (mg/l)", price: "750", gst: "18" },
+  { parameter: "Cadmium as Cd (mg/l)", price: "750", gst: "18" },
+  { parameter: "Selenium as Se (mg/l)", price: "750", gst: "18" },
+  { parameter: "Arsenic as As (mg/l)", price: "750", gst: "18" },
+  { parameter: "Cyanide as CN( mg/l)", price: "750", gst: "18" },
+  { parameter: "Lead as Pb (mg/l)", price: "750", gst: "18" },
+  { parameter: "Zinc as Zn (mg/l)", price: "750", gst: "18" },
+  { parameter: "Chromium as Cr6+( mg/l)", price: "750", gst: "18" },
+  { parameter: "Aluminium as Al(mg/l)", price: "750", gst: "18" },
+  { parameter: "Barium as Ba (mg / l)", price: "750", gst: "18" },
+  { parameter: "Nickel as Ni (mg/l)", price: "750", gst: "18" },
+];
