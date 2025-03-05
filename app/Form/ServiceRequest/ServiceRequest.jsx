@@ -8,7 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { CalendarIcon, Loader2 } from "lucide-react"
+import { CalendarIcon, Loader2 } from 'lucide-react'
 import { Calendar } from "@/components/ui/calendar"
 import { format } from "date-fns"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
@@ -57,9 +57,9 @@ function ServiceRequestForm({ drawerClose }) {
     pickUp: "",
     priority: "",
     pickupDate: "",
-    Price: "",
-    GST: "",
-    Amount: "",
+    Price: "0",
+    GST: "18",
+    Amount: "0",
     contactName: "",
     ticket_status: "New",
     category: "Ticket",
@@ -79,6 +79,48 @@ function ServiceRequestForm({ drawerClose }) {
       fullName: "",
     },
   })
+
+  // Price mapping for extra parameters - moved outside the handler for reusability
+  const priceMapping = {
+    "Total microbial count (cfu/ml) a. at 20 -22 C in 72 hours b. At 37 C in 24 hours.": { price: 500, gst: 18 },
+    "Total yeast and mould count": { price: 500, gst: 18 },
+    "E.coli": { price: 500, gst: 18 },
+    "F.coliforms": { price: 500, gst: 18 },
+    "Enterobacteriaceae (Coliforms)": { price: 500, gst: 18 },
+    "Faecal streptococci": { price: 650, gst: 18 },
+    "S. aureus": { price: 650, gst: 18 },
+    "Sulphite reducing anaerobes": { price: 650, gst: 18 },
+    Salmonella: { price: 650, gst: 18 },
+    Shigella: { price: 650, gst: 18 },
+    "V. cholera": { price: 650, gst: 18 },
+    "V. parahaemolyticus": { price: 650, gst: 18 },
+    "Ps. aeruginosa": { price: 650, gst: 18 },
+    Turbidity: { price: 250, gst: 18 },
+    pH: { price: 100, gst: 18 },
+    "Total Hardness as CaCO3": { price: 250, gst: 18 },
+    "Iron ( Total) as Fe" : { price: 300, gst: 18 },
+    "Silica ( Reactive) as SiO2" : { price: 250, gst: 18 },
+    "Total Suspended Solids (TSS)" : { price: 400, gst: 18 },
+    "Total Dissolved Solids (TDS)" : { price: 400, gst: 18 },
+    "Chemical Oxygen Demand" : { price: 400, gst: 18 },
+    "Bio chemical Oxygen Demand " : { price: 400, gst: 18 },
+    "Oil & Grease" : { price: 400, gst: 18 },
+    "Total Nitrogen" : { price: 400, gst: 18 },
+    "Total Phosphorus " : { price: 400, gst: 18 },
+    "Chlorides as Cl" : { price: 400, gst: 18 },
+    "Nitrate as No3" : { price: 400, gst: 18 },
+    "Mercury as Hg (mg/l)" : { price: 750, gst: 18 },
+    "Cadmium as Cd (mg/l)" : { price: 750, gst: 18 },
+    "Selenium as Se (mg/l)" : { price: 750, gst: 18 },
+    "Arsenic as As (mg/l)" : { price: 750, gst: 18 },
+    "Cyanide as CN( mg/l)" : { price: 750, gst: 18 },
+    "Lead as Pb (mg/l)" : { price: 750, gst: 18 },
+    "Zinc as Zn (mg/l)" : { price: 750, gst: 18 },
+    "Chromium as Cr6+( mg/l)" : { price: 750, gst: 18 },
+    "Aluminium as Al(mg/l)" : { price: 750, gst: 18 },
+    "Barium as Ba (mg / l)" : { price: 750, gst: 18 },
+    "Nickel as Ni (mg/l)" : { price: 750, gst: 18 },
+  }
 
   useEffect(() => {
     const getRecords = async (category) => {
@@ -143,242 +185,178 @@ function ServiceRequestForm({ drawerClose }) {
     getMappedData()
   }, [mappedApiData])
 
+  // Modified service selection useEffect to preserve extra parameter prices
   useEffect(() => {
-    if (serviceSelected === "Water: General Parameters") {
-      setFormData((prevState) => ({
-        ...prevState,
-        parameters: parameterOptions.firstOptions[0].parameter,
-        Price: parameterOptions.firstOptions[1].Price,
-        GST: parameterOptions.firstOptions[1].GST,
-      }))
-    } else if (serviceSelected === "Water: General Parameters & Microbiology") {
-      setFormData((prevState) => ({
-        ...prevState,
-        parameters: parameterOptions.firstonOptions[0].parameter,
-        Price: parameterOptions.firstonOptions[1].Price,
-        GST: parameterOptions.firstonOptions[1].GST,
-      }))
-    } else if (serviceSelected === "DM Water Analysis") {
-      setFormData((prevState) => ({
-        ...prevState,
-        parameters: parameterOptions.firstondsOptions[0].parameter,
-        Price: parameterOptions.firstondsOptions[1].Price,
-        GST: parameterOptions.firstondsOptions[1].GST,
-      }))
-    } else if (serviceSelected === "Water Complete Analysis as per 10500: 2012") {
-      setFormData((prevState) => ({
-        ...prevState,
-        parameters: parameterOptions.secondOptions[0].parameter,
-        Price: parameterOptions.secondOptions[1].Price,
-        GST: parameterOptions.secondOptions[1].GST,
-      }))
-    } else if (serviceSelected === "Water - Construction Parameters") {
-      setFormData((prevState) => ({
-        ...prevState,
-        parameters: parameterOptions.thirdOptions[0].parameter,
-        Price: parameterOptions.thirdOptions[1].Price,
-        GST: parameterOptions.thirdOptions[1].GST,
-      }))
-    } else if (serviceSelected === "Water - Microbiological Analysis") {
-      setFormData((prevState) => ({
-        ...prevState,
-        parameters: parameterOptions.fourthOptions[0].parameter,
-        Price: parameterOptions.fourthOptions[1].Price,
-        GST: parameterOptions.fourthOptions[1].GST,
-      }))
-    } else if (serviceSelected === "Water –Complete Microbiological Analysis") {
-      setFormData((prevState) => ({
-        ...prevState,
-        parameters: parameterOptions.fifthOptions[0].parameter,
-        Price: parameterOptions.fifthOptions[1].Price,
-        GST: parameterOptions.fifthOptions[1].GST,
-      }))
-    } else if (serviceSelected === "Food Microbiological Parameters") {
-      setFormData((prevState) => ({
-        ...prevState,
-        parameters: parameterOptions.sixthOptions[0].parameter,
-        Price: parameterOptions.sixthOptions[1].Price,
-        GST: parameterOptions.sixthOptions[1].GST,
-      }))
-    } else if (serviceSelected === "Food Chemical Parameters") {
-      setFormData((prevState) => ({
-        ...prevState,
-        parameters: parameterOptions.seventhOptions[0].parameter,
-        Price: parameterOptions.seventhOptions[1].Price,
-        GST: parameterOptions.seventhOptions[1].GST,
-      }))
-    } else if (serviceSelected === "Sludge Analysis Parameters") {
-      setFormData((prevState) => ({
-        ...prevState,
-        parameters: parameterOptions.eighthOptions[0].parameter,
-        Price: parameterOptions.eighthOptions[1].Price,
-        GST: parameterOptions.eighthOptions[1].GST,
-      }))
-    } else if (serviceSelected === "Soil Testing Parameters") {
-      setFormData((prevState) => ({
-        ...prevState,
-        parameters: parameterOptions.ninethOptions[0].parameter,
-        Price: parameterOptions.ninethOptions[1].Price,
-        GST: parameterOptions.ninethOptions[1].GST,
-      }))
-    } else if (serviceSelected === "Oil - Diesel Testing Parameters") {
-      setFormData((prevState) => ({
-        ...prevState,
-        parameters: parameterOptions.tenthOptions[0].parameter,
-        Price: parameterOptions.tenthOptions[1].Price,
-        GST: parameterOptions.tenthOptions[1].GST,
-      }))
-    } else if (serviceSelected === "Oil - Nutrition Value + FSSAI Parameters") {
-      setFormData((prevState) => ({
-        ...prevState,
-        parameters: parameterOptions.eleventhOptions[0].parameter,
-        Price: parameterOptions.eleventhOptions[1].Price,
-        GST: parameterOptions.eleventhOptions[1].GST,
-      }))
-    } else if (serviceSelected === "Coal Analysis Parameters") {
-      setFormData((prevState) => ({
-        ...prevState,
-        parameters: parameterOptions.twelfthOptions[0].parameter,
-        Price: parameterOptions.twelfthOptions[1].Price,
-        GST: parameterOptions.twelfthOptions[1].GST,
-      }))
-    } else if (serviceSelected === "Effluent Water Analysis Parameters") {
-      setFormData((prevState) => ({
-        ...prevState,
-        parameters: parameterOptions.thirteenthOptions[0].parameter,
-        Price: parameterOptions.thirteenthOptions[1].Price,
-        GST: parameterOptions.thirteenthOptions[1].GST,
-      }))
-    } else if (serviceSelected === "Sewage Water Chemical Parameters") {
-      setFormData((prevState) => ({
-        ...prevState,
-        parameters: parameterOptions.fourteenthOptions[0].parameter,
-        Price: parameterOptions.fourteenthOptions[1].Price,
-        GST: parameterOptions.fourteenthOptions[1].GST,
-      }))
-    } else if (serviceSelected === "Ambient Air Quality Monitoring Parameters") {
-      setFormData((prevState) => ({
-        ...prevState,
-        parameters: parameterOptions.fifteenthOptions[0].parameter,
-        Price: parameterOptions.fifteenthOptions[1].Price,
-        GST: parameterOptions.fifteenthOptions[1].GST,
-      }))
-    } else if (serviceSelected === "DG Stack Emission Parameters") {
-      setFormData((prevState) => ({
-        ...prevState,
-        parameters: parameterOptions.sixteenthOptions[0].parameter,
-        Price: parameterOptions.sixteenthOptions[1].Price,
-        GST: parameterOptions.sixteenthOptions[1].GST,
-      }))
-    } else if (serviceSelected === "Ambient Noise Monitoring Parameters") {
-      setFormData((prevState) => ({
-        ...prevState,
-        parameters: parameterOptions.seventeenthOptions[0].parameter,
-        Price: parameterOptions.seventeenthOptions[1].Price,
-        GST: parameterOptions.seventeenthOptions[1].GST,
-      }))
-    } else if (serviceSelected === "DG Noise Monitoring Parameters") {
-      setFormData((prevState) => ({
-        ...prevState,
-        parameters: parameterOptions.eighteenthOptions[0].parameter,
-        Price: parameterOptions.eighteenthOptions[1].Price,
-        GST: parameterOptions.eighteenthOptions[1].GST,
-      }))
-    } else if (serviceSelected === "Lux Monitoring Parameters") {
-      setFormData((prevState) => ({
-        ...prevState,
-        parameters: parameterOptions.nineteenthOptions[0].parameter,
-        Price: parameterOptions.nineteenthOptions[1].Price,
-        GST: parameterOptions.nineteenthOptions[1].GST,
-      }))
-    } else if (serviceSelected === "Indoor Air Quality") {
-      setFormData((prevState) => ({
-        ...prevState,
-        parameters: parameterOptions.twenteenthOptions[0].parameter,
-        Price: parameterOptions.twenteenthOptions[1].Price,
-        GST: parameterOptions.twenteenthOptions[1].GST,
-      }))
-    } else if (serviceSelected === "Compressor Air Monitoring Parameters") {
-      setFormData((prevState) => ({
-        ...prevState,
-        parameters: parameterOptions.twentyFirstOptions[0].parameter,
-        Price: parameterOptions.twentyFirstOptions[1].Price,
-        GST: parameterOptions.twentyFirstOptions[1].GST,
-      }))
-    } else if (serviceSelected === "Feldspar Analysis Parameter") {
-      setFormData((prevState) => ({
-        ...prevState,
-        parameters: parameterOptions.twentySecondOptions[0].parameter,
-        Price: parameterOptions.twentySecondOptions[1].Price,
-        GST: parameterOptions.twentySecondOptions[1].GST,
-      }))
-    } else if (serviceSelected === "Quartz Sample Analysis Parameters") {
-      setFormData((prevState) => ({
-        ...prevState,
-        parameters: parameterOptions.twentyThirdOptions[0].parameter,
-        Price: parameterOptions.twentyThirdOptions[1].Price,
-        GST: parameterOptions.twentyThirdOptions[1].GST,
-      }))
-    } else if (serviceSelected === "Lime Stone Sample Analysis Parameters") {
-      setFormData((prevState) => ({
-        ...prevState,
-        parameters: parameterOptions.twentyFourthOptions[0].parameter,
-        Price: parameterOptions.twentyFourthOptions[1].Price,
-        GST: parameterOptions.twentyFourthOptions[1].GST,
-      }))
-    } else if (serviceSelected === "Plate - Microbiological Analysis") {
-      setFormData((prevState) => ({
-        ...prevState,
-        parameters: parameterOptions.twentyFifthOptions[0].parameter,
-        Price: parameterOptions.twentyFifthOptions[1].Price,
-        GST: parameterOptions.twentyFifthOptions[1].GST,
-      }))
-    } else if (serviceSelected === "Swab - Microbiological Analysis") {
-      setFormData((prevState) => ({
-        ...prevState,
-        parameters: parameterOptions.twentySixthOptions[0].parameter,
-        Price: parameterOptions.twentySixthOptions[1].Price,
-        GST: parameterOptions.twentySixthOptions[1].GST,
-      }))
-    } else if (serviceSelected === "Sewage Water Microbiological Parameters") {
-      setFormData((prevState) => ({
-        ...prevState,
-        parameters: parameterOptions.twentySeventhOptions[0].parameter,
-        Price: parameterOptions.twentySeventhOptions[1].Price,
-        GST: parameterOptions.twentySeventhOptions[1].GST,
-      }))
-    } else if (serviceSelected === "Weather Monitoring Parameters") {
-      setFormData((prevState) => ({
-        ...prevState,
-        parameters: parameterOptions.twentyEighthOptions[0].parameter,
-        Price: parameterOptions.twentyEighthOptions[1].Price,
-        GST: parameterOptions.twentyEighthOptions[1].GST,
-      }))
-    } else if (serviceSelected === "Oxygen Purity Parameters") {
-      setFormData((prevState) => ({
-        ...prevState,
-        parameters: parameterOptions.twentyNinethOptions[0].parameter,
-        Price: parameterOptions.twentyNinethOptions[1].Price,
-        GST: parameterOptions.twentyNinethOptions[1].GST,
-      }))
+    if (!serviceSelected || serviceSelected === "Select") {
+      return
     }
+    
+    let servicePrice = 0
+    let serviceGST = 18
+    let serviceParameters = []
+    
+    // Find the service type options
+    if (serviceSelected === "Water: General Parameters") {
+      serviceParameters = parameterOptions.firstOptions[0].parameter
+      servicePrice = parameterOptions.firstOptions[1].Price
+      serviceGST = parameterOptions.firstOptions[1].GST
+    } else if (serviceSelected === "Water: General Parameters & Microbiology") {
+      serviceParameters = parameterOptions.firstonOptions[0].parameter
+      servicePrice = parameterOptions.firstonOptions[1].Price
+      serviceGST = parameterOptions.firstonOptions[1].GST
+    } else if (serviceSelected === "DM Water Analysis") {
+      serviceParameters = parameterOptions.firstondsOptions[0].parameter
+      servicePrice = parameterOptions.firstondsOptions[1].Price
+      serviceGST = parameterOptions.firstondsOptions[1].GST
+    } else if (serviceSelected === "Water Complete Analysis as per 10500: 2012") {
+      serviceParameters = parameterOptions.secondOptions[0].parameter
+      servicePrice = parameterOptions.secondOptions[1].Price
+      serviceGST = parameterOptions.secondOptions[1].GST
+    } else if (serviceSelected === "Water - Construction Parameters") {
+      serviceParameters = parameterOptions.thirdOptions[0].parameter
+      servicePrice = parameterOptions.thirdOptions[1].Price
+      serviceGST = parameterOptions.thirdOptions[1].GST
+    } else if (serviceSelected === "Water - Microbiological Analysis") {
+      serviceParameters = parameterOptions.fourthOptions[0].parameter
+      servicePrice = parameterOptions.fourthOptions[1].Price
+      serviceGST = parameterOptions.fourthOptions[1].GST
+    } else if (serviceSelected === "Water –Complete Microbiological Analysis") {
+      serviceParameters = parameterOptions.fifthOptions[0].parameter
+      servicePrice = parameterOptions.fifthOptions[1].Price
+      serviceGST = parameterOptions.fifthOptions[1].GST
+    } else if (serviceSelected === "Food Microbiological Parameters") {
+      serviceParameters = parameterOptions.sixthOptions[0].parameter
+      servicePrice = parameterOptions.sixthOptions[1].Price
+      serviceGST = parameterOptions.sixthOptions[1].GST
+    } else if (serviceSelected === "Food Chemical Parameters") {
+      serviceParameters = parameterOptions.seventhOptions[0].parameter
+      servicePrice = parameterOptions.seventhOptions[1].Price
+      serviceGST = parameterOptions.seventhOptions[1].GST
+    } else if (serviceSelected === "Sludge Analysis Parameters") {
+      serviceParameters = parameterOptions.eighthOptions[0].parameter
+      servicePrice = parameterOptions.eighthOptions[1].Price
+      serviceGST = parameterOptions.eighthOptions[1].GST
+    } else if (serviceSelected === "Soil Testing Parameters") {
+      serviceParameters = parameterOptions.ninethOptions[0].parameter
+      servicePrice = parameterOptions.ninethOptions[1].Price
+      serviceGST = parameterOptions.ninethOptions[1].GST
+    } else if (serviceSelected === "Oil - Diesel Testing Parameters") {
+      serviceParameters = parameterOptions.tenthOptions[0].parameter
+      servicePrice = parameterOptions.tenthOptions[1].Price
+      serviceGST = parameterOptions.tenthOptions[1].GST
+    } else if (serviceSelected === "Oil - Nutrition Value + FSSAI Parameters") {
+      serviceParameters = parameterOptions.eleventhOptions[0].parameter
+      servicePrice = parameterOptions.eleventhOptions[1].Price
+      serviceGST = parameterOptions.eleventhOptions[1].GST
+    } else if (serviceSelected === "Coal Analysis Parameters") {
+      serviceParameters = parameterOptions.twelfthOptions[0].parameter
+      servicePrice = parameterOptions.twelfthOptions[1].Price
+      serviceGST = parameterOptions.twelfthOptions[1].GST
+    } else if (serviceSelected === "Effluent Water Analysis Parameters") {
+      serviceParameters = parameterOptions.thirteenthOptions[0].parameter
+      servicePrice = parameterOptions.thirteenthOptions[1].Price
+      serviceGST = parameterOptions.thirteenthOptions[1].GST
+    } else if (serviceSelected === "Sewage Water Chemical Parameters") {
+      serviceParameters = parameterOptions.fourteenthOptions[0].parameter
+      servicePrice = parameterOptions.fourteenthOptions[1].Price
+      serviceGST = parameterOptions.fourteenthOptions[1].GST
+    } else if (serviceSelected === "Ambient Air Quality Monitoring Parameters") {
+      serviceParameters = parameterOptions.fifteenthOptions[0].parameter
+      servicePrice = parameterOptions.fifteenthOptions[1].Price
+      serviceGST = parameterOptions.fifteenthOptions[1].GST
+    } else if (serviceSelected === "DG Stack Emission Parameters") {
+      serviceParameters = parameterOptions.sixteenthOptions[0].parameter
+      servicePrice = parameterOptions.sixteenthOptions[1].Price
+      serviceGST = parameterOptions.sixteenthOptions[1].GST
+    } else if (serviceSelected === "Ambient Noise Monitoring Parameters") {
+      serviceParameters = parameterOptions.seventeenthOptions[0].parameter
+      servicePrice = parameterOptions.seventeenthOptions[1].Price
+      serviceGST = parameterOptions.seventeenthOptions[1].GST
+    } else if (serviceSelected === "DG Noise Monitoring Parameters") {
+      serviceParameters = parameterOptions.eighteenthOptions[0].parameter
+      servicePrice = parameterOptions.eighteenthOptions[1].Price
+      serviceGST = parameterOptions.eighteenthOptions[1].GST
+    } else if (serviceSelected === "Lux Monitoring Parameters") {
+      serviceParameters = parameterOptions.nineteenthOptions[0].parameter
+      servicePrice = parameterOptions.nineteenthOptions[1].Price
+      serviceGST = parameterOptions.nineteenthOptions[1].GST
+    } else if (serviceSelected === "Indoor Air Quality") {
+      serviceParameters = parameterOptions.twenteenthOptions[0].parameter
+      servicePrice = parameterOptions.twenteenthOptions[1].Price
+      serviceGST = parameterOptions.twenteenthOptions[1].GST
+    } else if (serviceSelected === "Compressor Air Monitoring Parameters") {
+      serviceParameters = parameterOptions.twentyFirstOptions[0].parameter
+      servicePrice = parameterOptions.twentyFirstOptions[1].Price
+      serviceGST = parameterOptions.twentyFirstOptions[1].GST
+    } else if (serviceSelected === "Feldspar Analysis Parameter") {
+      serviceParameters = parameterOptions.twentySecondOptions[0].parameter
+      servicePrice = parameterOptions.twentySecondOptions[1].Price
+      serviceGST = parameterOptions.twentySecondOptions[1].GST
+    } else if (serviceSelected === "Quartz Sample Analysis Parameters") {
+      serviceParameters = parameterOptions.twentyThirdOptions[0].parameter
+      servicePrice = parameterOptions.twentyThirdOptions[1].Price
+      serviceGST = parameterOptions.twentyThirdOptions[1].GST
+    } else if (serviceSelected === "Lime Stone Sample Analysis Parameters") {
+      serviceParameters = parameterOptions.twentyFourthOptions[0].parameter
+      servicePrice = parameterOptions.twentyFourthOptions[1].Price
+      serviceGST = parameterOptions.twentyFourthOptions[1].GST
+    } else if (serviceSelected === "Plate - Microbiological Analysis") {
+      serviceParameters = parameterOptions.twentyFifthOptions[0].parameter
+      servicePrice = parameterOptions.twentyFifthOptions[1].Price
+      serviceGST = parameterOptions.twentyFifthOptions[1].GST
+    } else if (serviceSelected === "Swab - Microbiological Analysis") {
+      serviceParameters = parameterOptions.twentySixthOptions[0].parameter
+      servicePrice = parameterOptions.twentySixthOptions[1].Price
+      serviceGST = parameterOptions.twentySixthOptions[1].GST
+    } else if (serviceSelected === "Sewage Water Microbiological Parameters") {
+      serviceParameters = parameterOptions.twentySeventhOptions[0].parameter
+      servicePrice = parameterOptions.twentySeventhOptions[1].Price
+      serviceGST = parameterOptions.twentySeventhOptions[1].GST
+    } else if (serviceSelected === "Weather Monitoring Parameters") {
+      serviceParameters = parameterOptions.twentyEighthOptions[0].parameter
+      servicePrice = parameterOptions.twentyEighthOptions[1].Price
+      serviceGST = parameterOptions.twentyEighthOptions[1].GST
+    } else if (serviceSelected === "Oxygen Purity Parameters") {
+      serviceParameters = parameterOptions.twentyNinethOptions[0].parameter
+      servicePrice = parameterOptions.twentyNinethOptions[1].Price
+      serviceGST = parameterOptions.twentyNinethOptions[1].GST
+    }
+
+    // Calculate extra parameter price
+    let extraParamPrice = 0
+    formData.extraIndividualParameters.forEach(param => {
+      if (priceMapping[param]) {
+        extraParamPrice += priceMapping[param].price
+      }
+    })
+    
+    // Add service price and extra parameter price
+    const totalPrice = Number(servicePrice) + extraParamPrice
+
+    setFormData((prevState) => ({
+      ...prevState,
+      parameters: serviceParameters,
+      Price: totalPrice.toString(),
+      GST: serviceGST.toString()
+    }))
 
     serviceTypes.map((service) => {
       if (service.name == serviceSelected) {
         console.log(service.code)
       }
     })
-  }, [serviceSelected])
+  }, [serviceSelected, formData.extraIndividualParameters])
 
+  // Improved calculation effect
   useEffect(() => {
     const calculateTotal = (price, gstPercentage, discountPercentage, hikePercentage) => {
-      price = Number.parseFloat(price)
-      gstPercentage = Number.parseFloat(gstPercentage)
-      discountPercentage = Number.parseFloat(discountPercentage)
-      hikePercentage = Number.parseFloat(hikePercentage)
+      price = Number.parseFloat(price) || 0
+      gstPercentage = Number.parseFloat(gstPercentage) || 0
+      discountPercentage = Number.parseFloat(discountPercentage) || 0
+      hikePercentage = Number.parseFloat(hikePercentage) || 0
 
-      if (isNaN(price) || isNaN(gstPercentage) || price <= 0 || gstPercentage <= 0) {
-        console.log("Invalid input")
+      if (price < 0 || gstPercentage < 0) {
+        console.log("Invalid input - negative values")
         return 0
       }
 
@@ -488,28 +466,9 @@ function ServiceRequestForm({ drawerClose }) {
     }
   }
 
+  // Improved extra parameter handler
   const handleExtraParameterChange = (e) => {
     const { value, checked } = e.target
-
-    // Define price mapping for extra parameters
-    const priceMapping = {
-      "Total microbial count (cfu/ml) a. at 20 -22 C in 72 hours b. At 37 C in 24 hours.": { price: 500, gst: 18 },
-      "Total yeast and mould count": { price: 500, gst: 18 },
-      "E.coli": { price: 500, gst: 18 },
-      "F.coliforms": { price: 500, gst: 18 },
-      "Enterobacteriaceae (Coliforms)": { price: 500, gst: 18 },
-      "Faecal streptococci": { price: 650, gst: 18 },
-      "S. aureus": { price: 650, gst: 18 },
-      "Sulphite reducing anaerobes": { price: 650, gst: 18 },
-      Salmonella: { price: 650, gst: 18 },
-      Shigella: { price: 650, gst: 18 },
-      "V. cholera": { price: 650, gst: 18 },
-      "V. parahaemolyticus": { price: 650, gst: 18 },
-      "Ps. aeruginosa": { price: 650, gst: 18 },
-      Turbidity: { price: 250, gst: 18 },
-      pH: { price: 100, gst: 18 },
-      "Total Hardness as CaCO3": { price: 250, gst: 18 },
-    }
 
     // Update the extraIndividualParameters array
     if (checked) {
@@ -517,38 +476,56 @@ function ServiceRequestForm({ drawerClose }) {
         ...prevState,
         extraIndividualParameters: [...prevState.extraIndividualParameters, value],
       }))
-
-      // Add the price of the selected parameter
-      if (priceMapping[value]) {
-        const additionalPrice = priceMapping[value].price
-        setFormData((prevState) => {
-          // Ensure prevState.Price is a valid number, default to 0 if not
-          const currentPrice = prevState.Price ? Number.parseFloat(prevState.Price) : 0
-          return {
-            ...prevState,
-            Price: (currentPrice + additionalPrice).toString(),
-          }
-        })
-      }
     } else {
       setFormData((prevState) => ({
         ...prevState,
         extraIndividualParameters: prevState.extraIndividualParameters.filter((param) => param !== value),
       }))
-
-      // Subtract the price of the deselected parameter
-      if (priceMapping[value]) {
-        const subtractPrice = priceMapping[value].price
-        setFormData((prevState) => {
-          // Ensure prevState.Price is a valid number, default to 0 if not
-          const currentPrice = prevState.Price ? Number.parseFloat(prevState.Price) : 0
-          return {
-            ...prevState,
-            Price: Math.max(0, currentPrice - subtractPrice).toString(),
-          }
-        })
-      }
     }
+
+    // Calculate price based on current selection and service
+    setTimeout(() => {
+      // Get base price from service if selected, otherwise 0
+      let basePrice = 0
+      let baseGST = 18
+      
+      if (serviceSelected && serviceSelected !== "Select") {
+        // Extract base price from service options similar to the useEffect
+        const serviceOptionKey = Object.keys(parameterOptions).find(key => {
+          const options = parameterOptions[key]
+          if (options[1] && options[1].Price !== undefined) {
+            return true
+          }
+          return false
+        })
+        
+        if (serviceOptionKey) {
+          basePrice = Number(parameterOptions[serviceOptionKey][1].Price) || 0
+          baseGST = Number(parameterOptions[serviceOptionKey][1].GST) || 18
+        }
+      }
+      
+      // Calculate price from extraIndividualParameters
+      let extraParamPrice = 0
+      const updatedExtraParams = checked 
+        ? [...formData.extraIndividualParameters, value] 
+        : formData.extraIndividualParameters.filter(param => param !== value)
+      
+      updatedExtraParams.forEach(param => {
+        if (priceMapping[param]) {
+          extraParamPrice += priceMapping[param].price
+        }
+      })
+      
+      // Set the updated price
+      const totalPrice = basePrice + extraParamPrice
+      
+      setFormData(prevState => ({
+        ...prevState,
+        Price: totalPrice.toString(),
+        GST: baseGST.toString()
+      }))
+    }, 0)
   }
 
   const handleSubmit = async () => {
@@ -1588,291 +1565,667 @@ function ServiceRequestForm({ drawerClose }) {
                 )}
 
                 {/* Extra Individual Parameters */}
-                <FormField
-                  control={form.control}
-                  name="extraIndividualParameters"
-                  render={() => (
-                    <FormItem>
-                      <FormLabel>Extra Individual Parameters</FormLabel>
-                      <div className="grid lg:grid-cols-2 gap-3 mt-2">
-                        <div className="flex items-center space-x-2">
-                          <Checkbox
-                            id="total-microbial"
-                            value="Total microbial count (cfu/ml) a. at 20 -22 C in 72 hours b. At 37 C in 24 hours."
-                            onCheckedChange={(checked) =>
-                              handleExtraParameterChange({
-                                target: {
-                                  value:
-                                    "Total microbial count (cfu/ml) a. at 20 -22 C in 72 hours b. At 37 C in 24 hours.",
-                                  checked,
-                                },
-                              })
-                            }
-                          />
-                          <label htmlFor="total-microbial" className="text-sm font-medium leading-none">
-                            Total microbial count (cfu/ml) a. at 20 -22 C in 72 hours b. At 37 C in 24 hours. - ₹500 +
-                            18% GST
-                          </label>
+                <div className="mt-4">
+                  <FormField
+                    control={form.control}
+                    name="extraIndividualParameters"
+                    render={() => (
+                      <FormItem>
+                        <FormLabel>Extra Individual Parameters</FormLabel>
+                        <div className="grid lg:grid-cols-2 gap-3 mt-2">
+                          <div className="flex items-center space-x-2">
+                            <Checkbox
+                              id="total-microbial"
+                              value="Total microbial count (cfu/ml) a. at 20 -22 C in 72 hours b. At 37 C in 24 hours."
+                              onCheckedChange={(checked) =>
+                                handleExtraParameterChange({
+                                  target: {
+                                    value:
+                                      "Total microbial count (cfu/ml) a. at 20 -22 C in 72 hours b. At 37 C in 24 hours.",
+                                    checked,
+                                  },
+                                })
+                              }
+                            />
+                            <label htmlFor="total-microbial" className="text-sm font-medium leading-none">
+                              Total microbial count (cfu/ml) a. at 20 -22 C in 72 hours b. At 37 C in 24 hours. - ₹500 +
+                              18% GST
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox
+                              id="total-yeast"
+                              value="Total yeast and mould count"
+                              onCheckedChange={(checked) =>
+                                handleExtraParameterChange({
+                                  target: {
+                                    value: "Total yeast and mould count",
+                                    checked,
+                                  },
+                                })
+                              }
+                            />
+                            <label htmlFor="total-yeast" className="text-sm font-medium leading-none">
+                              Total yeast and mould count - ₹500 + 18% GST
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox
+                              id="e-coli"
+                              value="E.coli"
+                              onCheckedChange={(checked) =>
+                                handleExtraParameterChange({
+                                  target: {
+                                    value: "E.coli",
+                                    checked,
+                                  },
+                                })
+                              }
+                            />
+                            <label htmlFor="e-coli" className="text-sm font-medium leading-none">
+                              E.coli - ₹500 + 18% GST
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox
+                              id="f-coliforms"
+                              value="F.coliforms"
+                              onCheckedChange={(checked) =>
+                                handleExtraParameterChange({
+                                  target: {
+                                    value: "F.coliforms",
+                                    checked,
+                                  },
+                                })
+                              }
+                            />
+                            <label htmlFor="f-coliforms" className="text-sm font-medium leading-none">
+                              F.coliforms - ₹500 + 18% GST
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox
+                              id="enterobacteriaceae"
+                              value="Enterobacteriaceae (Coliforms)"
+                              onCheckedChange={(checked) =>
+                                handleExtraParameterChange({
+                                  target: {
+                                    value: "Enterobacteriaceae (Coliforms)",
+                                    checked,
+                                  },
+                                })
+                              }
+                            />
+                            <label htmlFor="enterobacteriaceae" className="text-sm font-medium leading-none">
+                              Enterobacteriaceae (Coliforms) - ₹500 + 18% GST
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox
+                              id="faecal-streptococci"
+                              value="Faecal streptococci"
+                              onCheckedChange={(checked) =>
+                                handleExtraParameterChange({
+                                  target: {
+                                    value: "Faecal streptococci",
+                                    checked,
+                                  },
+                                })
+                              }
+                            />
+                            <label htmlFor="faecal-streptococci" className="text-sm font-medium leading-none">
+                              Faecal streptococci - ₹650 + 18% GST
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox
+                              id="s-aureus"
+                              value="S. aureus"
+                              onCheckedChange={(checked) =>
+                                handleExtraParameterChange({
+                                  target: {
+                                    value: "S. aureus",
+                                    checked,
+                                  },
+                                })
+                              }
+                            />
+                            <label htmlFor="s-aureus" className="text-sm font-medium leading-none">
+                              S. aureus - ₹650 + 18% GST
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox
+                              id="sulphite-reducing"
+                              value="Sulphite reducing anaerobes"
+                              onCheckedChange={(checked) =>
+                                handleExtraParameterChange({
+                                  target: {
+                                    value: "Sulphite reducing anaerobes",
+                                    checked,
+                                  },
+                                })
+                              }
+                            />
+                            <label htmlFor="sulphite-reducing" className="text-sm font-medium leading-none">
+                              Sulphite reducing anaerobes - ₹650 + 18% GST
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox
+                              id="salmonella"
+                              value="Salmonella"
+                              onCheckedChange={(checked) =>
+                                handleExtraParameterChange({
+                                  target: {
+                                    value: "Salmonella",
+                                    checked,
+                                  },
+                                })
+                              }
+                            />
+                            <label htmlFor="salmonella" className="text-sm font-medium leading-none">
+                              Salmonella - ₹650 + 18% GST
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox
+                              id="shigella"
+                              value="Shigella"
+                              onCheckedChange={(checked) =>
+                                handleExtraParameterChange({
+                                  target: {
+                                    value: "Shigella",
+                                    checked,
+                                  },
+                                })
+                              }
+                            />
+                            <label htmlFor="shigella" className="text-sm font-medium leading-none">
+                              Shigella - ₹650 + 18% GST
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox
+                              id="v-cholera"
+                              value="V. cholera"
+                              onCheckedChange={(checked) =>
+                                handleExtraParameterChange({
+                                  target: {
+                                    value: "V. cholera",
+                                    checked,
+                                  },
+                                })
+                              }
+                            />
+                            <label htmlFor="v-cholera" className="text-sm font-medium leading-none">
+                              V. cholera - ₹650 + 18% GST
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox
+                              id="v-parahaemolyticus"
+                              value="V. parahaemolyticus"
+                              onCheckedChange={(checked) =>
+                                handleExtraParameterChange({
+                                  target: {
+                                    value: "V. parahaemolyticus",
+                                    checked,
+                                  },
+                                })
+                              }
+                            />
+                            <label htmlFor="v-parahaemolyticus" className="text-sm font-medium leading-none">
+                              V. parahaemolyticus - ₹650 + 18% GST
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox
+                              id="ps-aeruginosa"
+                              value="Ps. aeruginosa"
+                              onCheckedChange={(checked) =>
+                                handleExtraParameterChange({
+                                  target: {
+                                    value: "Ps. aeruginosa",
+                                    checked,
+                                  },
+                                })
+                              }
+                            />
+                            <label htmlFor="ps-aeruginosa" className="text-sm font-medium leading-none">
+                              Ps. aeruginosa - ₹650 + 18% GST
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox
+                              id="turbidity"
+                              value="Turbidity"
+                              onCheckedChange={(checked) =>
+                                handleExtraParameterChange({
+                                  target: {
+                                    value: "Turbidity",
+                                    checked,
+                                  },
+                                })
+                              }
+                            />
+                            <label htmlFor="turbidity" className="text-sm font-medium leading-none">
+                              Turbidity - ₹250 + 18% GST
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox
+                              id="ph"
+                              value="pH"
+                              onCheckedChange={(checked) =>
+                                handleExtraParameterChange({
+                                  target: {
+                                    value: "pH",
+                                    checked,
+                                  },
+                                })
+                              }
+                            />
+                            <label htmlFor="ph" className="text-sm font-medium leading-none">
+                              pH - ₹100 + 18% GST
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox
+                              id="total-hardness"
+                              value="Total Hardness as CaCO3"
+                              onCheckedChange={(checked) =>
+                                handleExtraParameterChange({
+                                  target: {
+                                    value: "Total Hardness as CaCO3",
+                                    checked,
+                                  },
+                                })
+                              }
+                            />
+                            <label htmlFor="total-hardness" className="text-sm font-medium leading-none">
+                              Total Hardness as CaCO3 - ₹250 + 18% GST
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox
+                              id="iron"
+                              value="Iron ( Total) as Fe"
+                              onCheckedChange={(checked) =>
+                                handleExtraParameterChange({
+                                  target: {
+                                    value: "Iron ( Total) as Fe",
+                                    checked,
+                                  },
+                                })
+                              }
+                            />
+                            <label htmlFor="iron" className="text-sm font-medium leading-none">
+                              Iron ( Total) as Fe - ₹300 + 18% GST
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox
+                              id="silica"
+                              value="Silica ( Reactive) as SiO2"
+                              onCheckedChange={(checked) =>
+                                handleExtraParameterChange({
+                                  target: {
+                                    value: "Silica ( Reactive) as SiO2",
+                                    checked,
+                                  },
+                                })
+                              }
+                            />
+                            <label htmlFor="silica" className="text-sm font-medium leading-none">
+                              Silica ( Reactive) as SiO2 - ₹250 + 18% GST
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox
+                              id="total-suspended"
+                              value="Total Suspended Solids (TSS)"
+                              onCheckedChange={(checked) =>
+                                handleExtraParameterChange({
+                                  target: {
+                                    value: "Total Suspended Solids (TSS)",
+                                    checked,
+                                  },
+                                })
+                              }
+                            />
+                            <label htmlFor="total-suspended" className="text-sm font-medium leading-none">
+                            Total Suspended Solids (TSS) - ₹400 + 18% GST
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox
+                              id="total-dissolved"
+                              value="Total Dissolved Solids (TDS)"
+                              onCheckedChange={(checked) =>
+                                handleExtraParameterChange({
+                                  target: {
+                                    value: "Total Dissolved Solids (TDS)",
+                                    checked,
+                                  },
+                                })
+                              }
+                            />
+                            <label htmlFor="total-dissolved" className="text-sm font-medium leading-none">
+                            Total Dissolved Solids (TDS) - ₹400 + 18% GST
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox
+                              id="chemical-oxygen"
+                              value="Chemical Oxygen Demand"
+                              onCheckedChange={(checked) =>
+                                handleExtraParameterChange({
+                                  target: {
+                                    value: "Chemical Oxygen Demand",
+                                    checked,
+                                  },
+                                })
+                              }
+                            />
+                            <label htmlFor="chemical-oxygen" className="text-sm font-medium leading-none">
+                            Chemical Oxygen Demand - ₹400 + 18% GST
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox
+                              id="bio-chemical"
+                              value="Bio chemical Oxygen Demand"
+                              onCheckedChange={(checked) =>
+                                handleExtraParameterChange({
+                                  target: {
+                                    value: "Bio chemical Oxygen Demand",
+                                    checked,
+                                  },
+                                })
+                              }
+                            />
+                            <label htmlFor="bio-chemical" className="text-sm font-medium leading-none">
+                            Bio chemical Oxygen Demand - ₹400 + 18% GST
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox
+                              id="oil-grease"
+                              value="Oil & Grease"
+                              onCheckedChange={(checked) =>
+                                handleExtraParameterChange({
+                                  target: {
+                                    value: "Oil & Grease",
+                                    checked,
+                                  },
+                                })
+                              }
+                            />
+                            <label htmlFor="oil-grease" className="text-sm font-medium leading-none">
+                            Oil & Grease - ₹400 + 18% GST
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox
+                              id="total-nitrogen"
+                              value="Total Nitrogen"
+                              onCheckedChange={(checked) =>
+                                handleExtraParameterChange({
+                                  target: {
+                                    value: "Total Nitrogen",
+                                    checked,
+                                  },
+                                })
+                              }
+                            />
+                            <label htmlFor="total-nitrogen" className="text-sm font-medium leading-none">
+                            Total Nitrogen - ₹400 + 18% GST
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox
+                              id="total-phosphorus"
+                              value="Total Phosphorus"
+                              onCheckedChange={(checked) =>
+                                handleExtraParameterChange({
+                                  target: {
+                                    value: "Total Phosphorus",
+                                    checked,
+                                  },
+                                })
+                              }
+                            />
+                            <label htmlFor="total-phosphorus" className="text-sm font-medium leading-none">
+                            Total Phosphorus - ₹400 + 18% GST
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox
+                              id="cholrides"
+                              value="Chlorides as Cl"
+                              onCheckedChange={(checked) =>
+                                handleExtraParameterChange({
+                                  target: {
+                                    value: "Chlorides as Cl",
+                                    checked,
+                                  },
+                                })
+                              }
+                            />
+                            <label htmlFor="chlorides" className="text-sm font-medium leading-none">
+                            Chlorides as Cl - ₹400 + 18% GST
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox
+                              id="nitrate"
+                              value="Nitrate as No3"
+                              onCheckedChange={(checked) =>
+                                handleExtraParameterChange({
+                                  target: {
+                                    value: "Nitrate as No3",
+                                    checked,
+                                  },
+                                })
+                              }
+                            />
+                            <label htmlFor="nitrate" className="text-sm font-medium leading-none">
+                            Nitrate as No3 - ₹400 + 18% GST
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox
+                              id="mercury"
+                              value="Mercury as Hg (mg/l)"
+                              onCheckedChange={(checked) =>
+                                handleExtraParameterChange({
+                                  target: {
+                                    value: "Mercury as Hg (mg/l)",
+                                    checked,
+                                  },
+                                })
+                              }
+                            />
+                            <label htmlFor="mercury" className="text-sm font-medium leading-none">
+                            Mercury as Hg (mg/l) - ₹750 + 18% GST
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox
+                              id="cadmium"
+                              value="Cadmium as Cd (mg/l)"
+                              onCheckedChange={(checked) =>
+                                handleExtraParameterChange({
+                                  target: {
+                                    value: "Cadmium as Cd (mg/l)",
+                                    checked,
+                                  },
+                                })
+                              }
+                            />
+                            <label htmlFor="cadmium" className="text-sm font-medium leading-none">
+                            Cadmium as Cd (mg/l) - ₹750 + 18% GST
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox
+                              id="selenium"
+                              value="Selenium as Se (mg/l)"
+                              onCheckedChange={(checked) =>
+                                handleExtraParameterChange({
+                                  target: {
+                                    value: "Selenium as Se (mg/l)",
+                                    checked,
+                                  },
+                                })
+                              }
+                            />
+                            <label htmlFor="selenium" className="text-sm font-medium leading-none">
+                            Selenium as Se (mg/l) - ₹750 + 18% GST
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox
+                              id="arsenic"
+                              value="Arsenic as As (mg/l)"
+                              onCheckedChange={(checked) =>
+                                handleExtraParameterChange({
+                                  target: {
+                                    value: "Arsenic as As (mg/l)",
+                                    checked,
+                                  },
+                                })
+                              }
+                            />
+                            <label htmlFor="arsenic" className="text-sm font-medium leading-none">
+                            Arsenic as As (mg/l) - ₹750 + 18% GST
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox
+                              id="cyanide"
+                              value="Cyanide as CN( mg/l)"
+                              onCheckedChange={(checked) =>
+                                handleExtraParameterChange({
+                                  target: {
+                                    value: "Cyanide as CN( mg/l)",
+                                    checked,
+                                  },
+                                })
+                              }
+                            />
+                            <label htmlFor="cyanide" className="text-sm font-medium leading-none">
+                            Cyanide as CN( mg/l) - ₹750 + 18% GST
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox
+                              id="lead"
+                              value="Lead as Pb (mg/l)"
+                              onCheckedChange={(checked) =>
+                                handleExtraParameterChange({
+                                  target: {
+                                    value: "Lead as Pb (mg/l)",
+                                    checked,
+                                  },
+                                })
+                              }
+                            />
+                            <label htmlFor="lead" className="text-sm font-medium leading-none">
+                            Lead as Pb (mg/l) - ₹750 + 18% GST
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox
+                              id="zinc"
+                              value="Zinc as Zn (mg/l)"
+                              onCheckedChange={(checked) =>
+                                handleExtraParameterChange({
+                                  target: {
+                                    value: "Zinc as Zn (mg/l)",
+                                    checked,
+                                  },
+                                })
+                              }
+                            />
+                            <label htmlFor="zinc" className="text-sm font-medium leading-none">
+                            Zinc as Zn (mg/l) - ₹750 + 18% GST
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox
+                              id="chromium"
+                              value="Chromium as Cr6+( mg/l)"
+                              onCheckedChange={(checked) =>
+                                handleExtraParameterChange({
+                                  target: {
+                                    value: "Chromium as Cr6+( mg/l)",
+                                    checked,
+                                  },
+                                })
+                              }
+                            />
+                            <label htmlFor="chromium" className="text-sm font-medium leading-none">
+                            Chromium as Cr6+( mg/l) - ₹750 + 18% GST
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox
+                              id="aluminium"
+                              value="Aluminium as Al(mg/l)"
+                              onCheckedChange={(checked) =>
+                                handleExtraParameterChange({
+                                  target: {
+                                    value: "Aluminium as Al(mg/l)",
+                                    checked,
+                                  },
+                                })
+                              }
+                            />
+                            <label htmlFor="aluminium" className="text-sm font-medium leading-none">
+                            Aluminium as Al(mg/l) - ₹750 + 18% GST
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox
+                              id="barium"
+                              value="Barium as Ba (mg / l)"
+                              onCheckedChange={(checked) =>
+                                handleExtraParameterChange({
+                                  target: {
+                                    value: "Barium as Ba (mg / l)",
+                                    checked,
+                                  },
+                                })
+                              }
+                            />
+                            <label htmlFor="barium" className="text-sm font-medium leading-none">
+                            Barium as Ba (mg / l) - ₹750 + 18% GST
+                            </label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox
+                              id="nickel"
+                              value="Nickel as Ni (mg/l)"
+                              onCheckedChange={(checked) =>
+                                handleExtraParameterChange({
+                                  target: {
+                                    value: "Nickel as Ni (mg/l)",
+                                    checked,
+                                  },
+                                })
+                              }
+                            />
+                            <label htmlFor="nickel" className="text-sm font-medium leading-none">
+                            Nickel as Ni (mg/l) - ₹750 + 18% GST
+                            </label>
+                          </div>
                         </div>
-                        <div className="flex items-center space-x-2">
-                          <Checkbox
-                            id="total-yeast"
-                            value="Total yeast and mould count"
-                            onCheckedChange={(checked) =>
-                              handleExtraParameterChange({
-                                target: {
-                                  value: "Total yeast and mould count",
-                                  checked,
-                                },
-                              })
-                            }
-                          />
-                          <label htmlFor="total-yeast" className="text-sm font-medium leading-none">
-                            Total yeast and mould count - ₹500 + 18% GST
-                          </label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <Checkbox
-                            id="e-coli"
-                            value="E.coli"
-                            onCheckedChange={(checked) =>
-                              handleExtraParameterChange({
-                                target: {
-                                  value: "E.coli",
-                                  checked,
-                                },
-                              })
-                            }
-                          />
-                          <label htmlFor="e-coli" className="text-sm font-medium leading-none">
-                            E.coli - ₹500 + 18% GST
-                          </label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <Checkbox
-                            id="f-coliforms"
-                            value="F.coliforms"
-                            onCheckedChange={(checked) =>
-                              handleExtraParameterChange({
-                                target: {
-                                  value: "F.coliforms",
-                                  checked,
-                                },
-                              })
-                            }
-                          />
-                          <label htmlFor="f-coliforms" className="text-sm font-medium leading-none">
-                            F.coliforms - ₹500 + 18% GST
-                          </label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <Checkbox
-                            id="enterobacteriaceae"
-                            value="Enterobacteriaceae (Coliforms)"
-                            onCheckedChange={(checked) =>
-                              handleExtraParameterChange({
-                                target: {
-                                  value: "Enterobacteriaceae (Coliforms)",
-                                  checked,
-                                },
-                              })
-                            }
-                          />
-                          <label htmlFor="enterobacteriaceae" className="text-sm font-medium leading-none">
-                            Enterobacteriaceae (Coliforms) - ₹500 + 18% GST
-                          </label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <Checkbox
-                            id="faecal-streptococci"
-                            value="Faecal streptococci"
-                            onCheckedChange={(checked) =>
-                              handleExtraParameterChange({
-                                target: {
-                                  value: "Faecal streptococci",
-                                  checked,
-                                },
-                              })
-                            }
-                          />
-                          <label htmlFor="faecal-streptococci" className="text-sm font-medium leading-none">
-                            Faecal streptococci - ₹650 + 18% GST
-                          </label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <Checkbox
-                            id="s-aureus"
-                            value="S. aureus"
-                            onCheckedChange={(checked) =>
-                              handleExtraParameterChange({
-                                target: {
-                                  value: "S. aureus",
-                                  checked,
-                                },
-                              })
-                            }
-                          />
-                          <label htmlFor="s-aureus" className="text-sm font-medium leading-none">
-                            S. aureus - ₹650 + 18% GST
-                          </label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <Checkbox
-                            id="sulphite-reducing"
-                            value="Sulphite reducing anaerobes"
-                            onCheckedChange={(checked) =>
-                              handleExtraParameterChange({
-                                target: {
-                                  value: "Sulphite reducing anaerobes",
-                                  checked,
-                                },
-                              })
-                            }
-                          />
-                          <label htmlFor="sulphite-reducing" className="text-sm font-medium leading-none">
-                            Sulphite reducing anaerobes - ₹650 + 18% GST
-                          </label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <Checkbox
-                            id="salmonella"
-                            value="Salmonella"
-                            onCheckedChange={(checked) =>
-                              handleExtraParameterChange({
-                                target: {
-                                  value: "Salmonella",
-                                  checked,
-                                },
-                              })
-                            }
-                          />
-                          <label htmlFor="salmonella" className="text-sm font-medium leading-none">
-                            Salmonella - ₹650 + 18% GST
-                          </label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <Checkbox
-                            id="shigella"
-                            value="Shigella"
-                            onCheckedChange={(checked) =>
-                              handleExtraParameterChange({
-                                target: {
-                                  value: "Shigella",
-                                  checked,
-                                },
-                              })
-                            }
-                          />
-                          <label htmlFor="shigella" className="text-sm font-medium leading-none">
-                            Shigella - ₹650 + 18% GST
-                          </label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <Checkbox
-                            id="v-cholera"
-                            value="V. cholera"
-                            onCheckedChange={(checked) =>
-                              handleExtraParameterChange({
-                                target: {
-                                  value: "V. cholera",
-                                  checked,
-                                },
-                              })
-                            }
-                          />
-                          <label htmlFor="v-cholera" className="text-sm font-medium leading-none">
-                            V. cholera - ₹650 + 18% GST
-                          </label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <Checkbox
-                            id="v-parahaemolyticus"
-                            value="V. parahaemolyticus"
-                            onCheckedChange={(checked) =>
-                              handleExtraParameterChange({
-                                target: {
-                                  value: "V. parahaemolyticus",
-                                  checked,
-                                },
-                              })
-                            }
-                          />
-                          <label htmlFor="v-parahaemolyticus" className="text-sm font-medium leading-none">
-                            V. parahaemolyticus - ₹650 + 18% GST
-                          </label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <Checkbox
-                            id="ps-aeruginosa"
-                            value="Ps. aeruginosa"
-                            onCheckedChange={(checked) =>
-                              handleExtraParameterChange({
-                                target: {
-                                  value: "Ps. aeruginosa",
-                                  checked,
-                                },
-                              })
-                            }
-                          />
-                          <label htmlFor="ps-aeruginosa" className="text-sm font-medium leading-none">
-                            Ps. aeruginosa - ₹650 + 18% GST
-                          </label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <Checkbox
-                            id="turbidity"
-                            value="Turbidity"
-                            onCheckedChange={(checked) =>
-                              handleExtraParameterChange({
-                                target: {
-                                  value: "Turbidity",
-                                  checked,
-                                },
-                              })
-                            }
-                          />
-                          <label htmlFor="turbidity" className="text-sm font-medium leading-none">
-                            Turbidity - ₹250 + 18% GST
-                          </label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <Checkbox
-                            id="ph"
-                            value="pH"
-                            onCheckedChange={(checked) =>
-                              handleExtraParameterChange({
-                                target: {
-                                  value: "pH",
-                                  checked,
-                                },
-                              })
-                            }
-                          />
-                          <label htmlFor="ph" className="text-sm font-medium leading-none">
-                            pH - ₹100 + 18% GST
-                          </label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <Checkbox
-                            id="total-hardness"
-                            value="Total Hardness as CaCO3"
-                            onCheckedChange={(checked) =>
-                              handleExtraParameterChange({
-                                target: {
-                                  value: "Total Hardness as CaCO3",
-                                  checked,
-                                },
-                              })
-                            }
-                          />
-                          <label htmlFor="total-hardness" className="text-sm font-medium leading-none">
-                            Total Hardness as CaCO3 - ₹250 + 18% GST
-                          </label>
-                        </div>
-                      </div>
-                    </FormItem>
-                  )}
-                />
+                      </FormItem>
+                    )}
+                  />
+                </div>
 
                 {/* New Sample Details Fields */}
                 <div className="grid lg:grid-cols-2 gap-3 mt-4 mb-4">
@@ -2404,4 +2757,3 @@ export async function createEESRecord(requestData, srn) {
 }
 
 export default ServiceRequestForm
-
