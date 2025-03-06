@@ -69,7 +69,6 @@ function ServiceRequestForm({ drawerClose }) {
     dueDate: "",
     discountPercentage: 0,
     hikePercentage: 0,
-    courierDrawnBy: "",
     extraIndividualParameters: [],
     referSNo: "",
   })
@@ -414,10 +413,6 @@ function ServiceRequestForm({ drawerClose }) {
 
   const handleSelectChangeDrawn = (value) => {
     setFormData({ ...formData, drawnBy: value })
-  }
-
-  const handleSelectChangeCourierDrawn = (value) => {
-    setFormData({ ...formData, courierDrawnBy: value })
   }
 
   const datePicker = (date) => {
@@ -2540,26 +2535,7 @@ function ServiceRequestForm({ drawerClose }) {
                           <SelectContent>
                             <SelectItem value="EES">EES</SelectItem>
                             <SelectItem value="Customer">Customer</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="courierDrawnBy"
-                  render={() => (
-                    <FormItem className="flex gap-4 items-center">
-                      <FormLabel className="lg:text-nowrap"> Courier Drawn By </FormLabel>
-                      <FormControl>
-                        <Select onValueChange={handleSelectChangeCourierDrawn}>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="EES">EES</SelectItem>
-                            <SelectItem value="Customer">Customer</SelectItem>
+                            <SelectItem value="Courier">Courier</SelectItem>
                           </SelectContent>
                         </Select>
                       </FormControl>
